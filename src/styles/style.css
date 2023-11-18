@@ -1,0 +1,12 @@
+body {
+  margin: 0px;
+  font-family: 'Times New Roman', serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 80%;
+  margin: 20px auto
+}
