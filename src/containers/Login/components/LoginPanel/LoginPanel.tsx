@@ -103,7 +103,6 @@ const LoginPanel = () => {
                   disabled={true}
                   sx={{width: '60%'}}
                 >
-                  {/* <p style={{color: `${theme.palette.secondary.main}`}}>Login</p> */}
                   Login
                 </CustomButton>
               )}
