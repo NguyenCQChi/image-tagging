@@ -3,9 +3,8 @@ import { Paper, Divider, List, ListItem } from '@mui/material';
 import { Button } from '@mui/base';
 import CreateAcc from "../CreateAcc";
 import LoginPanel from "../LoginPanel";
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
-import { useTheme } from '@mui/material/styles';
 
 const Panel = () => {
   const theme = useTheme();
@@ -15,17 +14,13 @@ const Panel = () => {
     border: 'none',
     backgroundColor: 'transparent',
     fontSize: '12px',
-    color: theme.palette.info.main,
+    color: `${theme.palette.info.main}`,
     margin: '3px',
     cursor: 'pointer',
     ':hover': {
-      color: theme.palette.primary.dark,
+      color: `${theme.palette.primary.dark}`,
     }
   }))
-
-  const paperStyle = {
-    width: '50%'
-  }
 
   const Item = styled(Paper)(({theme}) => ({
     padding: '20px',
