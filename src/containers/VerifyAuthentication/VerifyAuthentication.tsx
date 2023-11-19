@@ -40,10 +40,10 @@ const VerifyAuthentication = () => {
 
                     if (userRole == ROLE_USER) {
                         console.log("Routing to user page")
-                        // router.push('/landing')
+                        router.push('/landing')
                     } else if (userRole == ROLE_ADMIN) {
                         console.log("Routing to admin page")
-                        // router.push('/admin')
+                        router.push('/admin')
                     } else {
                         console.log("Undefined user role")
                     }
@@ -51,7 +51,7 @@ const VerifyAuthentication = () => {
                 () => {
                     // Login and reset
                     console.log("Validation Failed")
-                    // router.push('/')
+                    router.push('/')
                 }
             )
         } else {
