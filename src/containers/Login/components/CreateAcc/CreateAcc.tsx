@@ -27,7 +27,7 @@ const CreateAcc = () => {
   }
 
   const onSubmit = async (value: any) => {
-    console.log(value)
+    console.log(value);
     //TO-DO: Create a new user
     // router.push('/landing')
   }
