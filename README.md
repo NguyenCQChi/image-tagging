@@ -18,6 +18,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Each page under pages folder can be accessed locally (by http://locahost:3000/[file_name])
 Example: for admin.tsx [http://localhost:3000/admin]
 
+Further, follow each microservice's documentation to start them up in the background. [Documentation](/README.md#documentation)
+
 ## Project Structure
 - Most of the code will be under:
   /src/components : for common components that can be reused by different containers.
