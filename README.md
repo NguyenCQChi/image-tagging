@@ -23,6 +23,7 @@ Example: for admin.tsx [http://localhost:3000/admin]
   /src/components : for common components that can be reused by different containers.
   /src/containers : for containers that are used directly from the pages under /pages
 
+```
 └── root
     ├── pages
     |   ├── api (for API call)
@@ -41,3 +42,8 @@ Example: for admin.tsx [http://localhost:3000/admin]
     |   ├── styles
     |   ├── types
     |   ├── utils
+    ├── authentication (microservice)
+```
+
+## Documentation
+- [Authentication & Auhtorization Microservice](authentication/README.md)
