@@ -59,21 +59,18 @@ const LoginPanel = () => {
 
         if (response.ok) {
             const data = await response.json();
-            // Store tokens as cookies
-            // document.cookie = `accessToken=${data.result.accessToken}; path=/; secure; HttpOnly; SameSite=Strict`;
-            // document.cookie = `refreshToken=${data.result.refreshToken}; path=/; secure; HttpOnly; SameSite=Strict`;
 
-            // I have no clue why any of the other secure flags don't work need to test after hosting
-            document.cookie = `accessToken=${data.result.accessToken}; Path=/;`;
-            document.cookie = `refreshToken=${data.result.refreshToken}; Path=/;`;
-
+            console.log(data)
+            // Store tokens securely (in this example, using localStorage)
+            localStorage.setItem('accessToken', data.result.accessToken);
+            localStorage.setItem('refreshToken', data.result.refreshToken);
             // Redirect to a protected page
-            router.push('/admin');
+            router.push('/landing');
             console.log("Login Success!")
         } else {
             // Handle login error
-            router.push('/landing')
             console.error('Login failed');
+            // router.push('/landing')
         }
     }
 
