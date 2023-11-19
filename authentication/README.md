@@ -6,6 +6,7 @@
 
 ## Setup
 - export SENDGRID_API_KEY=`<API_KEY>`
+- export PASSWORD=`<ANY RANDOM PASSWORD CONTAINING LETTERS AND NUMBERS, NO SYMBOLS>`
 - cd authentication
 - docker compose up --build (Let it run, it will fail, and automatically restart itself a few times while the database is being initialized. When you see `authentication-api-1       | I am running`, the service is up.)
 - Navigate to http://localhost:8000/swagger/index.html and explore the swagger doc.
@@ -75,3 +76,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InVzZXIxIiwicm9sZSI6InV
 
 ### Password Reset
 - To request a password reset, make a GET request to `/api/v1/auth/resetPassword/{email}`. If legit, the user will receive an email for password reset with a proper link. Frontend doesn't handle actual password reset.
+
+### NOTE
+Login and refresh return both accessToken and refreshToken. Along with that, they also return cookies embeeded into response headers which you can take advantage of. What this means is, either use response to manually get the tokens, or take advantage of cookies.
