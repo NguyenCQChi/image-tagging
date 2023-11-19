@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Paper, Divider, List, ListItem } from '@mui/material';
+import { Paper, Divider, List, ListItem, Box } from '@mui/material';
 import { Button } from '@mui/base';
 import CreateAcc from "../CreateAcc";
 import LoginPanel from "../LoginPanel";
@@ -13,6 +13,7 @@ const Panel = () => {
   const CustomButton = styled(Button)(({theme}) => ({
     border: 'none',
     backgroundColor: 'transparent',
+    fontFamily: 'Times New Roman, serif',
     fontSize: '12px',
     color: `${theme.palette.info.main}`,
     margin: '3px',
@@ -49,16 +50,31 @@ const Panel = () => {
         </ListItem>
         <Divider />
         <ListItem sx={{...item, mt: '10px'}}>
-          <div style={{fontSize: '12px', display: 'flex', flexDirection: 'row', marginBottom: '5px'}}> { loginState ? "Do not have account? " : "Already have an account?" } </div>
-          <motion.div
-            className="box"
-            whileHover={{scale:1.05}}
-            transition={{type: "spring", stiffness: 400, damping: 10}}
-          >
-            <CustomButton onClick={handleClick}> 
-            { loginState ? "Create Account" : "Login" } 
-            </CustomButton> 
-          </motion.div>
+          <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'end'}}>
+            <div style={{fontSize: '12px', display: 'flex', flexDirection: 'row', marginBottom: '5px'}}> { loginState ? "Do not have account? " : "Already have an account?" } </div>
+            <motion.div
+              className="box"
+              whileHover={{scale:1.05}}
+              transition={{type: "spring", stiffness: 400, damping: 10}}
+            >
+              <CustomButton onClick={handleClick}> 
+              { loginState ? "Create Account" : "Login" } 
+              </CustomButton> 
+            </motion.div>
+          </Box>
+          { loginState && (
+            <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'end'}}>
+              <motion.div
+                className="box"
+                whileHover={{scale:1.05}}
+                transition={{type: "spring", stiffness: 400, damping: 10}}
+              >
+                <CustomButton onClick={handleClick}> 
+                  Forgot password
+                </CustomButton> 
+              </motion.div>
+            </Box>
+          )}
         </ListItem>
       </List>
     </Item>

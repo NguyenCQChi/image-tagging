@@ -1,6 +1,40 @@
+import React, { useState, useEffect } from 'react';
+import { Navigation } from "@components";
+import { Box, Table } from '@mui/material';
+import { useTheme } from "@mui/material/styles";
+import { UserTable } from './components';
+
 const Admin = () => {
+  const theme = useTheme();
+  const [ userList, setUserList ] = useState([])
+
+  const outterContainer = {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    background: 'white'
+  }
+
+  const container = {
+    flexGrow: 1,
+    background: `${theme.palette.myBackground.light}`,
+    padding: '20px 35px'
+  }
+
+  useEffect(() => {
+    //TO-DO: Get all the users from the database and set to userList
+    // setUserList()
+  }, [])
+
   return (
-    <div>Admin</div>
+    <Box sx={outterContainer}>
+      <Navigation />
+      <Box sx={container}>
+        <h1 style={{textAlign: 'center'}}> All Users </h1>
+        {/* <UserTable users={userList}/> */}
+      </Box>
+    </Box>
   )
 }
 

@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 const CreateAcc = () => {
   const router = useRouter()
   const [ failToast, setFailToast ] = useState(false);
+  const [ errMsg, setErrMsg ] = useState('Cannot create account!')
 
   const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -81,7 +82,7 @@ const CreateAcc = () => {
               required
               component={PasswordInput}
               />
-            { failToast && <Alert variant='outlined' severity='error'> Cannot create account! </Alert> }
+            { failToast && <Alert variant='outlined' severity='error'> {errMsg} </Alert> }
             <div style={buttonContainer}>
               {(isValid && dirty) ? (
                 <motion.div
@@ -92,7 +93,7 @@ const CreateAcc = () => {
                 >
                   <CustomButton
                     disabled={!(isValid && dirty)}
-                    sx={hoverButton}
+                    sx={{...hoverButton, color: 'white'}}
                     type='submit'
                   >
                     Create
