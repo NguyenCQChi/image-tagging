@@ -104,6 +104,8 @@ app.UseCors();
 
 // app.UseHttpsRedirection();
 
+app.UseCookiePolicy();
+
 app.UseAuthentication();
 
 app.UseAuthorization();

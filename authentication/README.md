@@ -8,7 +8,7 @@
 - export SENDGRID_API_KEY=`<API_KEY>`
 - cd authentication
 - docker compose up --build (Let it run, it will fail, and automatically restart itself a few times while the database is being initialized. When you see `authentication-api-1       | I am running`, the service is up.)
-- Navigate to http://localhost:5000/swagger/index.html and explore the swagger doc.
+- Navigate to http://localhost:8000/swagger/index.html and explore the swagger doc.
 
 
 ## Overview

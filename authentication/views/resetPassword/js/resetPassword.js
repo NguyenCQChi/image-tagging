@@ -29,7 +29,7 @@ async function submitForm() {
         confirmPassword: confirmPassword,
         token: resetToken
     };
-    const response = await fetch('http://localhost:5062/api/v1/auth/resetPassword/' + email, {
+    const response = await fetch('http://localhost:8000/api/v1/auth/resetPassword/' + email, {
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',

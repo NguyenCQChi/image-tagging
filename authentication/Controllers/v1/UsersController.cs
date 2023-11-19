@@ -25,6 +25,7 @@ public class UsersController : ControllerBase
     private readonly ApiResponse _response;
     private readonly string _emailSender;
     private readonly string _forgotPasswordSubject;
+    private readonly bool _secureCookies;
     private readonly IWebHostEnvironment _env;
 
     public UsersController(IUserRepository userRepository, IConfiguration configuration, IWebHostEnvironment env)
@@ -33,6 +34,7 @@ public class UsersController : ControllerBase
         this._response = new ApiResponse();
         _emailSender = configuration.GetValue<string>("EmailSettings:ForgotPasswordSender")!;
         _forgotPasswordSubject = configuration.GetValue<string>("EmailSettings:ForgotPasswordSubject")!;
+        _secureCookies = configuration.GetValue<bool>("ApiSettings:SecureCookies")!;
         _env = env;
     }
     
@@ -64,6 +66,23 @@ public class UsersController : ControllerBase
         _response.StatusCode = HttpStatusCode.OK;
         _response.IsSuccess = true;
         _response.Result = tokenDto;
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.IsSuccess = true;
+        _response.Result = tokenDto;
+        Response.Cookies.Append("refreshToken", tokenDto!.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None, 
+            Secure = _secureCookies
+        });
+
+        Response.Cookies.Append("accessToken", tokenDto.AccessToken!, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None, 
+            Secure = _secureCookies
+        });
+        
         return Ok(_response);
     }
     
@@ -97,6 +116,19 @@ public class UsersController : ControllerBase
         _response.StatusCode = HttpStatusCode.Created;
         _response.IsSuccess = true;
         _response.Result = tokenDtoResponse;
+        Response.Cookies.Append("refreshToken", tokenDtoResponse!.RefreshToken, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None, 
+            Secure = _secureCookies
+        });
+
+        Response.Cookies.Append("accessToken", tokenDtoResponse.AccessToken!, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None, 
+            Secure = _secureCookies
+        });
         return StatusCode((int)HttpStatusCode.Created, _response);
     }
     
@@ -114,11 +146,37 @@ public class UsersController : ControllerBase
             await _userRepository.RevokeRefreshToken(model);
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
+            Response.Cookies.Append("refreshToken", "", new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.None, 
+                Secure = _secureCookies
+            });
+
+            Response.Cookies.Append("accessToken", "", new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.None, 
+                Secure = _secureCookies
+            });
             return Ok(_response);
                 
         }
         _response.IsSuccess = false;
         _response.Result = "Invalid Input";
+        Response.Cookies.Append("refreshToken", "", new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None, 
+            Secure = _secureCookies
+        });
+
+        Response.Cookies.Append("accessToken", "", new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None, 
+            Secure = _secureCookies
+        });
         return BadRequest(_response);
     }
 
