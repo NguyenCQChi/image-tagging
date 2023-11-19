@@ -7,8 +7,6 @@ EXPOSE 8001/tcp
 EXPOSE 3306
 EXPOSE 3307
 
-ARG PASSWORD
-
 RUN apt-get update \
     && apt-get install -y openssl
 
@@ -23,7 +21,7 @@ RUN dotnet build "authentication.csproj" -c Release -o /app/build
 FROM build AS publish
 COPY ["authentication.csproj", "."]
 RUN dotnet publish "authentication.csproj" -c Release -o /app/publish
-RUN dotnet dev-certs https -ep /app/publish/aspnetapp.pfx -p "$PASSWORD"
+RUN dotnet dev-certs https -ep /app/publish/aspnetapp.pfx -p "${PASSWORD}"
 RUN dotnet dev-certs https --trust
 
 FROM base AS final
@@ -31,10 +29,10 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 COPY --from=publish /src/Templates /app/Templates
 ARG SENDGRID_API_KEY
+ARG ENVIRONMENT
 ENV SendGridApiKey=$SENDGRID_API_KEY
-ENV ASPNETCORE_ENVIRONMENT=Development
-ENV ASPNETCORE_URLS="https://+;http://+"
+ENV ASPNETCORE_URLS="https://+:443;http://+:80"
 ENV ASPNETCORE_HTTPS_PORT=443
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password="$PASSWORD"
+ENV ASPNETCORE_Kestrel__Certificates__Default__Password="${PASSWORD}"
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path="/app/aspnetapp.pfx"
 ENTRYPOINT ["dotnet", "authentication.dll"]

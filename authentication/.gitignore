@@ -737,3 +737,12 @@ bundles/
 vendor/pkg/
 pyenv
 Vagrantfile
+
+node_modules
+*.env
+.terraform*
+.ssh
+
+appsettings.json
+
+user_management/user_management.sql
