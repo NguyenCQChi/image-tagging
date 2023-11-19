@@ -4,6 +4,7 @@ export const USER_TEST = 'john';
 export const USER_PASSWORD = '123';
 
 export const API_AUTH_SERVER = "https://bcit-backend.miniaturepug.info"
+// export const API_AUTH_SERVER = "http://127.0.0.1:8000"
 export const API_AUTH_REGISTER = "/api/v1/auth/register"
 export const API_AUTH_LOGIN = "/api/v1/auth/login"
 export const API_AUTH_VALIDATE = "/api/v1/auth/validate"
