@@ -4,14 +4,19 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace authentication.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentityUserTable : Migration
+    public partial class DatabaseInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySQL:Charset", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -32,7 +37,7 @@ namespace authentication.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true),
@@ -51,6 +56,24 @@ namespace authentication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(type: "longtext", nullable: false),
+                    JwtTokenId = table.Column<string>(type: "longtext", nullable: false),
+                    Refresh_Token = table.Column<string>(type: "longtext", nullable: false),
+                    IsValid = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -165,19 +188,32 @@ namespace authentication.Migrations
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
-            migrationBuilder.UpdateData(
-                table: "Villas",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "CreatedDate",
-                value: new DateTime(2023, 11, 14, 21, 49, 20, 214, DateTimeKind.Local).AddTicks(3212));
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "9be37abd-135b-416f-8bd0-248511f87b18", "9be37abd-135b-416f-8bd0-248511f87b18", "admin", "ADMIN" },
+                    { "f5cf815d-6fa0-43f1-af8f-6b90179497ec", "f5cf815d-6fa0-43f1-af8f-6b90179497ec", "user", "USER" }
+                });
 
-            migrationBuilder.UpdateData(
-                table: "Villas",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "CreatedDate",
-                value: new DateTime(2023, 11, 14, 21, 49, 20, 214, DateTimeKind.Local).AddTicks(3251));
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "74464c37-fb4c-4a62-853f-ecc7e8bfb02d", 0, "c0a13f37-98c3-46b4-bd03-677cfcc816ec", "msrandhawa9957@gmail.com", false, false, null, "Administrator2", "MSRANDHAWA9957@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEIMtGBPfNrvtgcTxhO/L/8+X9cPDXiH+G8pLc9s8aTfMQ1ubJV1f7abLYY63D6wSXw==", null, false, "e54317b8-1c44-4747-ae5f-733ba7cd4be2", false, "admin" },
+                    { "f0f08ff4-f160-4166-bbdd-60071995c3fb", 0, "8eb1473d-a027-4533-860d-cfc519295424", "mrandhawa40@my.bcit.ca", false, false, null, "Administrator1", "MRANDHAWA40@MY.BCIT.CA", "ADMINISTRATOR", "AQAAAAIAAYagAAAAEMnH7H5/SkHeQEirBP/AxaPdU1up5Erdb4y0WWncfPO0Ft5fJhv6Ik18Qxcbfubg8A==", null, false, "42dba35b-bef7-485e-bde0-9b3713fc5df8", false, "administrator" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "9be37abd-135b-416f-8bd0-248511f87b18", "74464c37-fb4c-4a62-853f-ecc7e8bfb02d" },
+                    { "9be37abd-135b-416f-8bd0-248511f87b18", "f0f08ff4-f160-4166-bbdd-60071995c3fb" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -236,24 +272,13 @@ namespace authentication.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "RefreshTokens");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.UpdateData(
-                table: "Villas",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "CreatedDate",
-                value: new DateTime(2023, 11, 14, 19, 56, 30, 913, DateTimeKind.Local).AddTicks(9198));
-
-            migrationBuilder.UpdateData(
-                table: "Villas",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "CreatedDate",
-                value: new DateTime(2023, 11, 14, 19, 56, 30, 913, DateTimeKind.Local).AddTicks(9230));
         }
     }
 }

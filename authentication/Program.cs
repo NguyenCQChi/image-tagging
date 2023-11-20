@@ -29,10 +29,14 @@ builder.Services.AddCors(options =>
         {
             policy
                 .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin(); // or specify specific origins
+                .AllowAnyMethod();
+            foreach (var origin in builder.Configuration.GetSection("ApiSettings:Audience").Get<List<string>>()!)
+            {
+                policy.WithOrigins(origin);
+            }
         });
 });
+
 builder.Services.AddControllers(option => { option.ReturnHttpNotAcceptable = true; }).AddNewtonsoftJson();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -54,7 +58,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 // DB Context
-Console.WriteLine(builder.Configuration.GetConnectionString("Default")!);
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
     options.UseMySQL(builder.Configuration.GetConnectionString("Default")!));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -102,7 +105,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseCookiePolicy();
 

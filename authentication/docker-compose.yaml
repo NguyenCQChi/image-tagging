@@ -7,7 +7,7 @@ services:
     ports:
       - "3307:3306"
     restart: always
-    environment: 
+    environment:
       MYSQL_ROOT_PASSWORD: 12345
       MYSQL_USER: root
       MYSQL_PASSWORD: 12345
@@ -20,16 +20,16 @@ services:
       dockerfile: Dockerfile
       args:
         SENDGRID_API_KEY: ${SENDGRID_API_KEY}
-        PASSWPRD: "mypassword"
-    depends_on: 
+    depends_on:
       - database
     ports:
       - "8000:80"
       - "8001:443"
     restart: always
-    environment: 
+    environment:
       - DBHOST=database
       - ASPNETCORE_ENVIRONMENT=Development
+      - PASSWORD=${PASSWORD}
 
 
 # Navigate to http://localhost:8000/swagger/index.html in your browser for swagger documentation.

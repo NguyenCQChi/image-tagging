@@ -48,4 +48,4 @@ Further, follow each microservice's documentation to start them up in the backgr
 ```
 
 ## Documentation
-- [Authentication & Auhtorization Microservice](authentication/README.md)
+- [Authentication & Authorization Microservice](authentication/README.md)
