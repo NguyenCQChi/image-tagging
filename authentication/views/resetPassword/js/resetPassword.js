@@ -29,7 +29,8 @@ async function submitForm() {
         confirmPassword: confirmPassword,
         token: resetToken
     };
-    const response = await fetch('https://bcit-backend.miniaturepug.info/api/v1/auth/resetPassword/' + email, {
+    const url = `https://bcit-backend.miniaturepug.info/api/v1/auth/resetPassword?email=${encodeURIComponent(email)}`;
+    const response = await fetch(url, {
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',

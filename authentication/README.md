@@ -75,7 +75,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InVzZXIxIiwicm9sZSI6InV
 - Make a request to `/api/v1/auth/revoke` to invalidate all user tokens. Remove tokens from browser storage. Ignore all status codes in the response.
 
 ### Password Reset
-- To request a password reset, make a GET request to `/api/v1/auth/resetPassword/{email}`. If legit, the user will receive an email for password reset with a proper link. Frontend doesn't handle actual password reset.
+- To request a password reset, make a GET request to `/api/v1/auth/resetPassword/?email={EMAIL}`. If legit, the user will receive an email for password reset with a proper link. Frontend doesn't handle actual password reset.
 
 ### NOTE
 Login and refresh return both accessToken and refreshToken. Along with that, they also return cookies embeeded into response headers which you can take advantage of. What this means is, either use response to manually get the tokens, or take advantage of cookies.
