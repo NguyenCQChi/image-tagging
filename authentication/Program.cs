@@ -101,11 +101,11 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication v1");
     });
+} else {
+    app.UseHttpsRedirection();
 }
 
 app.UseCors();
-
-app.UseHttpsRedirection();
 
 app.UseCookiePolicy();
 

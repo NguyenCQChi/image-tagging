@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace authentication.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseInit : Migration
+    public partial class AuthDbInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -193,8 +193,8 @@ namespace authentication.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9be37abd-135b-416f-8bd0-248511f87b18", "9be37abd-135b-416f-8bd0-248511f87b18", "admin", "ADMIN" },
-                    { "f5cf815d-6fa0-43f1-af8f-6b90179497ec", "f5cf815d-6fa0-43f1-af8f-6b90179497ec", "user", "USER" }
+                    { "55d705d1-43ac-4ece-8358-7e7b7ae2337c", "55d705d1-43ac-4ece-8358-7e7b7ae2337c", "user", "USER" },
+                    { "b054425b-f563-4f1c-aafb-128faa68aee6", "b054425b-f563-4f1c-aafb-128faa68aee6", "admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -202,8 +202,8 @@ namespace authentication.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "74464c37-fb4c-4a62-853f-ecc7e8bfb02d", 0, "c0a13f37-98c3-46b4-bd03-677cfcc816ec", "msrandhawa9957@gmail.com", false, false, null, "Administrator2", "MSRANDHAWA9957@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEIMtGBPfNrvtgcTxhO/L/8+X9cPDXiH+G8pLc9s8aTfMQ1ubJV1f7abLYY63D6wSXw==", null, false, "e54317b8-1c44-4747-ae5f-733ba7cd4be2", false, "admin" },
-                    { "f0f08ff4-f160-4166-bbdd-60071995c3fb", 0, "8eb1473d-a027-4533-860d-cfc519295424", "mrandhawa40@my.bcit.ca", false, false, null, "Administrator1", "MRANDHAWA40@MY.BCIT.CA", "ADMINISTRATOR", "AQAAAAIAAYagAAAAEMnH7H5/SkHeQEirBP/AxaPdU1up5Erdb4y0WWncfPO0Ft5fJhv6Ik18Qxcbfubg8A==", null, false, "42dba35b-bef7-485e-bde0-9b3713fc5df8", false, "administrator" }
+                    { "6d5b238e-ae03-4887-b961-ef840a350a49", 0, "9d73daa3-c30e-4cb2-beea-e85de51e40fa", "msrandhawa9957@gmail.com", false, false, null, "Administrator2", "MSRANDHAWA9957@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEEfMgop18li/0kkDmi2t1FACWJ1wF4jGLTMlCxqRu2MVK6fLJiQSFP3Kp69BQk34Aw==", null, false, "7e67a8d8-2525-4cfb-b0f3-c0109d00fa04", false, "admin" },
+                    { "8e2587dc-512a-4e5b-8ea2-1089ac0282da", 0, "d06f4487-0303-4b9a-b6a9-6e06fb1e3158", "mrandhawa40@my.bcit.ca", false, false, null, "Administrator1", "MRANDHAWA40@MY.BCIT.CA", "ADMINISTRATOR", "AQAAAAIAAYagAAAAEDzJyuXAvKR+X164OH5meTgKOZ1edoc9Uzp3JFc9BiUJIfIsKqn/YP7dI5sabNSFHw==", null, false, "ffbf063b-f2a2-42ec-931b-d24447ee3007", false, "administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -211,8 +211,8 @@ namespace authentication.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "9be37abd-135b-416f-8bd0-248511f87b18", "74464c37-fb4c-4a62-853f-ecc7e8bfb02d" },
-                    { "9be37abd-135b-416f-8bd0-248511f87b18", "f0f08ff4-f160-4166-bbdd-60071995c3fb" }
+                    { "b054425b-f563-4f1c-aafb-128faa68aee6", "6d5b238e-ae03-4887-b961-ef840a350a49" },
+                    { "b054425b-f563-4f1c-aafb-128faa68aee6", "8e2587dc-512a-4e5b-8ea2-1089ac0282da" }
                 });
 
             migrationBuilder.CreateIndex(
