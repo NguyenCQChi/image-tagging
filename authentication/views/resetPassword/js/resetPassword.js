@@ -29,11 +29,12 @@ async function submitForm() {
         confirmPassword: confirmPassword,
         token: resetToken
     };
-    const response = await fetch('http://localhost:8000/api/v1/auth/resetPassword/' + email, {
+    const url = `https://bcit-backend.miniaturepug.info/api/v1/auth/resetPassword?email=${encodeURIComponent(email)}`;
+    const response = await fetch(url, {
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json',
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "https://bcit.miniaturepug.info*"
         },
         body: JSON.stringify(requestBody)
     })

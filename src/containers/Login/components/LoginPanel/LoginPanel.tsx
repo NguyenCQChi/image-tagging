@@ -7,7 +7,10 @@ import { Button } from '@mui/base';
 import { Alert } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import { decode } from "jsonwebtoken";
 import {
+    ROLE_USER,
+    ROLE_ADMIN,
     API_AUTH_LOGIN,
     API_AUTH_SERVER,
 } from '@constants/strings';
@@ -60,9 +63,23 @@ const LoginPanel = () => {
             // Store tokens securely (in this example, using localStorage)
             localStorage.setItem('accessToken', data.result.accessToken);
             localStorage.setItem('refreshToken', data.result.refreshToken);
-            // Redirect to a protected page
-            router.push('/landing');
+
+            // Redirect to a protected page depending on account type
             console.log("Login Success!")
+            const decodedToken = decode(data.result.accessToken) as { [key: string]: any } | null;
+
+            const userRole = decodedToken.role
+            console.log(`Logged in Role: ${userRole}`)
+
+            if (userRole == ROLE_USER) {
+                console.log("Routing to user page")
+                router.push('/landing')
+            } else if (userRole == ROLE_ADMIN) {
+                console.log("Routing to admin page")
+                router.push('/admin')
+            } else {
+                console.log("Undefined user role")
+            }
         } else {
             // Handle login error
             console.error('Login failed');

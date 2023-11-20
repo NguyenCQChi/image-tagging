@@ -180,14 +180,14 @@ public class UsersController : ControllerBase
         return BadRequest(_response);
     }
 
-    [HttpGet("resetPassword/{email}", Name="forgotPassword")]
+    [HttpGet("resetPassword", Name="forgotPassword")]
     [ServiceFilter(typeof(EmailExistsFilterAttribute))]
     [ServiceFilter(typeof(UserExistsFilterAttribute))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]    
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult ForgotPassword(string email)
+    public IActionResult ForgotPassword([FromQuery] string email)
     {
         var token = _userRepository.GetResetToken(email);
         var configuration = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
@@ -200,7 +200,7 @@ public class UsersController : ControllerBase
             .Tag("Reset Password")
             .UsingTemplateFromFile(templatePath, new ForgotPasswordEmail
             {
-                ResetLink = "https://google.com",
+                ResetLink = "https://bcit.miniaturepug.info/comp/4537/project/m1ResetPassword/resetPassword.html",
                 ResetToken = token.Result,
                 Title = _forgotPasswordSubject
             });
@@ -222,7 +222,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpPatch("resetPassword/{email}", Name="forgotPassword")]
+    [HttpPatch("resetPassword", Name="forgotPassword")]
     [ServiceFilter(typeof(EmailExistsFilterAttribute))]
     [ServiceFilter(typeof(MatchPasswordsFilterAttribute))]
     [ServiceFilter(typeof(UserExistsFilterAttribute))]
@@ -231,7 +231,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> ForgotPassword(string email, [FromBody] ForgotPasswordDto model)
+    public async Task<IActionResult> ForgotPassword([FromQuery] string email, [FromBody] ForgotPasswordDto model)
     {
         var result = await _userRepository.UpdatePassword(email, model);
         if (result.IsSuccess)

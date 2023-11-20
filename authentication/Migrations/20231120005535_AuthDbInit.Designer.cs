@@ -11,8 +11,8 @@ using authentication.Data;
 namespace authentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231116062115_SeedIdentityRoles")]
-    partial class SeedIdentityRoles
+    [Migration("20231120005535_AuthDbInit")]
+    partial class AuthDbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,13 +50,15 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1b7c0b47-b138-4608-9c59-4240f017272a",
+                            Id = "b054425b-f563-4f1c-aafb-128faa68aee6",
+                            ConcurrencyStamp = "b054425b-f563-4f1c-aafb-128faa68aee6",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a06a9c72-ec23-4ca3-9935-4c146b89242b",
+                            Id = "55d705d1-43ac-4ece-8358-7e7b7ae2337c",
+                            ConcurrencyStamp = "55d705d1-43ac-4ece-8358-7e7b7ae2337c",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -143,6 +145,18 @@ namespace authentication.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8e2587dc-512a-4e5b-8ea2-1089ac0282da",
+                            RoleId = "b054425b-f563-4f1c-aafb-128faa68aee6"
+                        },
+                        new
+                        {
+                            UserId = "6d5b238e-ae03-4887-b961-ef840a350a49",
+                            RoleId = "b054425b-f563-4f1c-aafb-128faa68aee6"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -190,7 +204,9 @@ namespace authentication.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -229,6 +245,42 @@ namespace authentication.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8e2587dc-512a-4e5b-8ea2-1089ac0282da",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d06f4487-0303-4b9a-b6a9-6e06fb1e3158",
+                            Email = "mrandhawa40@my.bcit.ca",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Administrator1",
+                            NormalizedEmail = "MRANDHAWA40@MY.BCIT.CA",
+                            NormalizedUserName = "ADMINISTRATOR",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDzJyuXAvKR+X164OH5meTgKOZ1edoc9Uzp3JFc9BiUJIfIsKqn/YP7dI5sabNSFHw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ffbf063b-f2a2-42ec-931b-d24447ee3007",
+                            TwoFactorEnabled = false,
+                            UserName = "administrator"
+                        },
+                        new
+                        {
+                            Id = "6d5b238e-ae03-4887-b961-ef840a350a49",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9d73daa3-c30e-4cb2-beea-e85de51e40fa",
+                            Email = "msrandhawa9957@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Administrator2",
+                            NormalizedEmail = "MSRANDHAWA9957@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEfMgop18li/0kkDmi2t1FACWJ1wF4jGLTMlCxqRu2MVK6fLJiQSFP3Kp69BQk34Aw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7e67a8d8-2525-4cfb-b0f3-c0109d00fa04",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("authentication.Models.RefreshToken", b =>

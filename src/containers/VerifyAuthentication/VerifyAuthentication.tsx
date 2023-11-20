@@ -28,7 +28,7 @@ const VerifyAuthentication = () => {
             }
 
             // Make a post request to validation endpoint
-            const response = api.post(`${API_AUTH_SERVER}${API_AUTH_VALIDATE}`, post_body)
+            const response = api.post(`${API_AUTH_SERVER}${API_AUTH_VALIDATE}`, post_body);
             response.then(
                 () => {
                     // Route to regular page
@@ -37,6 +37,7 @@ const VerifyAuthentication = () => {
                     const decodedToken = decode(accessToken) as { [key: string]: any } | null;
 
                     const userRole = decodedToken.role
+                    console.log(`Logged in Role: ${userRole}`)
 
                     if (userRole == ROLE_USER) {
                         console.log("Routing to user page")
