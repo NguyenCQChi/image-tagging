@@ -28,7 +28,7 @@ const VerifyAuthentication = () => {
             }
 
             // Make a post request to validation endpoint
-            const response = api.post(`${API_AUTH_SERVER}${API_AUTH_VALIDATE}`, post_body)
+            const response = api.post(`${API_AUTH_SERVER}${API_AUTH_VALIDATE}`, post_body);
             response.then(
                 () => {
                     // Route to regular page
