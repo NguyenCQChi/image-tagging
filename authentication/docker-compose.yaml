@@ -28,7 +28,7 @@ services:
     restart: always
     environment:
       - DBHOST=database
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Development
       - PASSWORD=${PASSWORD}
 
 
