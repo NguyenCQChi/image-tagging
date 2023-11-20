@@ -79,59 +79,6 @@ const CreateAcc = () => {
         borderRadius: '4px',
     }))
 
-<<<<<<< HEAD
-        return (
-          <FormBase className='form'>
-            <FastField 
-              name='name'
-              placeholder='Username'
-              required
-              component={Input}
-            />
-            <FastField 
-              name='email'
-              placeholder='Email'
-              required
-              component={Input}
-            />
-            <FastField 
-              name='password'
-              placeholder='Password'
-              required
-              component={PasswordInput}
-              />
-            { failToast && <Alert variant='outlined' severity='error'> {errMsg} </Alert> }
-            <div style={buttonContainer}>
-              {(isValid && dirty) ? (
-                <motion.div
-                  className='box'
-                  whileHover={{scale:1.05}}
-                  transition={{type: 'spring', stiffness: 400, damping: 10}}
-                  style={{width: '60%', display: 'flex', flexDirection: 'row', justifyContent: 'center'}}
-                >
-                  <CustomButton
-                    disabled={!(isValid && dirty)}
-                    sx={{...hoverButton, color: 'white'}}
-                    type='submit'
-                  >
-                    Create
-                  </CustomButton>
-                </motion.div>
-              ) : (
-                <CustomButton
-                  disabled={true}
-                  sx={{width: '60%'}}
-                >
-                  Create
-                </CustomButton>
-              )}
-            </div>
-          </FormBase>
-        )
-      }}
-    </Formik>
-  )
-=======
     const buttonContainer = {
         width: '100%',
         display: 'flex',
@@ -204,7 +151,6 @@ const CreateAcc = () => {
             }}
         </Formik>
     )
->>>>>>> main
 }
 
 export default CreateAcc;
