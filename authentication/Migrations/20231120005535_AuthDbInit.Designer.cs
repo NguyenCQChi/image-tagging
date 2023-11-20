@@ -11,8 +11,8 @@ using authentication.Data;
 namespace authentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231119093403_DatabaseInit")]
-    partial class DatabaseInit
+    [Migration("20231120005535_AuthDbInit")]
+    partial class AuthDbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,15 +50,15 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9be37abd-135b-416f-8bd0-248511f87b18",
-                            ConcurrencyStamp = "9be37abd-135b-416f-8bd0-248511f87b18",
+                            Id = "b054425b-f563-4f1c-aafb-128faa68aee6",
+                            ConcurrencyStamp = "b054425b-f563-4f1c-aafb-128faa68aee6",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f5cf815d-6fa0-43f1-af8f-6b90179497ec",
-                            ConcurrencyStamp = "f5cf815d-6fa0-43f1-af8f-6b90179497ec",
+                            Id = "55d705d1-43ac-4ece-8358-7e7b7ae2337c",
+                            ConcurrencyStamp = "55d705d1-43ac-4ece-8358-7e7b7ae2337c",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -149,13 +149,13 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f0f08ff4-f160-4166-bbdd-60071995c3fb",
-                            RoleId = "9be37abd-135b-416f-8bd0-248511f87b18"
+                            UserId = "8e2587dc-512a-4e5b-8ea2-1089ac0282da",
+                            RoleId = "b054425b-f563-4f1c-aafb-128faa68aee6"
                         },
                         new
                         {
-                            UserId = "74464c37-fb4c-4a62-853f-ecc7e8bfb02d",
-                            RoleId = "9be37abd-135b-416f-8bd0-248511f87b18"
+                            UserId = "6d5b238e-ae03-4887-b961-ef840a350a49",
+                            RoleId = "b054425b-f563-4f1c-aafb-128faa68aee6"
                         });
                 });
 
@@ -249,35 +249,35 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f0f08ff4-f160-4166-bbdd-60071995c3fb",
+                            Id = "8e2587dc-512a-4e5b-8ea2-1089ac0282da",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8eb1473d-a027-4533-860d-cfc519295424",
+                            ConcurrencyStamp = "d06f4487-0303-4b9a-b6a9-6e06fb1e3158",
                             Email = "mrandhawa40@my.bcit.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Administrator1",
                             NormalizedEmail = "MRANDHAWA40@MY.BCIT.CA",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMnH7H5/SkHeQEirBP/AxaPdU1up5Erdb4y0WWncfPO0Ft5fJhv6Ik18Qxcbfubg8A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDzJyuXAvKR+X164OH5meTgKOZ1edoc9Uzp3JFc9BiUJIfIsKqn/YP7dI5sabNSFHw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "42dba35b-bef7-485e-bde0-9b3713fc5df8",
+                            SecurityStamp = "ffbf063b-f2a2-42ec-931b-d24447ee3007",
                             TwoFactorEnabled = false,
                             UserName = "administrator"
                         },
                         new
                         {
-                            Id = "74464c37-fb4c-4a62-853f-ecc7e8bfb02d",
+                            Id = "6d5b238e-ae03-4887-b961-ef840a350a49",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c0a13f37-98c3-46b4-bd03-677cfcc816ec",
+                            ConcurrencyStamp = "9d73daa3-c30e-4cb2-beea-e85de51e40fa",
                             Email = "msrandhawa9957@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Administrator2",
                             NormalizedEmail = "MSRANDHAWA9957@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIMtGBPfNrvtgcTxhO/L/8+X9cPDXiH+G8pLc9s8aTfMQ1ubJV1f7abLYY63D6wSXw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEfMgop18li/0kkDmi2t1FACWJ1wF4jGLTMlCxqRu2MVK6fLJiQSFP3Kp69BQk34Aw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e54317b8-1c44-4747-ae5f-733ba7cd4be2",
+                            SecurityStamp = "7e67a8d8-2525-4cfb-b0f3-c0109d00fa04",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
