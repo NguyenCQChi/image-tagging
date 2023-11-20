@@ -37,6 +37,7 @@ const VerifyAuthentication = () => {
                     const decodedToken = decode(accessToken) as { [key: string]: any } | null;
 
                     const userRole = decodedToken.role
+                    console.log(`Logged in Role: ${userRole}`)
 
                     if (userRole == ROLE_USER) {
                         console.log("Routing to user page")
