@@ -193,8 +193,8 @@ namespace authentication.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "55d705d1-43ac-4ece-8358-7e7b7ae2337c", "55d705d1-43ac-4ece-8358-7e7b7ae2337c", "user", "USER" },
-                    { "b054425b-f563-4f1c-aafb-128faa68aee6", "b054425b-f563-4f1c-aafb-128faa68aee6", "admin", "ADMIN" }
+                    { "130cf977-4460-4ec8-aa95-6ecc0c1a4d69", "130cf977-4460-4ec8-aa95-6ecc0c1a4d69", "user", "USER" },
+                    { "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -202,8 +202,8 @@ namespace authentication.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5b238e-ae03-4887-b961-ef840a350a49", 0, "9d73daa3-c30e-4cb2-beea-e85de51e40fa", "msrandhawa9957@gmail.com", false, false, null, "Administrator2", "MSRANDHAWA9957@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEEfMgop18li/0kkDmi2t1FACWJ1wF4jGLTMlCxqRu2MVK6fLJiQSFP3Kp69BQk34Aw==", null, false, "7e67a8d8-2525-4cfb-b0f3-c0109d00fa04", false, "admin" },
-                    { "8e2587dc-512a-4e5b-8ea2-1089ac0282da", 0, "d06f4487-0303-4b9a-b6a9-6e06fb1e3158", "mrandhawa40@my.bcit.ca", false, false, null, "Administrator1", "MRANDHAWA40@MY.BCIT.CA", "ADMINISTRATOR", "AQAAAAIAAYagAAAAEDzJyuXAvKR+X164OH5meTgKOZ1edoc9Uzp3JFc9BiUJIfIsKqn/YP7dI5sabNSFHw==", null, false, "ffbf063b-f2a2-42ec-931b-d24447ee3007", false, "administrator" }
+                    { "2e983299-dc83-44fc-9366-44bebc8242d7", 0, "e9390cdf-ef18-41ea-a2a0-9b72b5b06791", "mrandhawa40@my.bcit.ca", false, false, null, "Administrator1", "MRANDHAWA40@MY.BCIT.CA", "ADMINISTRATOR", "AQAAAAIAAYagAAAAEE3NO7vu4b0Po5s+j7bvibs9K7CPDXxp4KI6nAtjO3HHvJnvgy0ypszvVcZWBYCsKg==", null, false, "11929c2b-925a-4848-8f65-cb3000b5a081", false, "administrator" },
+                    { "a05b06a4-d29a-4c9e-8795-59cc5b5c6632", 0, "d94cd9b9-dcb6-417d-9674-4cd90c4d05d3", "msrandhawa9957@gmail.com", false, false, null, "Administrator2", "MSRANDHAWA9957@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEIb2Axjxud8JmfFzzLVHztuZCjAPrym32QRN3JlLXqKGYF16mh3miKCdATvSi/y+BQ==", null, false, "ed233a71-28e2-43e6-94f8-49264b7ee5d9", false, "admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -211,8 +211,8 @@ namespace authentication.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "b054425b-f563-4f1c-aafb-128faa68aee6", "6d5b238e-ae03-4887-b961-ef840a350a49" },
-                    { "b054425b-f563-4f1c-aafb-128faa68aee6", "8e2587dc-512a-4e5b-8ea2-1089ac0282da" }
+                    { "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "2e983299-dc83-44fc-9366-44bebc8242d7" },
+                    { "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "a05b06a4-d29a-4c9e-8795-59cc5b5c6632" }
                 });
 
             migrationBuilder.CreateIndex(
