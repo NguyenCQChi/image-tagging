@@ -56,7 +56,7 @@ const Landing = () => {
   const resultContainer = {
     marginTop: '35px',
     marginBottom: '35px',
-    
+
     padding: '0 50px'
   }
 
@@ -103,7 +103,7 @@ const Landing = () => {
           ) : (
             <div
               className={`${pulsing ? "pulse" : ""} loadable`}
-              style={{ width: "65%", background: "#ccc" }}
+              style={{ background: "#ccc", width: '50%' }}
             >
               <motion.img
                 initial={{ height: "20rem", opacity: 0 }}

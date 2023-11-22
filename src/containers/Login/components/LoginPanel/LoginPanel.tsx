@@ -4,8 +4,8 @@ import { Formik, Form as FormBase, FastField } from 'formik';
 import { Input, PasswordInput } from '@components';
 import { styled, useTheme } from '@mui/material/styles';
 import { Button } from '@mui/base';
-import { motion } from 'framer-motion';
 import { Alert } from '@mui/material';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { decode } from "jsonwebtoken";
 import {
@@ -18,6 +18,7 @@ import {
 const LoginPanel = () => {
     const router = useRouter();
     const [ failToast, setFailToast ] = useState(false);
+    const [ errMsg, setErrMsg ] = useState('Incorrect username or password')
 
     const validationSchema = Yup.object({
         username: Yup.string().required('User name is required'),
@@ -30,7 +31,7 @@ const LoginPanel = () => {
     }
 
     const onSubmit = async (value: any) => {
-        console.log(value)
+        // console.log(value)
 
         // TO-DO: implement client request to login
         // if(value.username === ADMIN_USERNAME && value.password === ADMIN_PASSWORD) {
@@ -82,6 +83,9 @@ const LoginPanel = () => {
         } else {
             // Handle login error
             console.error('Login failed');
+            // setErrMsg()
+            setFailToast(true)
+            console.log(response)
             // router.push('/landing')
         }
     }
@@ -105,6 +109,12 @@ const LoginPanel = () => {
         cursor: 'pointer',
     }
 
+    const toastContainer = {
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+    }
+
     return (
         <Formik
             initialValues={initialValue}
@@ -114,7 +124,6 @@ const LoginPanel = () => {
         >
             {(formik) => {
                 const { isValid, dirty } = formik;
-
                 return (
                     <FormBase className='form'>
                         <FastField 
@@ -129,7 +138,7 @@ const LoginPanel = () => {
                             required
                             component={PasswordInput}
                         />
-                        { failToast && <Alert variant='outlined' severity='error'> Incorrect username or password! Please try again </Alert> }
+                        { failToast && <Alert variant='outlined' severity='error'> {errMsg} </Alert> }
                         <div style={buttonContainer}>
                             {(isValid && dirty) ? (
                                 <motion.div

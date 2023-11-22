@@ -15,8 +15,9 @@ import {
 } from '@constants/strings';
 
 const CreateAcc = () => {
-    const router = useRouter()
-    const [ failToast, setFailToast ] = useState(false);
+  const router = useRouter()
+  const [ failToast, setFailToast ] = useState(false);
+  const [ errMsg, setErrMsg ] = useState('Cannot create account!')
 
     const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
