@@ -69,14 +69,14 @@ public class UsersController : ControllerBase
         _response.StatusCode = HttpStatusCode.OK;
         _response.IsSuccess = true;
         _response.Result = tokenDto;
-        Response.Cookies.Append("refreshToken", tokenDto!.RefreshToken, new CookieOptions
+        Response.Cookies.Append("X-Refresh-Token", tokenDto!.RefreshToken, new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.None, 
             Secure = _secureCookies
         });
 
-        Response.Cookies.Append("accessToken", tokenDto.AccessToken!, new CookieOptions
+        Response.Cookies.Append("Authorization", "Bearer " + tokenDto.AccessToken!, new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.None, 
@@ -116,14 +116,14 @@ public class UsersController : ControllerBase
         _response.StatusCode = HttpStatusCode.Created;
         _response.IsSuccess = true;
         _response.Result = tokenDtoResponse;
-        Response.Cookies.Append("refreshToken", tokenDtoResponse!.RefreshToken, new CookieOptions
+        Response.Cookies.Append("X-Refresh-Token", tokenDtoResponse!.RefreshToken, new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.None, 
             Secure = _secureCookies
         });
 
-        Response.Cookies.Append("accessToken", tokenDtoResponse.AccessToken!, new CookieOptions
+        Response.Cookies.Append("Authorization", "Bearer " + tokenDtoResponse.AccessToken!, new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.None, 
@@ -146,14 +146,14 @@ public class UsersController : ControllerBase
             await _userRepository.RevokeRefreshToken(model);
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
-            Response.Cookies.Append("refreshToken", "", new CookieOptions
+            Response.Cookies.Append("X-Refresh-Token", "", new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None, 
                 Secure = _secureCookies
             });
 
-            Response.Cookies.Append("accessToken", "", new CookieOptions
+            Response.Cookies.Append("Authorization", "", new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None, 
@@ -164,14 +164,14 @@ public class UsersController : ControllerBase
         }
         _response.IsSuccess = false;
         _response.Result = "Invalid Input";
-        Response.Cookies.Append("refreshToken", "", new CookieOptions
+        Response.Cookies.Append("X-Refresh-Token", "", new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.None, 
             Secure = _secureCookies
         });
 
-        Response.Cookies.Append("accessToken", "", new CookieOptions
+        Response.Cookies.Append("Authorization", "", new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.None, 
@@ -249,4 +249,26 @@ public class UsersController : ControllerBase
             return StatusCode((int)HttpStatusCode.InternalServerError, _response);
         }
     }
+    
+    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+                                    "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
+    [HttpGet("userInformation")]
+    [Authorize(Roles = "admin")]
+    [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
+    [ServiceFilter(typeof(HeaderRefreshTokenFilterAttribute))]
+    [ServiceFilter(typeof(HeaderAccessTokenFilterAttribute))]
+    [ServiceFilter(typeof(UserNameExistsFilterAttribute))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
+    public async Task<IActionResult> GetUserInformation([FromQuery] string userName)
+    {
+        var userInfo = await _userRepository.GetUserInformation(userName);
+        _response.IsSuccess = true;
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = userInfo;
+        return Ok(_response);
+    }
+    
 }

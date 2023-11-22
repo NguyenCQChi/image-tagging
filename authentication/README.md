@@ -9,7 +9,7 @@
 - export PASSWORD=`<ANY RANDOM PASSWORD CONTAINING LETTERS AND NUMBERS, NO SYMBOLS>`
 - cd authentication
 - docker compose up --build (Let it run, it will fail, and automatically restart itself a few times while the database is being initialized. When you see `authentication-api-1       | I am running`, the service is up.)
-- Navigate to http://localhost:8000/swagger/index.html and explore the swagger doc.
+- Navigate to http://localhost:8000/api/auth/doc/swagger/index.html and explore the swagger doc.
 
 
 ## Overview
@@ -66,10 +66,10 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InVzZXIxIiwicm9sZSI6InV
 ```
 
 ### Authentication/Validation
-- Before making API calls, authenticate/validate using `/api/v1/auth/validate`. Use Bearer authentication with the accessToken. Handle 417 ExpectationFailed and 401 Unauthorized appropriately.
+- Before making API calls, authenticate/validate using `/api/v1/auth/validate`. Use Bearer authentication with the accessToken. 401 unauthorized errors mean that you need to refresh your tokens. 417 means that immediately log the user out.
 
 ### Refresh Token
-- If unauthorized, send a request to `/api/v1/auth/refresh`. On success, receive a new AccessToken along with the old refreshToken. Handle 417 ExpectationFailed as a malicious user.
+- If unauthorized, send a request to `/api/v1/auth/refresh`. On success, receive a new AccessToken along with the old refreshToken. Handle 417 ExpectationFailed as a malicious user and log them out.
 
 ### Logout
 - Make a request to `/api/v1/auth/revoke` to invalidate all user tokens. Remove tokens from browser storage. Ignore all status codes in the response.
@@ -77,5 +77,10 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InVzZXIxIiwicm9sZSI6InV
 ### Password Reset
 - To request a password reset, make a GET request to `/api/v1/auth/resetPassword/?email={EMAIL}`. If legit, the user will receive an email for password reset with a proper link. Frontend doesn't handle actual password reset.
 
+### Get user Info
+- To request user info, make a GET request to `/api/v1/auth/userInformation?userName={USERNAME}`. This is a priviliged request and only admins can make this request. The user role i.e. admin is verified by the server as well. When making this request, make sure you authenticate properly.
+- The GET request needs these 2 headers: `Authorization: "Bearer {ACCESS_TOKEN}"` and `X-Refresh-Token: "{REFRESH_TOKEN}"`
+
 ### NOTE
 Login and refresh return both accessToken and refreshToken. Along with that, they also return cookies embeeded into response headers which you can take advantage of. What this means is, either use response to manually get the tokens, or take advantage of cookies.
+Cookie Names: `Authorization` and `X-Refresh-Token`

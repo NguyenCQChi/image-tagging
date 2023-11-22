@@ -179,6 +179,12 @@ public class UserRepository : IUserRepository
         var token = await _userManager.GeneratePasswordResetTokenAsync(user!);
         return token;
     }
+    
+    public async Task<UserDto> GetUserInformation(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+        return _mapper.Map<UserDto>(user);
+    }
 
     public async Task<(bool IsSuccess, List<IdentityError> ErrorMessages)> UpdatePassword(string email, ForgotPasswordDto forgotPasswordDto)
     {
