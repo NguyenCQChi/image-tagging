@@ -47,15 +47,15 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b054425b-f563-4f1c-aafb-128faa68aee6",
-                            ConcurrencyStamp = "b054425b-f563-4f1c-aafb-128faa68aee6",
+                            Id = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5",
+                            ConcurrencyStamp = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "55d705d1-43ac-4ece-8358-7e7b7ae2337c",
-                            ConcurrencyStamp = "55d705d1-43ac-4ece-8358-7e7b7ae2337c",
+                            Id = "130cf977-4460-4ec8-aa95-6ecc0c1a4d69",
+                            ConcurrencyStamp = "130cf977-4460-4ec8-aa95-6ecc0c1a4d69",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -146,13 +146,13 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "8e2587dc-512a-4e5b-8ea2-1089ac0282da",
-                            RoleId = "b054425b-f563-4f1c-aafb-128faa68aee6"
+                            UserId = "2e983299-dc83-44fc-9366-44bebc8242d7",
+                            RoleId = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5"
                         },
                         new
                         {
-                            UserId = "6d5b238e-ae03-4887-b961-ef840a350a49",
-                            RoleId = "b054425b-f563-4f1c-aafb-128faa68aee6"
+                            UserId = "a05b06a4-d29a-4c9e-8795-59cc5b5c6632",
+                            RoleId = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5"
                         });
                 });
 
@@ -246,35 +246,35 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8e2587dc-512a-4e5b-8ea2-1089ac0282da",
+                            Id = "2e983299-dc83-44fc-9366-44bebc8242d7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d06f4487-0303-4b9a-b6a9-6e06fb1e3158",
+                            ConcurrencyStamp = "e9390cdf-ef18-41ea-a2a0-9b72b5b06791",
                             Email = "mrandhawa40@my.bcit.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Administrator1",
                             NormalizedEmail = "MRANDHAWA40@MY.BCIT.CA",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDzJyuXAvKR+X164OH5meTgKOZ1edoc9Uzp3JFc9BiUJIfIsKqn/YP7dI5sabNSFHw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEE3NO7vu4b0Po5s+j7bvibs9K7CPDXxp4KI6nAtjO3HHvJnvgy0ypszvVcZWBYCsKg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ffbf063b-f2a2-42ec-931b-d24447ee3007",
+                            SecurityStamp = "11929c2b-925a-4848-8f65-cb3000b5a081",
                             TwoFactorEnabled = false,
                             UserName = "administrator"
                         },
                         new
                         {
-                            Id = "6d5b238e-ae03-4887-b961-ef840a350a49",
+                            Id = "a05b06a4-d29a-4c9e-8795-59cc5b5c6632",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9d73daa3-c30e-4cb2-beea-e85de51e40fa",
+                            ConcurrencyStamp = "d94cd9b9-dcb6-417d-9674-4cd90c4d05d3",
                             Email = "msrandhawa9957@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Administrator2",
                             NormalizedEmail = "MSRANDHAWA9957@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEfMgop18li/0kkDmi2t1FACWJ1wF4jGLTMlCxqRu2MVK6fLJiQSFP3Kp69BQk34Aw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIb2Axjxud8JmfFzzLVHztuZCjAPrym32QRN3JlLXqKGYF16mh3miKCdATvSi/y+BQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7e67a8d8-2525-4cfb-b0f3-c0109d00fa04",
+                            SecurityStamp = "ed233a71-28e2-43e6-94f8-49264b7ee5d9",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
