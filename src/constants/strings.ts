@@ -14,5 +14,9 @@ export const API_AUTH_RESETPASSWORD = "/api/v1/auth/resetPassword"
 export const API_AUTH_ACCESS_TOKEN = "accessToken"
 export const API_AUTH_REFRESH_TOKEN = "refreshToken"
 
+export const API_IMAGE_SERVER = "https://simarcodes.com/COMP4537/projects"
+export const API_IMAGE_GET_CAPTION = "/get-caption"
+export const API_IMAGE_GET_CAPTION_URL_PARAM = "imageUrl"
+
 export const ROLE_USER = "user"
 export const ROLE_ADMIN = "admin"
