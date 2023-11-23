@@ -32,4 +32,4 @@ services:
       - PASSWORD=${PASSWORD}
 
 
-# Navigate to http://localhost:8000/swagger/index.html in your browser for swagger documentation.
+# Navigate to http://localhost:8000/api/v1/auth/doc/swagger/index.html in your browser for swagger documentation.

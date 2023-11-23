@@ -99,14 +99,14 @@ var app = builder.Build();
 
 app.UseSwagger(c =>
     {
-        c.RouteTemplate = "api/auth/doc/swagger/{documentName}/swagger.json";
+        c.RouteTemplate = "api/v1/auth/doc/swagger/{documentName}/swagger.json";
     }
     );
 
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/api/auth/doc/swagger/v1/swagger.json", "Authentication v1");
-    options.RoutePrefix = "api/auth/doc/swagger";
+    options.SwaggerEndpoint("/api/v1/auth/doc/swagger/v1/swagger.json", "Authentication v1");
+    options.RoutePrefix = "api/v1/auth/doc/swagger";
 });
 
 if (!app.Environment.IsDevelopment())
