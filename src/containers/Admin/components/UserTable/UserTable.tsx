@@ -15,25 +15,23 @@ import {
   Typography
 } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp, KeyboardArrowLeft, KeyboardArrowRight, FirstPage, LastPage } from '@mui/icons-material';
-import { string } from 'yup';
+import { UserType } from '@src/types/users.type';
 
 const createData = (
   username: string,
   email: string,
   token: string,
   num_request: number,
-  stat_object: any
-) => {
+  stat_array: any
+) : UserType => {
   return {
     username,
     email,
     token,
     num_request,
-    stat: {
-      method: stat_object.method,
-      endpoint: stat_object.endpoint,
-      request: stat_object.request
-    }
+    stat: [
+
+    ]
   }
 }
 
@@ -47,7 +45,7 @@ interface TablePaginationActionsProps {
   ) => void;
 }
 
-const Row = (props : { row: ReturnType<typeof createData>}) => {
+const Row = (props : { row: UserType}) => {
   const { row } = props;
   const [ open, setOpen ] = React.useState(false);
 

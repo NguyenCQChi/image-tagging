@@ -31,15 +31,6 @@ const LoginPanel = () => {
     }
 
     const onSubmit = async (value: any) => {
-        // console.log(value)
-
-        // TO-DO: implement client request to login
-        // if(value.username === ADMIN_USERNAME && value.password === ADMIN_PASSWORD) {
-        //     router.push('/admin')
-        // } else if(value.username === USER_TEST && value.password === USER_PASSWORD) {
-        //     router.push('/landing')
-        // }
-
         let account_information = {
             "userName": value.username,
             "password": value.password
