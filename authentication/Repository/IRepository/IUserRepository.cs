@@ -33,5 +33,6 @@ public interface IUserRepository
     
     Task<(bool IsSuccess, List<IdentityError> ErrorMessages)> UpdatePassword(string email, ForgotPasswordDto forgotPasswordDto);
 
+    Task<UserDto> GetUserInformation(string userName);
 
 }

@@ -23,7 +23,7 @@ public class AccessTokenValidationFilterAttribute: ActionFilterAttribute
     }
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-    {
+    {   
         if (context.ActionArguments.TryGetValue("model", out var modelObject) && modelObject is TokenDto model)
         {
             var existingRefreshToken = await _db.RefreshTokens!.FirstOrDefaultAsync(u => u.Refresh_Token == model.RefreshToken);

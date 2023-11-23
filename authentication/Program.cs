@@ -70,6 +70,10 @@ builder.Services.AddScoped<AccessTokenValidationFilterAttribute>();
 builder.Services.AddScoped<EmailExistsFilterAttribute>();
 builder.Services.AddScoped<UserExistsFilterAttribute>();
 builder.Services.AddScoped<MatchPasswordsFilterAttribute>();
+builder.Services.AddScoped<UserInformationHeaderFilterAttribute>();
+builder.Services.AddScoped<HeaderAccessTokenFilterAttribute>();
+builder.Services.AddScoped<HeaderRefreshTokenFilterAttribute>();
+builder.Services.AddScoped<UserNameExistsFilterAttribute>();
 // Auth
 builder.Services.AddAuthentication(x =>
 {
@@ -93,15 +97,20 @@ builder.Services.AddAuthentication(x =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
+app.UseSwagger(c =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Authentication v1");
-    });
-} else {
+        c.RouteTemplate = "api/v1/auth/doc/swagger/{documentName}/swagger.json";
+    }
+    );
+
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/api/v1/auth/doc/swagger/v1/swagger.json", "Authentication v1");
+    options.RoutePrefix = "api/v1/auth/doc/swagger";
+});
+
+if (!app.Environment.IsDevelopment())
+{
     app.UseHttpsRedirection();
 }
 
