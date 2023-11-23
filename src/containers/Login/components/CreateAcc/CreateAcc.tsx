@@ -13,11 +13,13 @@ import {
     ROLE_USER,
     ROLE_ADMIN,
 } from '@constants/strings';
+import { LoginContext } from '@contexts/LoginContext'
 
 const CreateAcc = () => {
   const router = useRouter()
   const [ failToast, setFailToast ] = useState(false);
   const [ errMsg, setErrMsg ] = useState('Cannot create account!')
+  const { setIsLogin } = useContext(LoginContext);
 
     const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     const passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
@@ -63,6 +65,7 @@ const CreateAcc = () => {
         if (response.ok) {
             console.log("Register Success")
             router.push('/')
+            setIsLogin(true)
         } else {
             // Handle login error
             console.error('Register Failed');

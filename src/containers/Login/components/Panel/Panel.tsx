@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Paper, Divider, List, ListItem, Box } from '@mui/material';
 import { Button } from '@mui/base';
 import CreateAcc from "../CreateAcc";
 import LoginPanel from "../LoginPanel";
 import { styled, useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
+import { LoginContext } from '@contexts/LoginContext';
 
 const Panel = () => {
   const theme = useTheme();
-  const [ loginState, setLoginState ] = useState<boolean>(true); 
+  const { isLogin, setIsLogin } = useContext(LoginContext);
 
   const CustomButton = styled(Button)(({theme}) => ({
     border: 'none',
@@ -35,7 +36,7 @@ const Panel = () => {
   }
 
   const handleClick = () => {
-    setLoginState(!loginState)
+    setIsLogin(!isLogin)
   }
 
   return (
@@ -46,23 +47,23 @@ const Panel = () => {
         </ListItem>
         <Divider/>
         <ListItem sx={{...item, marginY: '10px'}}>
-          { loginState ? <LoginPanel /> : <CreateAcc /> }
+          { isLogin ? <LoginPanel /> : <CreateAcc /> }
         </ListItem>
         <Divider />
         <ListItem sx={{...item, mt: '10px'}}>
           <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'end'}}>
-            <div style={{fontSize: '12px', display: 'flex', flexDirection: 'row', marginBottom: '5px'}}> { loginState ? "Do not have account? " : "Already have an account?" } </div>
+            <div style={{fontSize: '12px', display: 'flex', flexDirection: 'row', marginBottom: '5px'}}> { isLogin ? "Do not have account? " : "Already have an account?" } </div>
             <motion.div
               className="box"
               whileHover={{scale:1.05}}
               transition={{type: "spring", stiffness: 400, damping: 10}}
             >
               <CustomButton onClick={handleClick}> 
-              { loginState ? "Create Account" : "Login" } 
+              { isLogin ? "Create Account" : "Login" } 
               </CustomButton> 
             </motion.div>
           </Box>
-          { loginState && (
+          { isLogin && (
             <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'end'}}>
               <motion.div
                 className="box"
