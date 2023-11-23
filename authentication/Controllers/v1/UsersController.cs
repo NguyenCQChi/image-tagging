@@ -42,11 +42,11 @@ public class UsersController : ControllerBase
     [ServiceFilter(typeof(RegistrationRoleFilterAttribute))]
     [ServiceFilter(typeof(RegistrationEmailFilterAttribute))]
     [ServiceFilter(typeof(RegistrationUserNameFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status406NotAcceptable, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)
     {
         await _userRepository.Register(model);
@@ -57,9 +57,9 @@ public class UsersController : ControllerBase
     
     [HttpPost("login")]
     [ServiceFilter(typeof(LoginUserValidationFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ApiResponse))]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto model)
     {
         var tokenDto = await _userRepository.Login(model);
@@ -92,10 +92,10 @@ public class UsersController : ControllerBase
     [Authorize]
     [ServiceFilter(typeof(ValidateRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(AccessTokenValidationFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
     public Task<IActionResult> ValidateTokens([FromBody] TokenDto model)
     {
         _response.StatusCode = HttpStatusCode.OK;
@@ -107,9 +107,9 @@ public class UsersController : ControllerBase
     [HttpPost("refresh")]
     [ServiceFilter(typeof(ValidateRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(AccessTokenValidationFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
     public async Task<IActionResult> GetNewTokenFromRefreshToken([FromBody] TokenDto model)
     {
         var tokenDtoResponse = await _userRepository.RefreshAccessToken(model);
@@ -135,10 +135,10 @@ public class UsersController : ControllerBase
     [HttpPost("revoke")]
     [ServiceFilter(typeof(ValidateRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(AccessTokenValidationFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
     public async Task<IActionResult> RevokeRefreshToken([FromBody] TokenDto model)
     {
         if (ModelState.IsValid)
@@ -183,10 +183,10 @@ public class UsersController : ControllerBase
     [HttpGet("resetPassword", Name="forgotPassword")]
     [ServiceFilter(typeof(EmailExistsFilterAttribute))]
     [ServiceFilter(typeof(UserExistsFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public IActionResult ForgotPassword([FromQuery] string email)
     {
         var token = _userRepository.GetResetToken(email);
@@ -226,11 +226,11 @@ public class UsersController : ControllerBase
     [ServiceFilter(typeof(EmailExistsFilterAttribute))]
     [ServiceFilter(typeof(MatchPasswordsFilterAttribute))]
     [ServiceFilter(typeof(UserExistsFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status406NotAcceptable, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     public async Task<IActionResult> ForgotPassword([FromQuery] string email, [FromBody] ForgotPasswordDto model)
     {
         var result = await _userRepository.UpdatePassword(email, model);
@@ -258,10 +258,10 @@ public class UsersController : ControllerBase
     [ServiceFilter(typeof(HeaderRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(HeaderAccessTokenFilterAttribute))]
     [ServiceFilter(typeof(UserNameExistsFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
     public async Task<IActionResult> GetUserInformation([FromQuery] string userName)
     {
         var userInfo = await _userRepository.GetUserInformation(userName);
@@ -278,10 +278,10 @@ public class UsersController : ControllerBase
     [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
     [ServiceFilter(typeof(HeaderRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(HeaderAccessTokenFilterAttribute))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
     public async Task<IActionResult> GetAllUserInformation()
     {
         var usersInfo = await _userRepository.GetAllUsers();
