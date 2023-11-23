@@ -35,4 +35,6 @@ public interface IUserRepository
 
     Task<UserDto> GetUserInformation(string userName);
 
+    Task<List<UserDto>> GetAllUsers();
+
 }

@@ -270,5 +270,25 @@ public class UsersController : ControllerBase
         _response.Result = userInfo;
         return Ok(_response);
     }
+
+    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+                                    "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
+    [HttpGet("allUserInformation")]
+    [Authorize(Roles = "admin")]
+    [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
+    [ServiceFilter(typeof(HeaderRefreshTokenFilterAttribute))]
+    [ServiceFilter(typeof(HeaderAccessTokenFilterAttribute))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed)]
+    public async Task<IActionResult> GetAllUserInformation()
+    {
+        var usersInfo = await _userRepository.GetAllUsers();
+        _response.IsSuccess = true;
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = usersInfo;
+        return Ok(_response);
+    }
     
 }

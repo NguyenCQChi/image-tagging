@@ -186,6 +186,13 @@ public class UserRepository : IUserRepository
         return _mapper.Map<UserDto>(user);
     }
 
+    public async Task<List<UserDto>> GetAllUsers()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        var userDtos = _mapper.Map<List<UserDto>>(users);
+        return userDtos;
+    }
+
     public async Task<(bool IsSuccess, List<IdentityError> ErrorMessages)> UpdatePassword(string email, ForgotPasswordDto forgotPasswordDto)
     {
         var user = await _userManager.FindByEmailAsync(email);
