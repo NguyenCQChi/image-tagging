@@ -14,6 +14,12 @@ pnpm dev
 bun dev
 ```
 
+Before commiting and pushing code to GitHub, build the server:
+
+```bash
+yarn run build
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 Each page under pages folder can be accessed locally (by http://locahost:3000/[file_name])
 Example: for admin.tsx [http://localhost:3000/admin]

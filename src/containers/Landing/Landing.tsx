@@ -67,7 +67,7 @@ const Landing = () => {
     }
 
     const imageLoaded = () => {
-        // setSubmit(false)
+        setSubmit(false)
         setImageLoading(false);
         setTimeout(() => setPulsing(false), 600);
     };
@@ -76,11 +76,10 @@ const Landing = () => {
         setSubmit(true)
         setLink(value)
         // TO-DO: Submit the link
-        // setResult()
-        // TO-DO: Submit the link
         console.log(value)
         const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`
         const response = api.get(imageGetURL)
+        console.log(response)
         response.then((response) => {
             console.log(response.data)
             setResult(response.data.caption)
