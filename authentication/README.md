@@ -81,6 +81,10 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InVzZXIxIiwicm9sZSI6InV
 - To request user info, make a GET request to `/api/v1/auth/userInformation?userName={USERNAME}`. This is a priviliged request and only admins can make this request. The user role i.e. admin is verified by the server as well. When making this request, make sure you authenticate properly.
 - The GET request needs these 2 headers: `Authorization: "Bearer {ACCESS_TOKEN}"` and `X-Refresh-Token: "{REFRESH_TOKEN}"`
 
+### Get All users Info
+- To request user info, make a GET request to `/api/v1/auth/allUserInformation`. This is a priviliged request and only admins can make this request. The user role i.e. admin is verified by the server as well. When making this request, make sure you authenticate properly.
+- The GET request needs these 2 headers: `Authorization: "Bearer {ACCESS_TOKEN}"` and `X-Refresh-Token: "{REFRESH_TOKEN}"`
+
 ### NOTE
 Login and refresh return both accessToken and refreshToken. Along with that, they also return cookies embeeded into response headers which you can take advantage of. What this means is, either use response to manually get the tokens, or take advantage of cookies.
 Cookie Names: `Authorization` and `X-Refresh-Token`
