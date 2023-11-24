@@ -22,20 +22,38 @@ Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
 
 // Add services to the container.
 builder.Host.UseSerilog();
-builder.Services.AddCors(options =>
+var aspNetCoreEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
+if (string.Compare(aspNetCoreEnvironment, "Development", StringComparison.Ordinal) == 0)
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-            foreach (var origin in builder.Configuration.GetSection("ApiSettings:Audience").Get<List<string>>()!)
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(
+            policy =>
             {
-                policy.WithOrigins(origin);
-            }
-        });
-});
+                policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            });
+    });
+}
+else
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(
+            policy =>
+            {
+                policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                foreach (var origin in builder.Configuration.GetSection("ApiSettings:Audience").Get<List<string>>()!)
+                {
+                    policy.WithOrigins(origin);
+                }
+            });
+    });
+}
 
 builder.Services.AddControllers(option => { option.ReturnHttpNotAcceptable = true; }).AddNewtonsoftJson();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
