@@ -10,8 +10,6 @@ import {
     API_IMAGE_SERVER,
     API_IMAGE_GET_CAPTION,
     API_IMAGE_GET_CAPTION_URL_PARAM,
-    API_AUTH_ACCESS_TOKEN,
-    API_AUTH_REFRESH_TOKEN
 } from '@constants/strings';
 
 const Landing = () => {
@@ -30,12 +28,6 @@ const Landing = () => {
         flexDirection: 'column',
         background: 'white'
     }
-
-    const imageRequestHeaders = {
-      'Authentication': `Bearer ${API_AUTH_ACCESS_TOKEN}`,
-      'X-Auth-Refresh-Token': API_AUTH_REFRESH_TOKEN
-    };
-  
 
     const container = {
         flexGrow: 1,
@@ -75,23 +67,22 @@ const Landing = () => {
     }
 
     const imageLoaded = () => {
-        setSubmit(false)
+        setSubmit(false);
         setImageLoading(false);
         setTimeout(() => setPulsing(false), 600);
     };
 
     const onSubmit = () => {
-        setSubmit(true)
-        setLink(value)
+        setSubmit(true);
+        setLink(value);
         // TO-DO: Submit the link
-        const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`
-        const response = api.get(imageGetURL, {headers: imageRequestHeaders})
-        response.then((response) => {
-            setResult(response.data.caption)
-            setLink('')
+        const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`;
+        const apiResponse = api.get(imageGetURL);
+        apiResponse.then((response) => {
+            setResult(response.data.caption);
+            setLink('');
         })
     }
-
 
     return (
         <Box sx={outterContainer}>
