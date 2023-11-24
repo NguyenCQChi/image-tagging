@@ -24,6 +24,7 @@ const Admin = () => {
   }
 
   const getUsers = async() => {
+    console.log('getting users')
     const refreshToken = localStorage.getItem('refreshToken')
     const accessToken = localStorage.getItem('accessToken')
     
