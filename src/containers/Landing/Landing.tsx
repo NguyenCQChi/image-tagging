@@ -77,8 +77,8 @@ const Landing = () => {
         setLink(value)
         // TO-DO: Submit the link
         const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`
-        const response = api.get(imageGetURL)
-        response.then((response) => {
+        const apiResponse = api.get(imageGetURL)
+        apiResponse.then((response) => {
             setResult(response.data.caption)
             setLink('')
         })
