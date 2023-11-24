@@ -80,7 +80,6 @@ const Landing = () => {
         const apiResponse = api.get(imageGetURL);
         apiResponse.then((response) => {
             setResult(response.data.caption);
-            setLink('');
         })
     }
 
