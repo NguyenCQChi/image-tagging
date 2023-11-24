@@ -20,6 +20,7 @@ public class HealthCheckController : ControllerBase
 
     [HttpGet("health")]
     [HttpGet("api/v{version:ApiVersion}/health")]
+    [Produces("application/json")]
     public async Task<IActionResult> HealthCheck()
     {
         _response.StatusCode = HttpStatusCode.OK;
