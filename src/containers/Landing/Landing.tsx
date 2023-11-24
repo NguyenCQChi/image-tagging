@@ -83,6 +83,7 @@ const Landing = () => {
         response.then((response) => {
             console.log(response.data)
             setResult(response.data.caption)
+            setLink('')
         })
     }
 

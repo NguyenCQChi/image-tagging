@@ -1,10 +1,12 @@
 import React from 'react';
 import Login from '@containers/Login';
-import VerifyAuthentication from '@containers/VerifyAuthentication';
+import { LoginProvider } from '@contexts/LoginContext';
 
 const index = () => {
     return (
-        <Login />
+        <LoginProvider>
+            <Login />
+        </LoginProvider>
     )
 }
 
