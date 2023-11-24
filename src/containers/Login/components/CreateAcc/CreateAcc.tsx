@@ -13,18 +13,21 @@ import {
     ROLE_USER,
     ROLE_ADMIN,
 } from '@constants/strings';
+import { LoginContext } from '@src/contexts/LoginContext';
 
 const CreateAcc = () => {
   const router = useRouter()
   const [ failToast, setFailToast ] = useState(false);
   const [ errMsg, setErrMsg ] = useState('Cannot create account!')
+  const { setIsLogin } = useContext(LoginContext);
 
     const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
 
     const validationSchema = Yup.object({
         name: Yup.string().required('Username is required').min(1, 'Username is required'),
         email: Yup.string().required('Email is required').matches(mailReg, 'Email address is not valid'),
-        password: Yup.string().required('Password is required').min(8, 'Password should be of minimum 8 characters length')
+        password: Yup.string().required('Password is required').min(6, 'Password should be of minimum 6 characters length').matches(passwordReg, 'Password should contain at least 1 uppercase, 1 lowercase, 1 digit and 1 special character')
     })
 
     const initialValue = {
@@ -58,17 +61,16 @@ const CreateAcc = () => {
         });
 
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
             console.log("Register Success")
-            router.push('/')
+            setFailToast(false)
+            setIsLogin(true)
         } else {
             // Handle login error
             console.error('Register Failed');
-            // router.push('/landing')
+            console.log(response)
+            setFailToast(true)
         }
-        //TO-DO: Create a new user
-        // router.push('/landing')
     }
 
     const CustomButton = styled(Button)(({theme}) => ({
@@ -87,7 +89,8 @@ const CreateAcc = () => {
     }
 
     const hoverButton = {
-        cursor: 'pointer'
+        cursor: 'pointer',
+        color: 'white'
     }
 
     return (

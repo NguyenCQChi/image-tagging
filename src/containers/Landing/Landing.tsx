@@ -67,26 +67,22 @@ const Landing = () => {
     }
 
     const imageLoaded = () => {
-        // setSubmit(false)
+        setSubmit(false);
         setImageLoading(false);
         setTimeout(() => setPulsing(false), 600);
     };
 
     const onSubmit = () => {
-        setSubmit(true)
-        setLink(value)
+        setSubmit(true);
+        setLink(value);
         // TO-DO: Submit the link
-        // setResult()
-        // TO-DO: Submit the link
-        console.log(value)
-        const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`
-        const response = api.get(imageGetURL)
-        response.then((response) => {
-            console.log(response.data)
-            setResult(response.data.caption)
+        const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`;
+        const apiResponse = api.get(imageGetURL);
+        apiResponse.then((response) => {
+            setResult(response.data.caption);
+            setLink('');
         })
     }
-
 
     return (
         <Box sx={outterContainer}>
