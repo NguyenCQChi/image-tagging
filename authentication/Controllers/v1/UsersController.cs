@@ -47,6 +47,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status406NotAcceptable, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)
     {
         await _userRepository.Register(model);
@@ -60,6 +61,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto model)
     {
         var tokenDto = await _userRepository.Login(model);
@@ -96,6 +98,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public Task<IActionResult> ValidateTokens([FromBody] TokenDto model)
     {
         _response.StatusCode = HttpStatusCode.OK;
@@ -110,6 +113,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> GetNewTokenFromRefreshToken([FromBody] TokenDto model)
     {
         var tokenDtoResponse = await _userRepository.RefreshAccessToken(model);
@@ -139,6 +143,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> RevokeRefreshToken([FromBody] TokenDto model)
     {
         if (ModelState.IsValid)
@@ -187,6 +192,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public IActionResult ForgotPassword([FromQuery] string email)
     {
         var token = _userRepository.GetResetToken(email);
@@ -231,6 +237,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status406NotAcceptable, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> ForgotPassword([FromQuery] string email, [FromBody] ForgotPasswordDto model)
     {
         var result = await _userRepository.UpdatePassword(email, model);
@@ -262,6 +269,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> GetUserInformation([FromQuery] string userName)
     {
         var userInfo = await _userRepository.GetUserInformation(userName);
@@ -282,6 +290,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
     public async Task<IActionResult> GetAllUserInformation()
     {
         var usersInfo = await _userRepository.GetAllUsers();
