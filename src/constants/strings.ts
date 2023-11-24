@@ -11,6 +11,7 @@ export const API_AUTH_VALIDATE = "/api/v1/auth/validate"
 export const API_AUTH_REFRESH = "/api/v1/auth/refresh"
 export const API_AUTH_REVOKE = "/api/v1/auth/revoke"
 export const API_AUTH_RESETPASSWORD = "/api/v1/auth/resetPassword"
+export const API_AUTH_GET_USERS = "api/v1/auth/allUserInformation"
 export const API_AUTH_ACCESS_TOKEN = "accessToken"
 export const API_AUTH_REFRESH_TOKEN = "refreshToken"
 

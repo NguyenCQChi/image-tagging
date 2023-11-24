@@ -13,7 +13,7 @@ import {
     ROLE_USER,
     ROLE_ADMIN,
 } from '@constants/strings';
-import { LoginContext } from '@contexts/LoginContext'
+import { LoginContext } from '@src/contexts/LoginContext';
 
 const CreateAcc = () => {
   const router = useRouter()
@@ -61,15 +61,15 @@ const CreateAcc = () => {
         });
 
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
             console.log("Register Success")
-            router.push('/')
+            setFailToast(false)
             setIsLogin(true)
         } else {
             // Handle login error
             console.error('Register Failed');
             console.log(response)
+            setFailToast(true)
         }
     }
 

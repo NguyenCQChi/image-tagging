@@ -23,6 +23,10 @@ const Admin = () => {
   }
 
   useEffect(() => {
+    const refreshToken = localStorage.getItem('refreshToken')
+    const accessToken = localStorage.getItem('accessToken')
+    console.log('refresh token: ' + refreshToken)
+    console.log('access token: ' + accessToken)
     //TO-DO: Get all the users from the database and set to userList
     // setUserList()
   }, [])
