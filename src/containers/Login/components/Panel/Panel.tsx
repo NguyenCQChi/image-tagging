@@ -109,6 +109,9 @@ const hoverButton = {
     const server_url = `${API_AUTH_SERVER}${API_AUTH_RESETPASSWORD}?email=${email}`
     const apiResponse = api.get(server_url);
 
+    console.log('getting back the response')
+    console.log(apiResponse)
+
     apiResponse.then((response) => {
       console.log('get the response back')
       console.log(response)
