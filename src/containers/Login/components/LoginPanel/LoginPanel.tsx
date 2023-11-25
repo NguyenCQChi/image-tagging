@@ -110,7 +110,6 @@ const LoginPanel = () => {
     }
 
     useEffect(() => {
-        console.log(isSent)
         if(isSent) {
             setSuccessToast(true);
             setTimeout(() => {
@@ -144,7 +143,14 @@ const LoginPanel = () => {
                             component={PasswordInput}
                         />
                         { failToast && <Alert variant='outlined' severity='error'> {errMsg} </Alert> }
-                        { successToast && <Alert variant='outlined' severity='success'> Password rest email sent </Alert>}
+                        { successToast && (
+                            <motion.div
+                                animate={{ x: 100 }}
+                                transition={{ delay: 1 }}
+                            >
+                                <Alert variant='outlined' severity='success'> Password rest email sent </Alert>
+                            </motion.div>
+                        )}
                         <div style={buttonContainer}>
                             {(isValid && dirty) ? (
                                 <motion.div
