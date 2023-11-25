@@ -110,6 +110,7 @@ const LoginPanel = () => {
     }
 
     useEffect(() => {
+        console.log(isSent)
         if(isSent) {
             setSuccessToast(true);
             setTimeout(() => {
