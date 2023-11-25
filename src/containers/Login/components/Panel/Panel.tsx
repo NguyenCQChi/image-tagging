@@ -17,6 +17,7 @@ const Panel = () => {
   const { isLogin, setIsLogin, setIsSent } = useContext(LoginContext);
   const [ forgot, setForgot ] = useState(false);
   const [ failToast, setFailToast ] = useState(false)
+  const [ errMsg, setErrMsg ] = useState('') 
 
   const CustomButton = styled(Button)(({theme}) => ({
     border: 'none',
@@ -110,12 +111,13 @@ const hoverButton = {
     const server_url = `${API_AUTH_SERVER}${API_AUTH_RESETPASSWORD}?email=${email}`
     const apiResponse = api.get(server_url);
 
-    apiResponse.then((response) => {
+    apiResponse.then((res) => {
       console.log('get the response back')
-      console.log(response)
+      console.log(res)
       setIsSent(true);
       handleClose();
-    }, (response) => {
+    }, (res) => {
+      setErrMsg(res.response.data.errorMessages[0])
       setFailToast(true)
     })
   }
@@ -188,7 +190,7 @@ const hoverButton = {
                                 required
                                 component={Input}
                               />
-                              { failToast && <Alert variant='outlined' severity='error'>Email address is not valid!</Alert>}
+                              { failToast && <Alert variant='outlined' severity='error'>{errMsg}</Alert>}
                               <div style={buttonContainer}>
                                 {(isValid && dirty) ? (
                                   <motion.div
