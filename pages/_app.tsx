@@ -6,7 +6,7 @@ import VerifyAuthentication from '@src/containers/VerifyAuthentication';
 const MyApp = ({ Component, ...rest } : { Component: any }) => {
     return (
         <ThemeProvider theme={theme}>
-            <VerifyAuthentication />
+            {/* <VerifyAuthentication /> */}
             <Component {... rest} />
         </ThemeProvider>
     )

@@ -1,7 +1,7 @@
 import { StatType } from './stats.type';
 
 export type UserType = {
-   username: string,
+   userName: string,
    email: string,
    token: string,
    num_request: number,
