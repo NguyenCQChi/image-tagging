@@ -6,7 +6,6 @@ import { styled } from '@mui/material/styles';
 import { Button } from '@mui/base';  
 import { motion } from 'framer-motion';
 import { Alert } from '@mui/material';
-import { useRouter } from 'next/router';
 import {
     API_AUTH_REGISTER,
     API_AUTH_SERVER,

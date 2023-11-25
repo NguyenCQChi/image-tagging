@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form as FormBase, FastField } from 'formik';
 import { Input, PasswordInput } from '@components';
@@ -14,11 +14,14 @@ import {
     API_AUTH_LOGIN,
     API_AUTH_SERVER,
 } from '@constants/strings';
+import { LoginContext } from '@contexts/LoginContext';
 
 const LoginPanel = () => {
     const router = useRouter();
     const [ failToast, setFailToast ] = useState(false);
     const [ errMsg, setErrMsg ] = useState('Incorrect username or password')
+    const [ successToast, setSuccessToast ] = useState(false)
+    const { isSent, setIsSent } = useContext(LoginContext);
 
     const validationSchema = Yup.object({
         username: Yup.string().required('User name is required'),
@@ -106,6 +109,16 @@ const LoginPanel = () => {
         left: 0,
     }
 
+    useEffect(() => {
+        if(isSent) {
+            setSuccessToast(true);
+            setTimeout(() => {
+                setSuccessToast(false);
+                setIsSent(false)
+            }, 7000)
+        }
+    }, [isSent])
+
     return (
         <Formik
             initialValues={initialValue}
@@ -130,6 +143,7 @@ const LoginPanel = () => {
                             component={PasswordInput}
                         />
                         { failToast && <Alert variant='outlined' severity='error'> {errMsg} </Alert> }
+                        { successToast && <Alert variant='outlined' severity='success'> Password rest email sent </Alert>}
                         <div style={buttonContainer}>
                             {(isValid && dirty) ? (
                                 <motion.div

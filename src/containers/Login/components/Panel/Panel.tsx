@@ -112,8 +112,6 @@ const hoverButton = {
     const apiResponse = api.get(server_url);
 
     apiResponse.then((res) => {
-      console.log('get the response back')
-      console.log(res)
       setIsSent(true);
       handleClose();
     }, (res) => {
