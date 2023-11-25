@@ -115,10 +115,9 @@ const hoverButton = {
       console.log(response)
       setIsSent(true);
       handleClose();
-      return;
+    }, (response) => {
+      setFailToast(true)
     })
-
-    setFailToast(true)
   }
 
   return (
