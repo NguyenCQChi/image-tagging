@@ -16,9 +16,7 @@ import {
 import { LoginContext } from '@src/contexts/LoginContext';
 
 const CreateAcc = () => {
-  const router = useRouter()
   const [ failToast, setFailToast ] = useState(false);
-  const [ errMsg, setErrMsg ] = useState('Cannot create account!')
   const { setIsLogin } = useContext(LoginContext);
 
     const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;

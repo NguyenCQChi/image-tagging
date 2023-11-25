@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Paper, Divider, List, ListItem, Box, Modal, Typography } from '@mui/material';
+import { Paper, Divider, List, ListItem, Box, Modal, Alert } from '@mui/material';
 import { Formik, Form as FormBase, FastField } from 'formik';
 import * as Yup from 'yup';
 import { Button } from '@mui/base';
@@ -14,8 +14,9 @@ import { api } from '@src/utils/api';
 
 const Panel = () => {
   const theme = useTheme();
-  const { isLogin, setIsLogin } = useContext(LoginContext);
+  const { isLogin, setIsLogin, setIsSent } = useContext(LoginContext);
   const [ forgot, setForgot ] = useState(false);
+  const [ failToast, setFailToast ] = useState(false)
 
   const CustomButton = styled(Button)(({theme}) => ({
     border: 'none',
@@ -109,13 +110,15 @@ const hoverButton = {
     const server_url = `${API_AUTH_SERVER}${API_AUTH_RESETPASSWORD}?email=${email}`
     const apiResponse = api.get(server_url);
 
-    console.log('getting back the response')
-    console.log(apiResponse)
-
     apiResponse.then((response) => {
       console.log('get the response back')
       console.log(response)
+      setIsSent(true);
+      handleClose();
+      return;
     })
+
+    setFailToast(true)
   }
 
   return (
@@ -186,6 +189,7 @@ const hoverButton = {
                                 required
                                 component={Input}
                               />
+                              { failToast && <Alert variant='outlined' severity='error'>Email address is not valid!</Alert>}
                               <div style={buttonContainer}>
                                 {(isValid && dirty) ? (
                                   <motion.div
