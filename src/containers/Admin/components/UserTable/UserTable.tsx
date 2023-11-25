@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp, KeyboardArrowLeft, KeyboardArrowRight, FirstPage, LastPage } from '@mui/icons-material';
 import { UserType } from '@src/types/users.type';
+import dynamic from 'next/dynamic';
 
 const createData = (
   userName: string,

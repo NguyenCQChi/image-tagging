@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Navigation } from "@components";
 import { Box, Table } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
-import { UserTable } from './components';
 import { API_AUTH_GET_USERS, API_AUTH_SERVER, users } from '@constants/strings';
 import { api } from '@src/utils/api';
+import { UserTable } from './components';
+import dynamic from 'next/dynamic';
+
+// const UserTable = dynamic(() => import('./components'))
 
 // {
 //   "id": "2005d64f-efeb-4bcb-988e-8854a3af08fb",
