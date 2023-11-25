@@ -25,13 +25,15 @@ const CreateAcc = () => {
     const passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
 
     const validationSchema = Yup.object({
-        name: Yup.string().required('Username is required').min(1, 'Username is required'),
+        name: Yup.string().required('Name is required').min(1, 'Name is required'),
+        userName: Yup.string().required('User name is required').min(1, 'User name is required'),
         email: Yup.string().required('Email is required').matches(mailReg, 'Email address is not valid'),
         password: Yup.string().required('Password is required').min(6, 'Password should be of minimum 6 characters length').matches(passwordReg, 'Password should contain at least 1 uppercase, 1 lowercase, 1 digit and 1 special character')
     })
 
     const initialValue = {
         name: '',
+        userName: '',
         email: '',
         password: '',
     }
@@ -39,10 +41,11 @@ const CreateAcc = () => {
     const onSubmit = async (value: any) => {
         const email = value.email
         const name = value.name
+        const userName = value.userName
         const password = value.password
 
         let account_information = {
-            "userName": name,
+            "userName": userName,
             "name": name,
             "password": password,
             "role": ROLE_USER,
@@ -107,6 +110,12 @@ const CreateAcc = () => {
                     <FormBase className='form'>
                         <FastField 
                             name='name'
+                            placeholder='Name'
+                            required
+                            component={Input}
+                        />
+                        <FastField 
+                            name='userName'
                             placeholder='Username'
                             required
                             component={Input}

@@ -18,14 +18,14 @@ import { KeyboardArrowDown, KeyboardArrowUp, KeyboardArrowLeft, KeyboardArrowRig
 import { UserType } from '@src/types/users.type';
 
 const createData = (
-  username: string,
+  userName: string,
   email: string,
   token: string,
   num_request: number,
   stat_array: any
 ) : UserType => {
   return {
-    username,
+    userName,
     email,
     token,
     num_request,
@@ -45,13 +45,14 @@ interface TablePaginationActionsProps {
   ) => void;
 }
 
-const Row = (props : { row: UserType}) => {
-  const { row } = props;
+const Row = ({ row } : { row: UserType}) => {
   const [ open, setOpen ] = React.useState(false);
-
   return (
-    <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+    <Box>
+      <TableRow sx={{ 
+        width: '100%',
+        '& > *': { borderBottom: 'unset' }
+      }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -62,11 +63,11 @@ const Row = (props : { row: UserType}) => {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.username}
+          {row.userName}
         </TableCell>
         <TableCell align="right">{row.email}</TableCell>
-        <TableCell align="right">{row.token}</TableCell>
-        <TableCell align="right">{row.num_request}</TableCell>
+        <TableCell align="right">row.token</TableCell>
+        <TableCell align="right">row.num_request</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
@@ -91,14 +92,29 @@ const Row = (props : { row: UserType}) => {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </Box>
   )
 }
 
-const UserTable = ({ users, props } : { users : any[], props : TablePaginationActionsProps}) => {
-
+const UserTable = ({ users, props } : { users : any[], props? : TablePaginationActionsProps}) => {
+  const tableStyle = {
+    width: '100%',
+  }
   return (
-    <div>UserTable</div>
+    <TableContainer component={Paper} sx={tableStyle}>
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableCell></TableCell>
+          <TableCell>User Name</TableCell>
+          <TableCell>Email</TableCell>
+          <TableCell>Token</TableCell>
+          <TableCell>Number of requests</TableCell>
+        </TableHead>
+        <TableBody>
+          {users.map((user, index) => <Row key={index} row={user} />)}
+        </TableBody>
+      </Table>
+    </TableContainer>
   )
 }
 
