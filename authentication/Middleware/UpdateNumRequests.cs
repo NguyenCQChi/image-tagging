@@ -50,10 +50,6 @@ namespace authentication.Middleware
                             await db.UserEndpointRequests.AddAsync(userEndpointRequest);
                         }
                         await db.SaveChangesAsync();
-                        var test = await db.UserEndpointRequests.Include(uer => uer.EndpointType)
-                            .ThenInclude(e => e.RequestType).Include(userEndpointRequests => userEndpointRequests.User).FirstOrDefaultAsync(uer => uer.UserId == userEndpointRequest.UserId && uer.EndpointTypeId == userEndpointRequest.EndpointTypeId);
-
-                        Console.WriteLine(test.EndpointType.Name + " " + " " + test.EndpointType.RequestType.TypeName + " " + " " + test.User.UserName + " " + " " + test.NumRequests);
                     }
                 }
             }
