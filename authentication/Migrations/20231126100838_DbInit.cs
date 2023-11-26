@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace authentication.Migrations
 {
     /// <inheritdoc />
-    public partial class AuthDbInit : Migration
+    public partial class DbInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,6 +74,19 @@ namespace authentication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "RequestTypes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    TypeName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestTypes", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -188,31 +201,71 @@ namespace authentication.Migrations
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "EndpointTypes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: false),
+                    RequestTypeId = table.Column<string>(type: "varchar(255)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EndpointTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EndpointTypes_RequestTypes_RequestTypeId",
+                        column: x => x.RequestTypeId,
+                        principalTable: "RequestTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "130cf977-4460-4ec8-aa95-6ecc0c1a4d69", "130cf977-4460-4ec8-aa95-6ecc0c1a4d69", "user", "USER" },
-                    { "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "admin", "ADMIN" }
+                    { "a769734b-b3aa-4f5e-8f48-b1ef59c859c6", "a769734b-b3aa-4f5e-8f48-b1ef59c859c6", "user", "USER" },
+                    { "c1d80fb6-f983-46fe-9155-96522df7b902", "c1d80fb6-f983-46fe-9155-96522df7b902", "admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "0a616edb-e535-4016-80dc-39e10cc4da6f", 0, "59bcdc14-e4ad-4507-b93a-5314b594d597", "mrandhawa40@my.bcit.ca", false, false, null, "Administrator", "MRANDHAWA40@MY.BCIT.CA", "ADMIN", "AQAAAAIAAYagAAAAEB6taWjGWwdDRiWoY6kBgA9mRpz9blQtvRZB46+GiSjSs3TvBsnpdu0O2DAoOVAumQ==", null, false, "b78b2090-d251-4cfb-addf-0498783a992a", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "RequestTypes",
+                columns: new[] { "Id", "TypeName" },
                 values: new object[,]
                 {
-                    { "2e983299-dc83-44fc-9366-44bebc8242d7", 0, "e9390cdf-ef18-41ea-a2a0-9b72b5b06791", "mrandhawa40@my.bcit.ca", false, false, null, "Administrator1", "MRANDHAWA40@MY.BCIT.CA", "ADMINISTRATOR", "AQAAAAIAAYagAAAAEE3NO7vu4b0Po5s+j7bvibs9K7CPDXxp4KI6nAtjO3HHvJnvgy0ypszvVcZWBYCsKg==", null, false, "11929c2b-925a-4848-8f65-cb3000b5a081", false, "administrator" },
-                    { "a05b06a4-d29a-4c9e-8795-59cc5b5c6632", 0, "d94cd9b9-dcb6-417d-9674-4cd90c4d05d3", "msrandhawa9957@gmail.com", false, false, null, "Administrator2", "MSRANDHAWA9957@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEIb2Axjxud8JmfFzzLVHztuZCjAPrym32QRN3JlLXqKGYF16mh3miKCdATvSi/y+BQ==", null, false, "ed233a71-28e2-43e6-94f8-49264b7ee5d9", false, "admin" }
+                    { "770d1ba6-32e4-47ac-baa5-9600978d7713", "DELETE" },
+                    { "84af926a-7e04-44a8-9a40-5c6bca409b0a", "POST" },
+                    { "a8024f19-b44f-4081-a5f9-bddc0528bb32", "PATCH" },
+                    { "c1276f49-78e0-4bf6-a382-9941025411b1", "GET" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "c1d80fb6-f983-46fe-9155-96522df7b902", "0a616edb-e535-4016-80dc-39e10cc4da6f" });
+
+            migrationBuilder.InsertData(
+                table: "EndpointTypes",
+                columns: new[] { "Id", "Name", "RequestTypeId" },
                 values: new object[,]
                 {
-                    { "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "2e983299-dc83-44fc-9366-44bebc8242d7" },
-                    { "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5", "a05b06a4-d29a-4c9e-8795-59cc5b5c6632" }
+                    { "038e9c55-fa6e-4c1b-a304-9467ea74152e", "/api/v1/auth/revoke", "770d1ba6-32e4-47ac-baa5-9600978d7713" },
+                    { "1f7cf613-47d8-41f5-a758-3e4d2323db2c", "/api/v1/health", "c1276f49-78e0-4bf6-a382-9941025411b1" },
+                    { "5fe3f1dc-c504-4698-942e-3baa23ee124e", "/api/v1/auth/login", "84af926a-7e04-44a8-9a40-5c6bca409b0a" },
+                    { "6797cb12-393d-4401-bfb0-026dd6feab7d", "/api/v1/auth/resetPassword", "a8024f19-b44f-4081-a5f9-bddc0528bb32" },
+                    { "93501dc3-ba09-4977-9003-bff095b462be", "/api/v1/auth/refresh", "84af926a-7e04-44a8-9a40-5c6bca409b0a" },
+                    { "add8ce92-1f27-4f17-b581-008454999e23", "/api/v1/auth/allUserInformation", "c1276f49-78e0-4bf6-a382-9941025411b1" },
+                    { "c7135482-91ff-41d2-af53-93916a1bdfd9", "/api/v1/auth/validate", "84af926a-7e04-44a8-9a40-5c6bca409b0a" },
+                    { "eee7737b-3a82-40de-ad86-afd32062a560", "/api/v1/auth/userInformation", "c1276f49-78e0-4bf6-a382-9941025411b1" },
+                    { "fb342a86-6c3d-4c69-829f-c2f50590fb37", "/api/v1/auth/resetPassword", "c1276f49-78e0-4bf6-a382-9941025411b1" },
+                    { "fe06c2c0-2e72-4c78-ba40-03019d40ade5", "/api/v1/auth/register", "84af926a-7e04-44a8-9a40-5c6bca409b0a" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -251,6 +304,11 @@ namespace authentication.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EndpointTypes_RequestTypeId",
+                table: "EndpointTypes",
+                column: "RequestTypeId");
         }
 
         /// <inheritdoc />
@@ -272,6 +330,9 @@ namespace authentication.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "EndpointTypes");
+
+            migrationBuilder.DropTable(
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
@@ -279,6 +340,9 @@ namespace authentication.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "RequestTypes");
         }
     }
 }

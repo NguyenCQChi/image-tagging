@@ -186,11 +186,57 @@ public class UserRepository : IUserRepository
         return _mapper.Map<UserDto>(user);
     }
 
-    public async Task<List<UserDto>> GetAllUsers()
+    public async Task<List<UserEndpointInfo>> GetAllUsers()
     {
-        var users = await _userManager.Users.ToListAsync();
-        var userDtos = _mapper.Map<List<UserDto>>(users);
-        return userDtos;
+        var userEndpointInfoList = await _db.UserEndpointRequests!
+            .Include(uer => uer.User)
+            .Include(uer => uer.EndpointType)
+            .ThenInclude(et => et.RequestType)
+            .ToListAsync();
+
+        var groupedData = userEndpointInfoList
+            .GroupBy(uer => new
+            {
+                uer.UserId,
+                uer.User.UserName,
+                uer.User.Name,
+                uer.User.Email
+            })
+            .Select(group => new UserEndpointInfo
+            {
+                Id = group.Key.UserId,
+                UserName = group.Key.UserName,
+                Name = group.Key.Name,
+                Email = group.Key.Email,
+                EndpointInfo = group.ToDictionary(
+                    uer => uer.EndpointType.RequestType.TypeName + uer.EndpointType.Name,
+                    uer => uer.NumRequests),
+                RefreshToken = GetRefreshToken(group.Key.UserId),
+                ExpiresAt = GetExpiresAt(group.Key.UserId)
+            })
+            .ToList();
+
+        return groupedData;
+    }
+    
+    private string GetRefreshToken(string userId)
+    {
+        var refreshToken = _db.RefreshTokens!
+            .Where(rt => rt.UserId == userId && rt.IsValid && rt.ExpiresAt > DateTime.Now)
+            .OrderByDescending(rt => rt.ExpiresAt)
+            .FirstOrDefault();
+
+        return refreshToken?.Refresh_Token ?? string.Empty;
+    }
+    
+    private DateTime GetExpiresAt(string userId)
+    {
+        var refreshToken = _db.RefreshTokens!
+            .Where(rt => rt.UserId == userId && rt.IsValid && rt.ExpiresAt > DateTime.Now)
+            .OrderByDescending(rt => rt.ExpiresAt)
+            .FirstOrDefault();
+
+        return refreshToken?.ExpiresAt ?? DateTime.MinValue;
     }
 
     public async Task<(bool IsSuccess, List<IdentityError> ErrorMessages)> UpdatePassword(string email, ForgotPasswordDto forgotPasswordDto)
@@ -205,5 +251,66 @@ public class UserRepository : IUserRepository
     {
         var existingRefreshToken = await _db.RefreshTokens!.FirstOrDefaultAsync(u => u.Refresh_Token == tokenDto.RefreshToken);
         await MarkAllTokenInChainAsInvalid(existingRefreshToken!.UserId,existingRefreshToken.JwtTokenId);
+    }
+    
+    public async Task<ApplicationUser?> FindUser(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+        return user;
+    }
+    
+    public async Task<ApplicationUser?> FindUser(TokenDto model)
+    {
+        var existingRefreshToken = await _db.RefreshTokens!.FirstOrDefaultAsync(u => u.Refresh_Token == model.RefreshToken);
+        var user = await _userManager.FindByIdAsync(existingRefreshToken!.UserId);
+        return user;
+    }
+
+    public async Task<ApplicationUser?> FindUserByEmail(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        return user;
+    }
+
+    public async Task<EndpointType?> FindEndpointType(string endpointName, string requestName)
+    {
+        var requestType = await _db.RequestTypes!.FirstOrDefaultAsync(r =>
+            string.Equals(r.TypeName, requestName, StringComparison.CurrentCultureIgnoreCase));
+        var endpointType = await _db.EndpointTypes!.Include(e => e.RequestType).FirstOrDefaultAsync(e =>
+            string.Equals(e.Name, endpointName, StringComparison.CurrentCultureIgnoreCase) && e.RequestTypeId == requestType!.Id);
+        return endpointType;
+    }
+
+    public async Task<List<EndpointRequestCountInfo>> GetTotalRequestsPerEndpoint()
+    {
+        var result = _db.UserEndpointRequests
+            .Include(uer => uer.EndpointType)
+            .ThenInclude(et => et.RequestType)
+            .GroupBy(uer => new
+            {
+                TypeName = uer.EndpointType.RequestType.TypeName,
+                EndpointName = uer.EndpointType.Name
+            })
+            .Select(group => new EndpointRequestCountInfo
+            {
+                TypeName = group.Key.TypeName,
+                EndpointName = group.Key.EndpointName,
+                TotalRequests = group.Sum(uer => uer.NumRequests)
+            })
+            .ToList();
+        return result;
+    }
+
+    public async Task<List<EndpointTypesDto>> GetAllEndpoints()
+    {
+        var result = _db.EndpointTypes!
+            .Include(et => et.RequestType)
+            .Select(et => new EndpointTypesDto
+            {
+                Name = et.Name,
+                RequestTypeName = et.RequestType.TypeName
+            })
+            .ToList();
+        return result;
     }
 }

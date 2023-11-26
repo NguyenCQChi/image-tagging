@@ -3,6 +3,7 @@ using Asp.Versioning;
 using authentication;
 using authentication.Data;
 using authentication.Filters;
+using authentication.Middleware;
 using authentication.Models;
 using authentication.Repository;
 using authentication.Repository.IRepository;
@@ -141,6 +142,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<UpdateNumRequests>();
 
 ApplyMigration();
 Console.WriteLine("I am running");

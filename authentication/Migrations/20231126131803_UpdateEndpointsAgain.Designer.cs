@@ -11,8 +11,8 @@ using authentication.Data;
 namespace authentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231121074157_AuthDbInit")]
-    partial class AuthDbInit
+    [Migration("20231126131803_UpdateEndpointsAgain")]
+    partial class UpdateEndpointsAgain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,15 +50,15 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5",
-                            ConcurrencyStamp = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5",
+                            Id = "c8e4df93-49b8-4de2-88a6-79143c0d1d2b",
+                            ConcurrencyStamp = "c8e4df93-49b8-4de2-88a6-79143c0d1d2b",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "130cf977-4460-4ec8-aa95-6ecc0c1a4d69",
-                            ConcurrencyStamp = "130cf977-4460-4ec8-aa95-6ecc0c1a4d69",
+                            Id = "2729a057-76ed-4fbb-b6fb-4d969413d4da",
+                            ConcurrencyStamp = "2729a057-76ed-4fbb-b6fb-4d969413d4da",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -149,13 +149,8 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "2e983299-dc83-44fc-9366-44bebc8242d7",
-                            RoleId = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5"
-                        },
-                        new
-                        {
-                            UserId = "a05b06a4-d29a-4c9e-8795-59cc5b5c6632",
-                            RoleId = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5"
+                            UserId = "1c65c000-5889-4f93-bfac-d7b1c38ff884",
+                            RoleId = "c8e4df93-49b8-4de2-88a6-79143c0d1d2b"
                         });
                 });
 
@@ -249,37 +244,97 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2e983299-dc83-44fc-9366-44bebc8242d7",
+                            Id = "1c65c000-5889-4f93-bfac-d7b1c38ff884",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e9390cdf-ef18-41ea-a2a0-9b72b5b06791",
+                            ConcurrencyStamp = "f488e234-b595-4352-a37e-dddef9ec0620",
                             Email = "mrandhawa40@my.bcit.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            Name = "Administrator1",
+                            Name = "Administrator",
                             NormalizedEmail = "MRANDHAWA40@MY.BCIT.CA",
-                            NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE3NO7vu4b0Po5s+j7bvibs9K7CPDXxp4KI6nAtjO3HHvJnvgy0ypszvVcZWBYCsKg==",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAPXeWWTxtBmgxBJkKzbABHbdZndPrCqDYzDpeF/qBF/S0ywR4KeWW2tyiRhbTcutg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "11929c2b-925a-4848-8f65-cb3000b5a081",
+                            SecurityStamp = "9341bd56-2d13-4f7c-92bc-a0f1b2e3a79a",
                             TwoFactorEnabled = false,
-                            UserName = "administrator"
+                            UserName = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("authentication.Models.EndpointType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
+
+                    b.Property<string>("RequestTypeId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestTypeId");
+
+                    b.ToTable("EndpointTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "82af8cc2-0e93-4697-9313-5f37296d25c0",
+                            Name = "/api/v1/auth/register",
+                            RequestTypeId = "82436233-33ed-44c7-bb4b-7b0def0003d5"
                         },
                         new
                         {
-                            Id = "a05b06a4-d29a-4c9e-8795-59cc5b5c6632",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d94cd9b9-dcb6-417d-9674-4cd90c4d05d3",
-                            Email = "msrandhawa9957@gmail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            Name = "Administrator2",
-                            NormalizedEmail = "MSRANDHAWA9957@GMAIL.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIb2Axjxud8JmfFzzLVHztuZCjAPrym32QRN3JlLXqKGYF16mh3miKCdATvSi/y+BQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "ed233a71-28e2-43e6-94f8-49264b7ee5d9",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
+                            Id = "22b366cb-6f12-4b88-997d-0dcfde08d7e0",
+                            Name = "/api/v1/auth/login",
+                            RequestTypeId = "82436233-33ed-44c7-bb4b-7b0def0003d5"
+                        },
+                        new
+                        {
+                            Id = "5378afd6-3ddb-460b-8472-ef07d7edfd29",
+                            Name = "/api/v1/auth/validate",
+                            RequestTypeId = "82436233-33ed-44c7-bb4b-7b0def0003d5"
+                        },
+                        new
+                        {
+                            Id = "d26b3d88-52e6-4b03-b468-9c4652830b70",
+                            Name = "/api/v1/auth/refresh",
+                            RequestTypeId = "82436233-33ed-44c7-bb4b-7b0def0003d5"
+                        },
+                        new
+                        {
+                            Id = "b8784d76-f165-4105-a17f-2e0872f4807b",
+                            Name = "/api/v1/auth/revoke",
+                            RequestTypeId = "2799d7b9-d64c-41f9-bc1e-d0aaf60b3760"
+                        },
+                        new
+                        {
+                            Id = "afd02a2f-5696-4c86-ac64-e39f3a984a20",
+                            Name = "/api/v1/auth/resetPassword/",
+                            RequestTypeId = "72738927-5ee0-4619-b46a-6d5957586cdd"
+                        },
+                        new
+                        {
+                            Id = "5019a9d9-0a76-4751-92f3-19ea4a4aeccf",
+                            Name = "/api/v1/auth/resetPassword",
+                            RequestTypeId = "6349b64e-7a2a-4a6f-bed1-598615d139d9"
+                        },
+                        new
+                        {
+                            Id = "2174f21b-4aec-475f-8667-5d9d79939214",
+                            Name = "/api/v1/auth/userInformation/",
+                            RequestTypeId = "72738927-5ee0-4619-b46a-6d5957586cdd"
+                        },
+                        new
+                        {
+                            Id = "cd237df8-3fa6-40e4-8ce9-df86c8eda798",
+                            Name = "/api/v1/auth/allUserInformation",
+                            RequestTypeId = "72738927-5ee0-4619-b46a-6d5957586cdd"
                         });
                 });
 
@@ -310,6 +365,63 @@ namespace authentication.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("authentication.Models.RequestType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequestTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "72738927-5ee0-4619-b46a-6d5957586cdd",
+                            TypeName = "GET"
+                        },
+                        new
+                        {
+                            Id = "82436233-33ed-44c7-bb4b-7b0def0003d5",
+                            TypeName = "POST"
+                        },
+                        new
+                        {
+                            Id = "6349b64e-7a2a-4a6f-bed1-598615d139d9",
+                            TypeName = "PATCH"
+                        },
+                        new
+                        {
+                            Id = "2799d7b9-d64c-41f9-bc1e-d0aaf60b3760",
+                            TypeName = "DELETE"
+                        });
+                });
+
+            modelBuilder.Entity("authentication.Models.UserEndpointRequests", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("EndpointTypeId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("NumRequests")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "EndpointTypeId");
+
+                    b.HasIndex("EndpointTypeId");
+
+                    b.ToTable("UserEndpointRequests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -361,6 +473,36 @@ namespace authentication.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("authentication.Models.EndpointType", b =>
+                {
+                    b.HasOne("authentication.Models.RequestType", "RequestType")
+                        .WithMany()
+                        .HasForeignKey("RequestTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RequestType");
+                });
+
+            modelBuilder.Entity("authentication.Models.UserEndpointRequests", b =>
+                {
+                    b.HasOne("authentication.Models.EndpointType", "EndpointType")
+                        .WithMany()
+                        .HasForeignKey("EndpointTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("authentication.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EndpointType");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

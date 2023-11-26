@@ -53,6 +53,17 @@ public class UsersController : ControllerBase
         await _userRepository.Register(model);
         _response.StatusCode = HttpStatusCode.Created;
         _response.IsSuccess = true;
+        try
+        {
+            var user = await _userRepository.FindUser(model.UserName);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
+        
         return StatusCode((int)HttpStatusCode.Created, _response);
     }
     
@@ -84,7 +95,16 @@ public class UsersController : ControllerBase
             SameSite = SameSiteMode.None, 
             Secure = _secureCookies
         });
-        
+        try
+        {
+            var user = await _userRepository.FindUser(model.UserName);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
         return Ok(_response);
     }
     
@@ -99,12 +119,22 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
     [Produces("application/json")]
-    public Task<IActionResult> ValidateTokens([FromBody] TokenDto model)
+    public async Task<IActionResult> ValidateTokens([FromBody] TokenDto model)
     {
         _response.StatusCode = HttpStatusCode.OK;
         _response.IsSuccess = true;
         _response.Result = "Authentication Successful!";
-        return Task.FromResult<IActionResult>(Ok(_response));
+        try
+        {
+            var user = await _userRepository.FindUser(model);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
+        return Ok(_response);
     }
     
     [HttpPost("refresh")]
@@ -133,10 +163,20 @@ public class UsersController : ControllerBase
             SameSite = SameSiteMode.None, 
             Secure = _secureCookies
         });
+        try
+        {
+            var user = await _userRepository.FindUser(model);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
         return StatusCode((int)HttpStatusCode.Created, _response);
     }
     
-    [HttpPost("revoke")]
+    [HttpDelete("revoke")]
     [ServiceFilter(typeof(ValidateRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(AccessTokenValidationFilterAttribute))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
@@ -164,8 +204,17 @@ public class UsersController : ControllerBase
                 SameSite = SameSiteMode.None, 
                 Secure = _secureCookies
             });
+            try
+            {
+                var user = await _userRepository.FindUser(model);
+                var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+                HttpContext.Items["user"] = user;
+                HttpContext.Items["endpointType"] = endpointType;
+            } catch (Exception e)
+            {
+                // ignored
+            }
             return Ok(_response);
-                
         }
         _response.IsSuccess = false;
         _response.Result = "Invalid Input";
@@ -182,6 +231,16 @@ public class UsersController : ControllerBase
             SameSite = SameSiteMode.None, 
             Secure = _secureCookies
         });
+        try
+        {
+            var user = await _userRepository.FindUser(model);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
         return BadRequest(_response);
     }
 
@@ -193,7 +252,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ApiResponse))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ApiResponse))]
     [Produces("application/json")]
-    public IActionResult ForgotPassword([FromQuery] string email)
+    public async Task<IActionResult> ForgotPassword([FromQuery] string email)
     {
         var token = _userRepository.GetResetToken(email);
         var configuration = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
@@ -217,6 +276,16 @@ public class UsersController : ControllerBase
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
             _response.Result = "Email sent.";
+            try
+            {
+                var user = await _userRepository.FindUserByEmail(email);
+                var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+                HttpContext.Items["user"] = user;
+                HttpContext.Items["endpointType"] = endpointType;
+            } catch (Exception e)
+            {
+                // ignored
+            }
             return Ok(_response);
         }
         else
@@ -224,6 +293,16 @@ public class UsersController : ControllerBase
             _response.IsSuccess = false;
             _response.StatusCode = HttpStatusCode.InternalServerError;
             _response.ErrorMessages = (List<string>)response.ErrorMessages;
+            try
+            {
+                var user = await _userRepository.FindUserByEmail(email);
+                var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+                HttpContext.Items["user"] = user;
+                HttpContext.Items["endpointType"] = endpointType;
+            } catch (Exception e)
+            {
+                // ignored
+            }
             return StatusCode((int)HttpStatusCode.InternalServerError, _response);
         }
     }
@@ -246,6 +325,16 @@ public class UsersController : ControllerBase
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
             _response.Result = "Password Updated Successfully";
+            try
+            {
+                var user = await _userRepository.FindUserByEmail(email);
+                var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+                HttpContext.Items["user"] = user;
+                HttpContext.Items["endpointType"] = endpointType;
+            } catch (Exception e)
+            {
+                // ignored
+            }
             return Ok(_response);
         }
         else
@@ -253,6 +342,16 @@ public class UsersController : ControllerBase
             _response.IsSuccess = false;
             _response.StatusCode = HttpStatusCode.InternalServerError;
             _response.ErrorMessages.AddRange(result.ErrorMessages.Select(error => error.Description));
+            try
+            {
+                var user = await _userRepository.FindUserByEmail(email);
+                var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+                HttpContext.Items["user"] = user;
+                HttpContext.Items["endpointType"] = endpointType;
+            } catch (Exception e)
+            {
+                // ignored
+            }
             return StatusCode((int)HttpStatusCode.InternalServerError, _response);
         }
     }
@@ -276,6 +375,25 @@ public class UsersController : ControllerBase
         _response.IsSuccess = true;
         _response.StatusCode = HttpStatusCode.OK;
         _response.Result = userInfo;
+        try
+        {
+            Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues);
+            Request.Headers.TryGetValue("X-Refresh-Token", out var refreshHeaderValues);
+            var authorizationHeaderValue = authorizationHeaderValues.FirstOrDefault()?.Replace("Bearer", "").Trim();
+            var refreshHeaderValue = refreshHeaderValues.FirstOrDefault()?.Trim();
+            var model = new TokenDto
+            {
+                AccessToken = authorizationHeaderValue,
+                RefreshToken = refreshHeaderValue!
+            };
+            var user = await _userRepository.FindUser(model);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
         return Ok(_response);
     }
 
@@ -293,11 +411,109 @@ public class UsersController : ControllerBase
     [Produces("application/json")]
     public async Task<IActionResult> GetAllUserInformation()
     {
-        var usersInfo = await _userRepository.GetAllUsers();
+        var userEndpointInfo = await _userRepository.GetAllUsers();
         _response.IsSuccess = true;
         _response.StatusCode = HttpStatusCode.OK;
-        _response.Result = usersInfo;
+        _response.Result = userEndpointInfo;
+        try
+        {
+            Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues);
+            Request.Headers.TryGetValue("X-Refresh-Token", out var refreshHeaderValues);
+            var authorizationHeaderValue = authorizationHeaderValues.FirstOrDefault()?.Replace("Bearer", "").Trim();
+            var refreshHeaderValue = refreshHeaderValues.FirstOrDefault()?.Trim();
+            var model = new TokenDto
+            {
+                AccessToken = authorizationHeaderValue,
+                RefreshToken = refreshHeaderValue!
+            };
+            var user = await _userRepository.FindUser(model);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
         return Ok(_response);
     }
     
+    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+                                    "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
+    [HttpGet("totalRequestsPerEndpoint")]
+    [Authorize(Roles = "admin")]
+    [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
+    [ServiceFilter(typeof(HeaderRefreshTokenFilterAttribute))]
+    [ServiceFilter(typeof(HeaderAccessTokenFilterAttribute))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
+    public async Task<IActionResult> GetTotalRequestsPerEndpoint()
+    {
+        var requestsPerEndpoint = await _userRepository.GetTotalRequestsPerEndpoint();
+        _response.IsSuccess = true;
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = requestsPerEndpoint;
+        try
+        {
+            Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues);
+            Request.Headers.TryGetValue("X-Refresh-Token", out var refreshHeaderValues);
+            var authorizationHeaderValue = authorizationHeaderValues.FirstOrDefault()?.Replace("Bearer", "").Trim();
+            var refreshHeaderValue = refreshHeaderValues.FirstOrDefault()?.Trim();
+            var model = new TokenDto
+            {
+                AccessToken = authorizationHeaderValue,
+                RefreshToken = refreshHeaderValue!
+            };
+            var user = await _userRepository.FindUser(model);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
+        return Ok(_response);
+    }
+    
+    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+                                    "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
+    [HttpGet("getAllEndpoints")]
+    [Authorize(Roles = "admin")]
+    [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
+    [ServiceFilter(typeof(HeaderRefreshTokenFilterAttribute))]
+    [ServiceFilter(typeof(HeaderAccessTokenFilterAttribute))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status417ExpectationFailed, Type = typeof(ApiResponse))]
+    [Produces("application/json")]
+    public async Task<IActionResult> GetAllEndpoints()
+    {
+        var endpoints = await _userRepository.GetAllEndpoints();
+        _response.IsSuccess = true;
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Result = endpoints;
+        try
+        {
+            Request.Headers.TryGetValue("Authorization", out var authorizationHeaderValues);
+            Request.Headers.TryGetValue("X-Refresh-Token", out var refreshHeaderValues);
+            var authorizationHeaderValue = authorizationHeaderValues.FirstOrDefault()?.Replace("Bearer", "").Trim();
+            var refreshHeaderValue = refreshHeaderValues.FirstOrDefault()?.Trim();
+            var model = new TokenDto
+            {
+                AccessToken = authorizationHeaderValue,
+                RefreshToken = refreshHeaderValue!
+            };
+            var user = await _userRepository.FindUser(model);
+            var endpointType = await _userRepository.FindEndpointType(Request.Path, Request.Method);
+            HttpContext.Items["user"] = user;
+            HttpContext.Items["endpointType"] = endpointType;
+        } catch (Exception e)
+        {
+            // ignored
+        }
+        return Ok(_response);
+    }
 }
