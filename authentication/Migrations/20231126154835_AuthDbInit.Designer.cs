@@ -11,7 +11,7 @@ using authentication.Data;
 namespace authentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231121074157_AuthDbInit")]
+    [Migration("20231126154835_AuthDbInit")]
     partial class AuthDbInit
     {
         /// <inheritdoc />
@@ -50,15 +50,15 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5",
-                            ConcurrencyStamp = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5",
+                            Id = "51195341-fb4b-4bac-8d00-fb4344f21457",
+                            ConcurrencyStamp = "51195341-fb4b-4bac-8d00-fb4344f21457",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "130cf977-4460-4ec8-aa95-6ecc0c1a4d69",
-                            ConcurrencyStamp = "130cf977-4460-4ec8-aa95-6ecc0c1a4d69",
+                            Id = "ef5ce7b5-5bd6-4a02-91c2-da77d46212b7",
+                            ConcurrencyStamp = "ef5ce7b5-5bd6-4a02-91c2-da77d46212b7",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -149,13 +149,13 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "2e983299-dc83-44fc-9366-44bebc8242d7",
-                            RoleId = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5"
+                            UserId = "dd2e984f-b0cb-429c-a29f-4447bea60313",
+                            RoleId = "51195341-fb4b-4bac-8d00-fb4344f21457"
                         },
                         new
                         {
-                            UserId = "a05b06a4-d29a-4c9e-8795-59cc5b5c6632",
-                            RoleId = "e85cf4cc-e225-4875-ab02-7cedbbd0b9a5"
+                            UserId = "d735c694-0157-497a-8fa3-97379db3327b",
+                            RoleId = "51195341-fb4b-4bac-8d00-fb4344f21457"
                         });
                 });
 
@@ -249,37 +249,126 @@ namespace authentication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2e983299-dc83-44fc-9366-44bebc8242d7",
+                            Id = "dd2e984f-b0cb-429c-a29f-4447bea60313",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e9390cdf-ef18-41ea-a2a0-9b72b5b06791",
+                            ConcurrencyStamp = "9e0b9123-7b43-4f18-9e31-d5c7c38ea432",
                             Email = "mrandhawa40@my.bcit.ca",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Administrator1",
                             NormalizedEmail = "MRANDHAWA40@MY.BCIT.CA",
                             NormalizedUserName = "ADMINISTRATOR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE3NO7vu4b0Po5s+j7bvibs9K7CPDXxp4KI6nAtjO3HHvJnvgy0ypszvVcZWBYCsKg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP1OICAv7Zf2m6Y/N7aOTcmaP2Fh6qloX8oUTWgA5npKY9TYW9CtVhJUVkDvdi6AaA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "11929c2b-925a-4848-8f65-cb3000b5a081",
+                            SecurityStamp = "9a552715-907a-4343-8105-2c345193a568",
                             TwoFactorEnabled = false,
                             UserName = "administrator"
                         },
                         new
                         {
-                            Id = "a05b06a4-d29a-4c9e-8795-59cc5b5c6632",
+                            Id = "d735c694-0157-497a-8fa3-97379db3327b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d94cd9b9-dcb6-417d-9674-4cd90c4d05d3",
+                            ConcurrencyStamp = "c039999c-6a21-4661-a77e-e58cff3f672e",
                             Email = "msrandhawa9957@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "Administrator2",
                             NormalizedEmail = "MSRANDHAWA9957@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIb2Axjxud8JmfFzzLVHztuZCjAPrym32QRN3JlLXqKGYF16mh3miKCdATvSi/y+BQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC6xARXAJMz1wWK7D/ZaBeYy569EcUg32slWRwnhlJMGAMoqExFFX+19Tk+bpGY3hw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ed233a71-28e2-43e6-94f8-49264b7ee5d9",
+                            SecurityStamp = "c0dea1ce-c990-4a1b-81e3-b3c39fa27222",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("authentication.Models.EndpointType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
+
+                    b.Property<string>("RequestTypeId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestTypeId");
+
+                    b.ToTable("EndpointTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "e24c5736-c7c0-4108-a027-f97041657b08",
+                            Name = "/api/v1/auth/register",
+                            RequestTypeId = "af2bf8c2-ea5f-4919-a881-4f74f33c3aa5"
+                        },
+                        new
+                        {
+                            Id = "a03bebbb-76f3-4008-bc3a-db02e53ceeaf",
+                            Name = "/api/v1/auth/login",
+                            RequestTypeId = "af2bf8c2-ea5f-4919-a881-4f74f33c3aa5"
+                        },
+                        new
+                        {
+                            Id = "ec0817c9-45e8-4799-8963-33f54175567e",
+                            Name = "/api/v1/auth/validate",
+                            RequestTypeId = "af2bf8c2-ea5f-4919-a881-4f74f33c3aa5"
+                        },
+                        new
+                        {
+                            Id = "3f1e4290-41dc-4963-919d-920abd01c96b",
+                            Name = "/api/v1/auth/refresh",
+                            RequestTypeId = "af2bf8c2-ea5f-4919-a881-4f74f33c3aa5"
+                        },
+                        new
+                        {
+                            Id = "f9966c44-80a1-46b1-9e7f-4f62332fd236",
+                            Name = "/api/v1/auth/revoke",
+                            RequestTypeId = "ffdf900b-41ed-44d5-88a3-102faa54d271"
+                        },
+                        new
+                        {
+                            Id = "015f4462-a379-431a-b247-5fe641897d12",
+                            Name = "/api/v1/auth/resetPassword/",
+                            RequestTypeId = "69dac565-6de3-4fa0-9bd3-6dd45c63c5ce"
+                        },
+                        new
+                        {
+                            Id = "fdbd0e32-6c94-47f3-9772-ecdb19836e7f",
+                            Name = "/api/v1/auth/resetPassword",
+                            RequestTypeId = "c0e2e158-99c0-4217-ad08-a48f7fc5a3fd"
+                        },
+                        new
+                        {
+                            Id = "256e011c-1f93-45dd-b0cc-8a99513da9e4",
+                            Name = "/api/v1/auth/userInformation/",
+                            RequestTypeId = "69dac565-6de3-4fa0-9bd3-6dd45c63c5ce"
+                        },
+                        new
+                        {
+                            Id = "ba0aa831-81cc-414c-b26c-71b70d346141",
+                            Name = "/api/v1/auth/allUserInformation",
+                            RequestTypeId = "69dac565-6de3-4fa0-9bd3-6dd45c63c5ce"
+                        },
+                        new
+                        {
+                            Id = "5fc6de60-e5c0-4e40-b145-27f2a2458453",
+                            Name = "/api/v1/auth/totalRequestsPerEndpoint",
+                            RequestTypeId = "69dac565-6de3-4fa0-9bd3-6dd45c63c5ce"
+                        },
+                        new
+                        {
+                            Id = "8d54220d-e4fa-4746-8537-961132d7d7e2",
+                            Name = "/api/v1/auth/getAllEndpoints",
+                            RequestTypeId = "69dac565-6de3-4fa0-9bd3-6dd45c63c5ce"
                         });
                 });
 
@@ -310,6 +399,63 @@ namespace authentication.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("authentication.Models.RequestType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequestTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "69dac565-6de3-4fa0-9bd3-6dd45c63c5ce",
+                            TypeName = "GET"
+                        },
+                        new
+                        {
+                            Id = "af2bf8c2-ea5f-4919-a881-4f74f33c3aa5",
+                            TypeName = "POST"
+                        },
+                        new
+                        {
+                            Id = "c0e2e158-99c0-4217-ad08-a48f7fc5a3fd",
+                            TypeName = "PATCH"
+                        },
+                        new
+                        {
+                            Id = "ffdf900b-41ed-44d5-88a3-102faa54d271",
+                            TypeName = "DELETE"
+                        });
+                });
+
+            modelBuilder.Entity("authentication.Models.UserEndpointRequests", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("EndpointTypeId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("NumRequests")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "EndpointTypeId");
+
+                    b.HasIndex("EndpointTypeId");
+
+                    b.ToTable("UserEndpointRequests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -361,6 +507,36 @@ namespace authentication.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("authentication.Models.EndpointType", b =>
+                {
+                    b.HasOne("authentication.Models.RequestType", "RequestType")
+                        .WithMany()
+                        .HasForeignKey("RequestTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RequestType");
+                });
+
+            modelBuilder.Entity("authentication.Models.UserEndpointRequests", b =>
+                {
+                    b.HasOne("authentication.Models.EndpointType", "EndpointType")
+                        .WithMany()
+                        .HasForeignKey("EndpointTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("authentication.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EndpointType");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

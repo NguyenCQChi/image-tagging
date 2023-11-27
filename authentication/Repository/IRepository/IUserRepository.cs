@@ -34,7 +34,18 @@ public interface IUserRepository
     Task<(bool IsSuccess, List<IdentityError> ErrorMessages)> UpdatePassword(string email, ForgotPasswordDto forgotPasswordDto);
 
     Task<UserDto> GetUserInformation(string userName);
+    
+    Task<List<EndpointRequestCountInfo>> GetTotalRequestsPerEndpoint();
 
-    Task<List<UserDto>> GetAllUsers();
+    Task<List<UserEndpointInfo>> GetAllUsers();
+    
+    Task<List<EndpointTypesDto>> GetAllEndpoints();
 
+    Task<ApplicationUser?> FindUser(string userName);
+
+    Task<ApplicationUser?> FindUser(TokenDto model);
+    
+    Task<ApplicationUser?> FindUserByEmail(string email);
+
+    Task<EndpointType?> FindEndpointType(string endpointName, string requestName);
 }
