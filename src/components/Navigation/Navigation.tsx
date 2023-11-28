@@ -12,7 +12,7 @@ import {
     API_AUTH_SERVER,
 } from '@constants/strings';
 
-const Navigation = () => {
+const Navigation = ({ admin } : { admin? : boolean }) => {
     const router = useRouter();
     const theme = useTheme()
     const [ isScrolled, setIsScrolled ] = useState(false)
@@ -24,7 +24,7 @@ const Navigation = () => {
         zIndex: 100,
         position: 'sticky',
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: admin ? 'end' : 'space-between',
         alignItems: 'center',
         top: 0,
         transition: 'background-color 0.5s ease'
@@ -80,7 +80,7 @@ const Navigation = () => {
 
     return (
         <Box sx={container}>
-            <div>Navigation</div>
+            {!admin && (<div>Navigation</div>)}
             <motion.div
                 className='box'
                 whileHover={{scale:1.05}}
