@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
@@ -10,12 +10,15 @@ import {
     API_AUTH_REFRESH_TOKEN,
     API_AUTH_REVOKE,
     API_AUTH_SERVER,
-} from '@constants/strings';
+} from '@src/constants/strings';
+import { string_object } from '@src/constants/hardcoded_string';
+import { LoginContext } from '@contexts/LoginContext';
 
 const Navigation = ({ admin } : { admin? : boolean }) => {
     const router = useRouter();
     const theme = useTheme()
     const [ isScrolled, setIsScrolled ] = useState(false)
+    const { isImageCaption, setIsImageCaption, setSignoutFail } = useContext(LoginContext)
 
     const container = {
         padding: '15px 35px',
@@ -42,9 +45,22 @@ const Navigation = ({ admin } : { admin? : boolean }) => {
         }
     }))
 
+    const CustomButtonNav = styled(Button)(({theme}) => ({
+        border: 'none',
+        backgroundColor: 'transparent',
+        fontFamily: 'Times New Roman, serif',
+        fontSize: '16px',
+        color: 'white',
+        margin: '3px',
+        cursor: 'pointer',
+        ':hover': {
+          color: `${theme.palette.primary.dark}`,
+          transition: '0.3s ease-in-out',
+        }
+      }))
+
     const signOut = (e) => {
-        // TO-DO: add more functionality to sign out if needed
-        console.log("Signing out");
+        // TO-DO: display front end with sign out error
         const accessToken = localStorage.getItem(API_AUTH_ACCESS_TOKEN);
         const refreshToken = localStorage.getItem(API_AUTH_REFRESH_TOKEN);
         const post_body = {
@@ -54,10 +70,11 @@ const Navigation = ({ admin } : { admin? : boolean }) => {
         const response = api.post(`${API_AUTH_SERVER}${API_AUTH_REVOKE}`, post_body)
         response.then(
             () => {
-                console.log("Signed out successfully")
+                console.log(string_object.SIGN_OUT_SUCCESS)
             },
             () => {
-                console.log("Error when trying to log out")
+                console.log(string_object.SIGN_OUT_FAIL)
+                setSignoutFail(true)
             }
         )
         localStorage.removeItem(API_AUTH_REFRESH_TOKEN);
@@ -70,6 +87,10 @@ const Navigation = ({ admin } : { admin? : boolean }) => {
         setIsScrolled(window.scrollY > 150);
     }
 
+    const handleClick = () => {
+        setIsImageCaption(!isImageCaption)
+    }
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
 
@@ -80,7 +101,11 @@ const Navigation = ({ admin } : { admin? : boolean }) => {
 
     return (
         <Box sx={container}>
-            {!admin && (<div>Navigation</div>)}
+            {!admin && (
+                <CustomButtonNav onClick={handleClick}>
+                    {isImageCaption ? "History" : "Home"}
+                </CustomButtonNav>
+            )}
             <motion.div
                 className='box'
                 whileHover={{scale:1.05}}

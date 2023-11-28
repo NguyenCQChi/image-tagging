@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Navigation } from "@components";
-import { Box, Table } from '@mui/material';
+import { Box } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
-import { API_AUTH_GET_USERS, API_AUTH_SERVER, users } from '@constants/strings';
+import { API_AUTH_GET_USERS, API_AUTH_SERVER } from '@src/constants/strings';
 import { api } from '@src/utils/api';
 import { UserTable } from './components';
 import dynamic from 'next/dynamic';
-
-// const UserTable = dynamic(() => import('./components'))
-
-// {
-//   "id": "2005d64f-efeb-4bcb-988e-8854a3af08fb",
-//   "userName": "manjot",
-//   "name": "manjot",
-//   "email": "manjotsinghrandhawa.beprod16@pec.edu.in"
-// },
 
 const Admin = () => {
   const theme = useTheme();
@@ -42,14 +33,13 @@ const Admin = () => {
   }
 
   useEffect(() => {
-    setUserList(users.result)
     const server_url = `${API_AUTH_SERVER}${API_AUTH_GET_USERS}`
 
     const apiResponse = api.get(server_url);
 
     apiResponse.then((response) => {
       console.log(response)
-    })
+    }, (res) => console.log(res))
   }, [])
 
   return (
