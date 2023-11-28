@@ -15,7 +15,7 @@ export const API_AUTH_GET_USERS = "/api/v1/auth/allUserInformation"
 export const API_AUTH_ACCESS_TOKEN = "accessToken"
 export const API_AUTH_REFRESH_TOKEN = "refreshToken"
 
-export const API_IMAGE_SERVER = "https://simarcodes.com/COMP4537/projects/image-caption"
+export const API_IMAGE_SERVER = "https://simarcodes.com/COMP4537/projects/image-caption/api/v1"
 export const API_IMAGE_GET_CAPTION = "/get-caption"
 export const API_GET_ENTRIES = "/get-entries"
 export const API_USER_STAT = "/user-stats"
