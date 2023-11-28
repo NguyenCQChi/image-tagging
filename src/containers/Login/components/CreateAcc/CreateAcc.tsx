@@ -11,7 +11,8 @@ import {
     API_AUTH_SERVER,
     ROLE_USER,
     ROLE_ADMIN,
-} from '@constants/strings';
+} from '@src/constants/strings';
+import { string_object } from '@src/constants/hardcoded_string';
 import { LoginContext } from '@src/contexts/LoginContext';
 
 const CreateAcc = () => {
@@ -22,10 +23,10 @@ const CreateAcc = () => {
     const passwordReg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
 
     const validationSchema = Yup.object({
-        name: Yup.string().required('Name is required').min(1, 'Name is required'),
-        userName: Yup.string().required('User name is required').min(1, 'User name is required'),
-        email: Yup.string().required('Email is required').matches(mailReg, 'Email address is not valid'),
-        password: Yup.string().required('Password is required').min(6, 'Password should be of minimum 6 characters length').matches(passwordReg, 'Password should contain at least 1 uppercase, 1 lowercase, 1 digit and 1 special character')
+        name: Yup.string().required(string_object.VALIDATION.NAME).min(1, string_object.VALIDATION.NAME),
+        userName: Yup.string().required(string_object.VALIDATION.USER_NAME).min(1, string_object.VALIDATION.USER_NAME),
+        email: Yup.string().required(string_object.VALIDATION.EMAIL_REQUIRED).matches(mailReg, string_object.VALIDATION.EMAIL_VALID),
+        password: Yup.string().required(string_object.VALIDATION.PASSWORD_REQUIRED).min(6, string_object.VALIDATION.PASSWORD_LENGTH).matches(passwordReg, string_object.VALIDATION.PASSWORD_CHECK)
     })
 
     const initialValue = {

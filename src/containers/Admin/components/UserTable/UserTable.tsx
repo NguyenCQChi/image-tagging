@@ -18,6 +18,7 @@ import { KeyboardArrowDown, KeyboardArrowUp, KeyboardArrowLeft, KeyboardArrowRig
 import { UserType } from '@src/types/users.type';
 import { StatType } from '@src/types/stats.type';
 import { useTheme } from '@mui/material/styles';
+import { string_object } from '@src/constants/hardcoded_string';
 import dynamic from 'next/dynamic';
 
 const createData = (row: any) : UserType => {
@@ -80,7 +81,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
   }
 
   return (
-<Box sx={{ flexShrink: 0, ml: 2.5 }}>
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
@@ -146,14 +147,14 @@ const Row = ({ row } : { row: UserType}) => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{margin: 1}}>
               <Typography variant="h6" gutterBottom component="div">
-                User API Consumption
+                {string_object.ADMIN_COLLAPSE_TABLE_HEADER}
               </Typography>
               <Table size="small" aria-label="purchase">
                 <TableHead>
                   <TableRow sx={{background: `${theme.palette.secondary.light}`}}>
-                    <TableCell>Method</TableCell>
-                    <TableCell>Endpoint</TableCell>
-                    <TableCell>Requests</TableCell>
+                    <TableCell>{string_object.METHOD}</TableCell>
+                    <TableCell>{string_object.ENDPOINT}</TableCell>
+                    <TableCell>{string_object.REQUESTS}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -193,43 +194,45 @@ const UserTable = ({ users, props } : { users : any[], props? : TablePaginationA
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow sx={{background: `${theme.palette.secondary.light}`}}>
-            <TableCell/>
-            <TableCell>User Name</TableCell>
-            <TableCell align='right'>Email</TableCell>
-            <TableCell align='right'>Token</TableCell>
-            <TableCell align='right'>Total requests</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : users
-          ).map((user, index) => <Row key={index} row={user} />)}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+    <Paper sx={{width: '100%', overflow: 'hidden'}}>
+      <TableContainer sx={{maxHeight: 800}}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow sx={{background: `${theme.palette.secondary.light}`}}>
+              <TableCell/>
+              <TableCell>User Name</TableCell>
+              <TableCell align='right'>{string_object.EMAIL}</TableCell>
+              <TableCell align='right'>{string_object.TOKEN}</TableCell>
+              <TableCell align='right'>{string_object.TOTAL_REQUESTS}</TableCell>
             </TableRow>
-          )}
-        </TableBody>
-        <TableFooter sx={{width: '100%'}}>
-          <TableRow>
-            <TablePagination 
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              count={users.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : users
+            ).map((user, index) => <Row key={index} row={user} />)}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter sx={{width: '100%'}}>
+            <TableRow>
+              <TablePagination 
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                count={users.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </Paper>
   )
 }
 

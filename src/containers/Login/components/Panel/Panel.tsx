@@ -9,7 +9,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import { LoginContext } from '@contexts/LoginContext';
 import { Input } from '@components';
-import { API_AUTH_SERVER, API_AUTH_RESETPASSWORD } from '@constants/strings';
+import { API_AUTH_SERVER, API_AUTH_RESETPASSWORD } from '@src/constants/strings';
+import { string_object } from '@src/constants/hardcoded_string';
 import { api } from '@src/utils/api';
 
 const Panel = () => {
@@ -86,7 +87,7 @@ const hoverButton = {
   const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
   const validationSchema = Yup.object({
-    email: Yup.string().required('Email is required').matches(mailReg, 'Email address is not valid')
+    email: Yup.string().required(string_object.VALIDATION.EMAIL_REQUIRED).matches(mailReg, string_object.VALIDATION.EMAIL_VALID)
   })
 
   const initialValue = {
@@ -106,7 +107,6 @@ const hoverButton = {
   }
 
   const onSubmit = (value) => {
-    console.log('on submit')
     const email = value.email
     const server_url = `${API_AUTH_SERVER}${API_AUTH_RESETPASSWORD}?email=${email}`
     const apiResponse = api.get(server_url);
