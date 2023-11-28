@@ -18,7 +18,7 @@ const VerifyAuthentication = () => {
         const accessToken = localStorage.getItem(API_AUTH_ACCESS_TOKEN);
         const refreshToken = localStorage.getItem(API_AUTH_REFRESH_TOKEN);
 
-        if ( accessToken && refreshToken) {
+        if ( accessToken && refreshToken ) {
             api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
             api.defaults.headers.common["X-Auth-Refresh-Token"] = refreshToken;
 
