@@ -14,6 +14,7 @@ import {
 import { EntryType } from '@src/types/entry.type';
 import { useTheme } from '@mui/material/styles';
 import { api } from '@src/utils/api';
+import { API_IMAGE_SERVER, API_GET_ENTRIES } from '@constants/strings'
 
 
 interface Column {
@@ -73,7 +74,8 @@ const History = () => {
   };
 
   useEffect(() => {
-
+    const url = `${API_IMAGE_SERVER}${API_GET_ENTRIES}`
+    
   }, [])
 
   return (
