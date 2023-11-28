@@ -54,7 +54,7 @@ const Admin = () => {
 
   return (
     <Box sx={outterContainer}>
-      <Navigation />
+      <Navigation admin={true}/>
       <Box sx={container}>
         <h1 style={{textAlign: 'center'}}> All Users </h1>
         <Box sx={tableContainer}>
