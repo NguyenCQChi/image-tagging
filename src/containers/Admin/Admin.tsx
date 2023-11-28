@@ -34,6 +34,7 @@ const Admin = () => {
 
   useEffect(() => {
     const server_url = `${API_AUTH_SERVER}${API_AUTH_GET_USERS}`
+    console.log(server_url)
 
     const apiResponse = api.get(server_url);
 

@@ -1,5 +1,5 @@
 import { history } from '@constants/hardcoded_string'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Paper,
   Table, 
@@ -13,6 +13,8 @@ import {
 } from '@mui/material';
 import { EntryType } from '@src/types/entry.type';
 import { useTheme } from '@mui/material/styles';
+import { api } from '@src/utils/api';
+
 
 interface Column {
   id: 'UserEntryNumber' | 'ImageAddress' | 'Caption' | 'EntryTimeStamp'
@@ -69,6 +71,10 @@ const History = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <Box sx={{padding: '60px 100px'}}>
