@@ -37,8 +37,8 @@ const Admin = () => {
     const apiResponse = api.get(server_url);
 
     apiResponse.then((response) => {
-      console.log('success')
       console.log(response)
+      setUserList(response.data.result)
     }, (res) => console.log(res))
   }, [])
 
