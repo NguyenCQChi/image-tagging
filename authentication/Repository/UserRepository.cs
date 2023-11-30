@@ -222,7 +222,7 @@ public class UserRepository : IUserRepository
     private string GetRefreshToken(string userId)
     {
         var refreshToken = _db.RefreshTokens!
-            .Where(rt => rt.UserId == userId && rt.IsValid && rt.ExpiresAt > DateTime.Now)
+            .Where(rt => rt.UserId == userId)
             .OrderByDescending(rt => rt.ExpiresAt)
             .FirstOrDefault();
 
