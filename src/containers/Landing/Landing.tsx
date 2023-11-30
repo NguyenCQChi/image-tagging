@@ -141,7 +141,7 @@ const Landing = () => {
                         ) : (
                                 <div
                                     className={`${pulsing ? "pulse" : ""} loadable`}
-                                    style={{ background: "#ccc", width: '50%', height: '20rem' }}
+                                    style={{ background: "#ccc", width: '50%', height: 'auto' }}
                                 >
                                     <motion.img
                                         initial={{ height: "20rem", opacity: 0 }}

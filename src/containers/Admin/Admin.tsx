@@ -34,13 +34,12 @@ const Admin = () => {
 
   useEffect(() => {
     const server_url = `${API_AUTH_SERVER}${API_AUTH_GET_USERS}`
-    console.log('try to get api')
-    console.log(api)
-    // const apiResponse = api.get(server_url);
+    const apiResponse = api.get(server_url);
 
-    // apiResponse.then((response) => {
-    //   console.log('success')
-    // }, (res) => console.log(res))
+    apiResponse.then((response) => {
+      console.log('success')
+      console.log(response)
+    }, (res) => console.log(res))
   }, [])
 
   return (
