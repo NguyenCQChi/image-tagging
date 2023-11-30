@@ -83,7 +83,7 @@ const Landing = () => {
     }
 
     const imageLoaded = () => {
-        setSubmit(false);
+        // setSubmit(false);
         setImageLoading(false);
         setTimeout(() => setPulsing(false), 600);
     };

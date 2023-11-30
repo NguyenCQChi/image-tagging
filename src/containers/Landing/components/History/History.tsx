@@ -75,7 +75,15 @@ const History = () => {
 
   useEffect(() => {
     const url = `${API_IMAGE_SERVER}${API_GET_ENTRIES}`
-    
+    const apiResponse = api.get(url)
+
+    apiResponse.then((res) => {
+      console.log(res)
+    }, (res) => {
+      console.log(res)
+    })
+
+
   }, [])
 
   return (
