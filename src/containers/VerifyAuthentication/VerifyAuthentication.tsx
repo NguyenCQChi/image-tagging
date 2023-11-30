@@ -33,6 +33,7 @@ const VerifyAuthentication = () => {
             const response = api.post(`${API_AUTH_SERVER}${API_AUTH_VALIDATE}`, post_body);
             response.then(
                 () => {
+                    console.log("Validate account successful");
                     // Route to regular page
                     const decodedToken = decode(accessToken) as { [key: string]: any } | null;
 
@@ -46,6 +47,9 @@ const VerifyAuthentication = () => {
                     }
                 },
                 () => {
+                    console.log("Validate account failed");
+                    localStorage.removeItem(API_AUTH_REFRESH_TOKEN);
+                    localStorage.removeItem(API_AUTH_ACCESS_TOKEN);
                     // Login and reset
                     router.push('/')
                 }

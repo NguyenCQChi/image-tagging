@@ -63,11 +63,11 @@ const Navigation = ({ admin } : { admin? : boolean }) => {
         // TO-DO: display front end with sign out error
         const accessToken = localStorage.getItem(API_AUTH_ACCESS_TOKEN);
         const refreshToken = localStorage.getItem(API_AUTH_REFRESH_TOKEN);
-        const post_body = {
+        const delete_body = {
             [API_AUTH_ACCESS_TOKEN]: accessToken,
             [API_AUTH_REFRESH_TOKEN]: refreshToken,
         }
-        const response = api.post(`${API_AUTH_SERVER}${API_AUTH_REVOKE}`, post_body)
+        const response = api.delete(`${API_AUTH_SERVER}${API_AUTH_REVOKE}`, {data: delete_body});
         response.then(
             () => {
                 console.log(string_object.SIGN_OUT_SUCCESS)
