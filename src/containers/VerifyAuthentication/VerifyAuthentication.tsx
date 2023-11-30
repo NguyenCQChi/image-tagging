@@ -22,7 +22,7 @@ const VerifyAuthentication = () => {
             console.log('accessToken: ' + accessToken)
             console.log('refreshToken: ' + refreshToken)
             api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-            api.defaults.headers.common["X-Auth-Refresh-Token"] = refreshToken;
+            api.defaults.headers.common["X-Refresh-Token"] = refreshToken;
 
             const post_body = {
                 [API_AUTH_ACCESS_TOKEN]: accessToken,
