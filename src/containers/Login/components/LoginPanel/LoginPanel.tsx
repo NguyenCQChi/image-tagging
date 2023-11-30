@@ -63,7 +63,7 @@ const LoginPanel = () => {
             const decodedToken = decode(data.result.accessToken) as { [key: string]: any } | null;
 
             const userRole = decodedToken.role
-
+            router.reload()
             if (userRole == ROLE_USER) {
                 router.push('/landing')
             } else if (userRole == ROLE_ADMIN) {
