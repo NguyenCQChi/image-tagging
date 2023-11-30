@@ -62,7 +62,7 @@ const History = () => {
   const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [ entries, setEntries ] = useState(history.Entries)
+  const [ entries, setEntries ] = useState([])
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -78,7 +78,8 @@ const History = () => {
     const apiResponse = api.get(url)
 
     apiResponse.then((res) => {
-      console.log(res)
+      console.log(res.data.Entries)
+      setEntries(res.data.Entries)
     }, (res) => {
       console.log(res)
     })
