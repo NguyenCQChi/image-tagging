@@ -78,7 +78,7 @@ const History = () => {
     const apiResponse = api.get(url)
 
     apiResponse.then((res) => {
-      console.log(res.data.Entries)
+      console.log(res)
       setEntries(res.data.Entries)
     }, (res) => {
       console.log(res)
