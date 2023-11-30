@@ -26,7 +26,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'UserEntryNumber', label: 'Entry Number', minWidth: 90 },
+  { id: 'UserEntryNumber', label: '', minWidth: 90 },
   { id: 'ImageAddress', label: 'Image URL', minWidth: 100 },
   {
     id: 'Caption',
@@ -119,7 +119,7 @@ const History = () => {
                               column.format && typeof value === 'number'
                               ? column.format(value)
                               : value
-                            ) : (index)}
+                            ) : (index + 1)}
                           </TableCell>
                         );
                       })}
