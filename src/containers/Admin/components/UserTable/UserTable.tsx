@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { 
   Paper, 
   Table, 
@@ -16,23 +16,37 @@ import {
 } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp, KeyboardArrowLeft, KeyboardArrowRight, FirstPage, LastPage } from '@mui/icons-material';
 import { UserType } from '@src/types/users.type';
+import { StatType } from '@src/types/stats.type';
+import { useTheme } from '@mui/material/styles';
+import { string_object } from '@src/constants/hardcoded_string';
 import dynamic from 'next/dynamic';
 
-const createData = (
-  userName: string,
-  email: string,
-  token: string,
-  num_request: number,
-  stat_array: any
-) : UserType => {
+const createData = (row: any) : UserType => {
+  const pattern = /^(GET|POST|PUT|DELETE|PATCH)\b(.*)$/;
+  const userName = row.userName
+  const email = row.email
+  const refreshToken = row.refreshToken
+  let totalRequest = 0
+  let endpointInfo = []
+  for(const endpoint in row.endpointInfo) {
+    const match = endpoint.match(pattern)
+    const method = match[1]
+    const url = match[2]
+    const number_request = row.endpointInfo[endpoint]
+    totalRequest += number_request
+    const stat_object : StatType = {
+      method: method,
+      endpoint: url,
+      num_request: number_request
+    }
+    endpointInfo.push(stat_object)
+  }
   return {
     userName,
     email,
-    token,
-    num_request,
-    stat: [
-
-    ]
+    refreshToken,
+    totalRequest,
+    endpointInfo
   }
 }
 
@@ -46,10 +60,68 @@ interface TablePaginationActionsProps {
   ) => void;
 }
 
-const Row = ({ row } : { row: UserType}) => {
-  const [ open, setOpen ] = React.useState(false);
+const TablePaginationActions = (props: TablePaginationActionsProps) => {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onPageChange(e, 0)
+  }
+
+  const handleBackButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onPageChange(e, page - 1)
+  }
+
+  const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onPageChange(e, page + 1)
+  }
+
+  const handleLastPageButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onPageChange(e, Math.max(0, Math.ceil(count / rowsPerPage) - 1))
+  }
+
   return (
-    <Box>
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPage /> : <LastPage />}
+      </IconButton>
+    </Box>
+  )
+}
+
+const Row = ({ row } : { row: UserType}) => {
+  const theme = useTheme();
+  const [ open, setOpen ] = React.useState(false);
+
+  const data = createData(row);
+
+  return (
+    <React.Fragment>
       <TableRow sx={{ 
         width: '100%',
         '& > *': { borderBottom: 'unset' }
@@ -64,58 +136,103 @@ const Row = ({ row } : { row: UserType}) => {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.userName}
+          {data.userName}
         </TableCell>
-        <TableCell align="right">{row.email}</TableCell>
-        <TableCell align="right">row.token</TableCell>
-        <TableCell align="right">row.num_request</TableCell>
+        <TableCell align="right">{data.email}</TableCell>
+        <TableCell align="right">{data.refreshToken}</TableCell>
+        <TableCell align="right">{data.totalRequest}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
+        <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{margin: 1}}>
               <Typography variant="h6" gutterBottom component="div">
-                User Stat
+                {string_object.ADMIN_COLLAPSE_TABLE_HEADER}
               </Typography>
               <Table size="small" aria-label="purchase">
                 <TableHead>
-                  <TableRow>
-                    <TableCell>Method</TableCell>
-                    <TableCell>Endpoint</TableCell>
-                    <TableCell>Requests</TableCell>
+                  <TableRow sx={{background: `${theme.palette.secondary.light}`}}>
+                    <TableCell>{string_object.METHOD}</TableCell>
+                    <TableCell>{string_object.ENDPOINT}</TableCell>
+                    <TableCell>{string_object.REQUESTS}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* {row.stat} */}
+                  {data.endpointInfo.map((stat, index) => (
+                    <TableRow key={index}>
+                      <TableCell component='th' scope='row'>
+                        {stat.method}
+                      </TableCell>
+                      <TableCell>{stat.endpoint}</TableCell>
+                      <TableCell>{stat.num_request}</TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </Box>
           </Collapse>
         </TableCell>
       </TableRow>
-    </Box>
+    </React.Fragment>
   )
 }
 
 const UserTable = ({ users, props } : { users : any[], props? : TablePaginationActionsProps}) => {
-  const tableStyle = {
-    width: '100%',
+  const theme = useTheme();
+  const [ page, setPage ] = useState(0);
+  const [ rowsPerPage, setRowsPerPage ] = useState(5);
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+
+  const handleChangePage = (e: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage);
   }
+
+  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
+    setPage(0);
+  }
+
   return (
-    <TableContainer component={Paper} sx={tableStyle}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableCell></TableCell>
-          <TableCell>User Name</TableCell>
-          <TableCell>Email</TableCell>
-          <TableCell>Token</TableCell>
-          <TableCell>Number of requests</TableCell>
-        </TableHead>
-        <TableBody>
-          {users.map((user, index) => <Row key={index} row={user} />)}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Paper sx={{width: '100%', overflow: 'hidden'}}>
+      <TableContainer sx={{maxHeight: 800}}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow sx={{background: `${theme.palette.secondary.light}`}}>
+              <TableCell/>
+              <TableCell>User Name</TableCell>
+              <TableCell align='right'>{string_object.EMAIL}</TableCell>
+              <TableCell align='right'>{string_object.TOKEN}</TableCell>
+              <TableCell align='right'>{string_object.TOTAL_REQUESTS}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : users
+            ).map((user, index) => <Row key={index} row={user} />)}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter sx={{width: '100%'}}>
+            <TableRow>
+              <TablePagination 
+                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                count={users.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </Paper>
   )
 }
 

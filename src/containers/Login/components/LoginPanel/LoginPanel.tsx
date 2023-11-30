@@ -13,19 +13,20 @@ import {
     ROLE_ADMIN,
     API_AUTH_LOGIN,
     API_AUTH_SERVER,
-} from '@constants/strings';
+} from '@src/constants/strings';
+import { string_object } from '@src/constants/hardcoded_string';
 import { LoginContext } from '@contexts/LoginContext';
 
 const LoginPanel = () => {
     const router = useRouter();
     const [ failToast, setFailToast ] = useState(false);
-    const [ errMsg, setErrMsg ] = useState('Incorrect username or password')
+    const [ errMsg, setErrMsg ] = useState(string_object.LOG_IN_FAIL)
     const [ successToast, setSuccessToast ] = useState(false)
     const { isSent, setIsSent } = useContext(LoginContext);
 
     const validationSchema = Yup.object({
-        username: Yup.string().required('User name is required'),
-        password: Yup.string().required('Password is required').min(1, 'Password should be of minimum 1 characters length')
+        username: Yup.string().required(string_object.VALIDATION.USER_NAME),
+        password: Yup.string().required(string_object.VALIDATION.PASSWORD_REQUIRED).min(6, string_object.VALIDATION.PASSWORD_LENGTH)
     })
 
     const initialValue = {
@@ -59,28 +60,20 @@ const LoginPanel = () => {
             localStorage.setItem('refreshToken', data.result.refreshToken);
 
             // Redirect to a protected page depending on account type
-            console.log("Login Success!")
             const decodedToken = decode(data.result.accessToken) as { [key: string]: any } | null;
 
             const userRole = decodedToken.role
-            console.log(`Logged in Role: ${userRole}`)
-
+            router.reload()
             if (userRole == ROLE_USER) {
-                console.log("Routing to user page")
                 router.push('/landing')
             } else if (userRole == ROLE_ADMIN) {
-                console.log("Routing to admin page")
                 router.push('/admin')
             } else {
                 console.log("Undefined user role")
             }
         } else {
             // Handle login error
-            console.error('Login failed');
-            // setErrMsg()
             setFailToast(true)
-            console.log(response)
-            // router.push('/landing')
         }
     }
 
@@ -148,7 +141,7 @@ const LoginPanel = () => {
                                 animate={{ x: 100 }}
                                 transition={{ delay: 1 }}
                             >
-                                <Alert variant='outlined' severity='success'> Password rest email sent </Alert>
+                                <Alert variant='outlined' severity='success'> {string_object.VALIDATION.PASSWORD_RESET} </Alert>
                             </motion.div>
                         )}
                         <div style={buttonContainer}>
