@@ -120,29 +120,48 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
   )
 }
 
-const Row = ({ row } : { row: UserType}) => {
+const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPerPage: any }) => {
   const theme = useTheme();
   const [ open, setOpen ] = React.useState(false);
   const [ stat, setStat ] = useState([]) 
 
   const data = createData(row);
 
-  useEffect(() => {
-    const userName = row.userName
-    const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`
-    const apiResponse = api.get(const_server);
+  // useEffect(() => {
+  //   const userName = row.userName
+  //   const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`
+  //   const apiResponse = api.get(const_server);
 
-    apiResponse.then((response) => {
-      console.log('----------------')
-      console.log(userName)
-      console.log(response.data.userStats)
-      console.log('----------------')
-      setStat(response.data.userStats)
-      // if(userName == 'Another') {
-      //   console.log(response.data)
-      // }
-    }, (res) => {console.log(res)})
-  }, [])
+  //   apiResponse.then((response) => {
+  //     console.log('----------------')
+  //     console.log(userName)
+  //     console.log(response.data.userStats)
+  //     console.log('----------------')
+  //     setStat(response.data.userStats)
+  //     // if(userName == 'Another') {
+  //     //   console.log(response.data)
+  //     // }
+  //   }, (res) => {console.log(res)})
+  // }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userName = row.userName;
+        const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`;
+        const response = await api.get(const_server);
+        console.log('----------------');
+        console.log(userName);
+        console.log(response.data.userStats);
+        console.log('----------------');
+        setStat(response.data.userStats);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [row.userName, page, rowsPerPage]);
 
   return (
     <React.Fragment>
@@ -244,7 +263,7 @@ const UserTable = ({ users, props } : { users : any[], props? : TablePaginationA
             {(rowsPerPage > 0
               ? users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : users
-            ).map((user, index) => <Row key={index} row={user} />)}
+            ).map((user, index) => <Row key={index} row={user} page={page} rowsPerPage={rowsPerPage} />)}
             {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />
