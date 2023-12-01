@@ -47,7 +47,10 @@ const Admin = () => {
   }, [])
 
   useEffect(() => {
-    console.log(userList)
+    console.log('trying to get userList')
+    userList.forEach(user => {
+      console.log(user)
+    })
   }, [userList])
 
   return (
