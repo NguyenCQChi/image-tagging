@@ -138,9 +138,7 @@ const LoginPanel = () => {
                         { failToast && <Alert variant='outlined' severity='error'> {errMsg} </Alert> }
                         { successToast && (
                             <motion.div
-                                animate={{ x: 100 }}
                                 transition={{ delay: 1 }}
-                                style={{padding: 0}}
                             >
                                 <Alert variant='outlined' severity='success'> {string_object.VALIDATION.PASSWORD_RESET} </Alert>
                             </motion.div>
