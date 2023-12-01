@@ -21,7 +21,7 @@ const LoginPanel = () => {
     const router = useRouter();
     const [ failToast, setFailToast ] = useState(false);
     const [ errMsg, setErrMsg ] = useState(string_object.LOG_IN_FAIL)
-    const [ successToast, setSuccessToast ] = useState(true)
+    const [ successToast, setSuccessToast ] = useState(false)
     const { isSent, setIsSent } = useContext(LoginContext);
 
     const validationSchema = Yup.object({
