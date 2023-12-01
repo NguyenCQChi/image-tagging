@@ -21,7 +21,7 @@ const LoginPanel = () => {
     const router = useRouter();
     const [ failToast, setFailToast ] = useState(false);
     const [ errMsg, setErrMsg ] = useState(string_object.LOG_IN_FAIL)
-    const [ successToast, setSuccessToast ] = useState(false)
+    const [ successToast, setSuccessToast ] = useState(true)
     const { isSent, setIsSent } = useContext(LoginContext);
 
     const validationSchema = Yup.object({
@@ -140,7 +140,7 @@ const LoginPanel = () => {
                             <motion.div
                                 animate={{ x: 100 }}
                                 transition={{ delay: 1 }}
-                                sx={{padding: 0}}
+                                style={{padding: 0}}
                             >
                                 <Alert variant='outlined' severity='success'> {string_object.VALIDATION.PASSWORD_RESET} </Alert>
                             </motion.div>
