@@ -53,7 +53,7 @@ const Admin = () => {
       console.log(const_server)
       console.log(user.userName)
       const server_url = 'https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=Chichi1901'
-      https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=Chichi1901
+      // https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=Chichi1901
       const apiResponse = api.get(const_server);
 
       apiResponse.then((response) => {
