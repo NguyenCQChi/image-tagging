@@ -38,7 +38,7 @@ const Navigation = ({ admin } : { admin? : boolean }) => {
         border: 'none',
         padding: '12px 16px',
         borderRadius: '4px',
-        color: 'white',
+        color: isScrolled ? 'black' : 'white',
         '&:hover': {
             cursor: 'pointer',
             backgroundColor: `${theme.palette.primary.main}`,

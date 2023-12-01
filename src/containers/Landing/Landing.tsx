@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Navigation } from '@components';
-import { Box, Skeleton } from '@mui/material';
+import { Box, Skeleton, CircularProgress } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import { TextField } from '@mui/material';
 import { Button } from '@mui/base';
@@ -22,11 +22,11 @@ const Landing = () => {
     const [imageLoading, setImageLoading] = useState(true);
     const [pulsing, setPulsing] = useState(true);
     const [ submit, setSubmit ] = useState(false);
-    const [ result, setResult ] = useState('');
+    const [ result, setResult ] = useState<any>();
     const [ link, setLink ] = useState('')
     const [ totalEntries, setEntries ] = useState(0)
     const [ passLimit, setPassLimit ] = useState(false)
-    const { isImageCaption, setIsImageCaption } = useContext(LoginContext)
+    const { isImageCaption } = useContext(LoginContext)
 
     const outterContainer = {
         width: '100vw',
@@ -97,18 +97,20 @@ const Landing = () => {
     const onSubmit = () => {
         setSubmit(true);
         setLink(value);
-        setResult('')
+        setResult(<CircularProgress color="secondary"/>)
         // TO-DO: Submit the link
         const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`;
         const apiResponse = api.get(imageGetURL);
         apiResponse.then((response) => {
             const entries = totalEntries + 1
+            console.log('getting data back and entries ' + entries);
             setEntries(entries)
             setResult(response.data.caption);
         }, (res) => setResult(res.data))
     }
 
     useEffect(() => {
+        console.log(totalEntries)
         if(totalEntries > 20) {
             console.log('pass limit')
             setPassLimit(true)
