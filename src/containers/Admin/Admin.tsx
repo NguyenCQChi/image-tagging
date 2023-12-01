@@ -50,10 +50,9 @@ const Admin = () => {
     console.log('trying to get userList')
     userList.forEach(user => {
       const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${user.userName}`
-      console.log(const_server)
-      console.log(user.userName)
       const server_url = 'https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19'
-      // https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=Chichi1901
+      console.log("Logging: " + const_server) //https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19
+      console.log("Hard coded: " + server_url)
       const apiResponse = api.get(server_url);
 
       apiResponse.then((response) => {
