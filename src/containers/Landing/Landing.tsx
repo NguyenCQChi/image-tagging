@@ -99,7 +99,7 @@ const Landing = () => {
     const onSubmit = () => {
         setSubmit(true);
         setLink(value);
-        setResult(<CircularProgress sx={{color: `${theme.palette.primary.light}`, margin: '10px 10px'}} />)
+        setResult(<CircularProgress sx={{color: `${theme.palette.primary.light}`, margin: '-15px 10px'}} />)
         const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`;
         const apiResponse = api.get(imageGetURL);
         apiResponse.then((response) => {
