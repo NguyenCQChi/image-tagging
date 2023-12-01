@@ -54,11 +54,11 @@ const Admin = () => {
       // const server_url = 'https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19'
       // console.log("Logging: " + const_server) //https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19
       // console.log("Hard coded: " + server_url)
-      console.log(userName)
       const apiResponse = api.get(const_server);
 
       apiResponse.then((response) => {
-        console.log('hi')
+        console.log(userName)
+        console.log(response)
       }, (res) => {console.log(res)})
     })
   }, [userList])
