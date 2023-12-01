@@ -51,13 +51,14 @@ const Admin = () => {
     userList.forEach(user => {
       const userName = user.userName
       const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`
-      const server_url = 'https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19'
-      console.log("Logging: " + const_server) //https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19
-      console.log("Hard coded: " + server_url)
+      // const server_url = 'https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19'
+      // console.log("Logging: " + const_server) //https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19
+      // console.log("Hard coded: " + server_url)
+      console.log(userName)
       const apiResponse = api.get(const_server);
 
       apiResponse.then((response) => {
-        console.log(response)
+        console.log('hi')
       }, (res) => {console.log(res)})
     })
   }, [userList])
