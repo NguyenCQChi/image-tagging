@@ -28,18 +28,32 @@ const Login = () => {
     justifyContent: 'center',
     background: `${theme.palette.primary.light}`,
     height: '100vh',
-    width: '100vw'
+    width: '100vw',
   }
+
+  const imageContainer = {
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    },
+  }
+
   return (
     <Box sx={bodyContainer}>
       <Box sx={{height: '90%', width: '90%'}}>
-        <Grid container sx={{...gridStyle,  background: `${theme.palette.secondary.main}`, borderRadius: '11px'}}>
-          <Grid item xs={6} sx={gridStyle}>
+        <Grid container 
+          sx={{...gridStyle,  
+            background: `${theme.palette.secondary.main}`, 
+            borderRadius: '11px',
+            [theme.breakpoints.down('md')]: {
+              background: 'transparent'
+            },
+        }}>
+          <Grid item xs={12} md={6} sx={{...gridStyle}}>
             <Box sx={{...gridStyle}}>
               <Panel />
             </Box>
           </Grid>
-          <Grid item xs={6} sx={gridStyle}>
+          <Grid item xs={0} md={6} sx={{...gridStyle, ...imageContainer}}>
             <Box sx={{...gridStyle, ...container}}>
               <div style={{
                 width: '100%',
