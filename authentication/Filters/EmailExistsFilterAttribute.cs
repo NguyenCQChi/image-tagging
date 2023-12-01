@@ -12,11 +12,13 @@ public class EmailExistsFilterAttribute : ActionFilterAttribute
 {
     private readonly IUserRepository _userRepository;
     private readonly ApiResponse _response;
+    private readonly IConfiguration _configuration;
     
-    public EmailExistsFilterAttribute(IUserRepository userRepository)
+    public EmailExistsFilterAttribute(IUserRepository userRepository, IConfiguration configuration)
     {
         _userRepository = userRepository;
         this._response = new ApiResponse();
+        _configuration = configuration;
     }
 
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -29,7 +31,7 @@ public class EmailExistsFilterAttribute : ActionFilterAttribute
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.IsSuccess = false;
-                _response.ErrorMessages.Add("Email not found.");
+                _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:EmailNotFound")!);
                 context.Result = new ObjectResult(_response)
                 {
                     StatusCode = (int)HttpStatusCode.NotFound
