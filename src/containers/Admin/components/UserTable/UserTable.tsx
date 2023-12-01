@@ -27,6 +27,7 @@ const createData = (row: any) : UserType => {
   const email = row.email
   const refreshToken = row.refreshToken
   const userStat = row.userStat
+  console.log(userStat)
   let totalRequest = 0
   let endpointInfo = []
   for(const endpoint in row.endpointInfo) {
@@ -126,7 +127,7 @@ const Row = ({ row } : { row: UserType}) => {
   console.log(row)
 
   const data = createData(row);
-  console.log(data.userStat)
+  // console.log(data.userStat)
 
   return (
     <React.Fragment>
