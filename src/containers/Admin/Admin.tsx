@@ -47,10 +47,7 @@ const Admin = () => {
   }, [])
 
   useEffect(() => {
-    for(const user in userList) {
-      console.log(user)
-      // const username = user.userName
-    }
+    console.log(userList)
   }, [userList])
 
   return (
