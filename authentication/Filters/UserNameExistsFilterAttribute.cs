@@ -12,12 +12,14 @@ public class UserNameExistsFilterAttribute : ActionFilterAttribute
     private readonly IUserRepository _userRepository;
     private readonly ApiResponse _response;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IConfiguration _configuration;
     
-    public UserNameExistsFilterAttribute(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
+    public UserNameExistsFilterAttribute(IUserRepository userRepository, UserManager<ApplicationUser> userManager, IConfiguration configuration)
     {
         _userRepository = userRepository;
         this._response = new ApiResponse();
         _userManager = userManager;
+        _configuration = configuration;
     }
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -30,7 +32,7 @@ public class UserNameExistsFilterAttribute : ActionFilterAttribute
             {
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.IsSuccess = false;
-                _response.ErrorMessages.Add("Cannot find any user associated to the given userName.");
+                _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:NoUserForGivenUserName")!);
                 context.Result = new ObjectResult(_response)
                 {
                     StatusCode = (int)HttpStatusCode.NotFound

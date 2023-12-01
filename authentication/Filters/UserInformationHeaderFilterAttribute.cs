@@ -9,10 +9,12 @@ namespace authentication.Filters;
 public class UserInformationHeaderFilterAttribute : ActionFilterAttribute
 {
     private readonly ApiResponse _response;
+    private readonly IConfiguration _configuration;
     
-    public UserInformationHeaderFilterAttribute()
+    public UserInformationHeaderFilterAttribute(IConfiguration configuration)
     {
         this._response = new ApiResponse();
+        _configuration = configuration;
     }
     
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -21,7 +23,7 @@ public class UserInformationHeaderFilterAttribute : ActionFilterAttribute
         {
             _response.StatusCode = HttpStatusCode.ExpectationFailed;
             _response.IsSuccess = false;
-            _response.ErrorMessages.Add("Missing Header: Authorization");
+            _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:MissingAuthHeader")!);
             context.Result = new ObjectResult(_response)
             {
                 StatusCode = (int)HttpStatusCode.ExpectationFailed
@@ -32,7 +34,7 @@ public class UserInformationHeaderFilterAttribute : ActionFilterAttribute
         {
             _response.StatusCode = HttpStatusCode.ExpectationFailed;
             _response.IsSuccess = false;
-            _response.ErrorMessages.Add("Missing Header: X-Refresh-Token");
+            _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:MissingRefreshHeader")!);
             context.Result = new ObjectResult(_response)
             {
                 StatusCode = (int)HttpStatusCode.ExpectationFailed
@@ -45,7 +47,7 @@ public class UserInformationHeaderFilterAttribute : ActionFilterAttribute
             {
                 _response.StatusCode = HttpStatusCode.ExpectationFailed;
                 _response.IsSuccess = false;
-                _response.ErrorMessages.Add("Header: X-Refresh-Token is null or empty");
+                _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:NullRefreshHeader")!);
                 context.Result = new ObjectResult(_response)
                 {
                     StatusCode = (int)HttpStatusCode.ExpectationFailed

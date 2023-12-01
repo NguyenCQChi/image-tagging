@@ -10,10 +10,12 @@ namespace authentication.Filters;
 public class MatchPasswordsFilterAttribute : ActionFilterAttribute
 {
     private readonly ApiResponse _response;
+    private readonly IConfiguration _configuration;
     
-    public MatchPasswordsFilterAttribute(IUserRepository userRepository)
+    public MatchPasswordsFilterAttribute(IUserRepository userRepository,  IConfiguration configuration)
     {
         this._response = new ApiResponse();
+        _configuration = configuration;
     }
 
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -26,7 +28,7 @@ public class MatchPasswordsFilterAttribute : ActionFilterAttribute
             {
                 _response.StatusCode = HttpStatusCode.NotAcceptable;
                 _response.IsSuccess = false;
-                _response.ErrorMessages.Add("Your passwords don't match.");
+                _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:PasswordsDontMatch")!);
                 context.Result = new ObjectResult(_response)
                 {
                     StatusCode = (int)HttpStatusCode.NotAcceptable
