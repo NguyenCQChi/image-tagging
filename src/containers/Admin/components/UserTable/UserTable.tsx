@@ -23,10 +23,12 @@ import { string_object } from '@src/constants/hardcoded_string';
 
 const createData = (row: any) : UserType => {
   const pattern = /^(GET|POST|PUT|DELETE|PATCH)\b(.*)$/;
+  console.log(row)
   const userName = row.userName
   const email = row.email
   const refreshToken = row.refreshToken
   const userStat = row.userStat
+  console.log(userStat)
   let totalRequest = 0
   let endpointInfo = []
   for(const endpoint in row.endpointInfo) {
