@@ -127,33 +127,15 @@ const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPer
 
   const data = createData(row);
 
-  // useEffect(() => {
-  //   const userName = row.userName
-  //   const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`
-  //   const apiResponse = api.get(const_server);
-
-  //   apiResponse.then((response) => {
-  //     console.log('----------------')
-  //     console.log(userName)
-  //     console.log(response.data.userStats)
-  //     console.log('----------------')
-  //     setStat(response.data.userStats)
-  //     // if(userName == 'Another') {
-  //     //   console.log(response.data)
-  //     // }
-  //   }, (res) => {console.log(res)})
-  // }, [])
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userName = row.userName;
         const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`;
         const response = await api.get(const_server);
-        console.log('----------------');
-        console.log(userName);
-        console.log(response.data.userStats);
-        console.log('----------------');
+        stat.forEach((sta) => {
+          data.totalRequest += sta.request
+        })
         setStat(response.data.userStats);
       } catch (error) {
         console.error(error);
