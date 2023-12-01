@@ -126,6 +126,7 @@ const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPer
   const [ open, setOpen ] = React.useState(false);
   const [ stat, setStat ] = useState([]) 
   const [ total, setTotal ] = useState(data.totalRequest)
+  const [ firstRender, setFirstRender ] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,9 +134,12 @@ const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPer
         const userName = row.userName;
         const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`;
         const response = await api.get(const_server);
-        stat.forEach((sta) => {
-          setTotal(total + sta.request)
-        })
+        if(firstRender) {
+          stat.forEach((sta) => {
+            setTotal(total + sta.request)
+          })
+          setFirstRender(false)
+        }
         setStat(response.data.userStats);
       } catch (error) {
         console.error(error);
