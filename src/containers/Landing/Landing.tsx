@@ -10,7 +10,8 @@ import {
     API_IMAGE_SERVER,
     API_IMAGE_GET_CAPTION,
     API_IMAGE_GET_CAPTION_URL_PARAM,
-    API_GET_ENTRIES
+    API_GET_ENTRIES,
+    API_USER_STAT
 } from '@src/constants/strings';
 import { string_object } from '@src/constants/hardcoded_string';
 import { LoginContext } from '@contexts/LoginContext'; 
@@ -123,10 +124,11 @@ const Landing = () => {
     }, [totalEntries])
 
     useEffect(() => {
-        const url = `${API_IMAGE_SERVER}${API_GET_ENTRIES}`
+        const url = `${API_IMAGE_SERVER}${API_USER_STAT}`
         const apiResponse = api.get(url)
 
         apiResponse.then((res) => {
+        console.log('response getting back the stat: ')
         console.log(res)
         setEntries(res.data.TotalEntries)
         }, (res) => {
