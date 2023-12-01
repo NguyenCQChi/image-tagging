@@ -21,7 +21,11 @@ export const string_object = {
     PASSWORD_CHECK: 'Password should contain at least 1 uppercase, 1 lowercase, 1 digit and 1 special character',
     PASSWORD_RESET: 'Password reset email sent',
   },
-  PASS_LIMIT: 'You exceed 20 requested!'
+  PASS_LIMIT: 'You exceed 20 requested!',
+  HAVE_ACCOUNT: 'Do not have account?',
+  ALREADY_HAVE: 'Already have an account?',
+  CREATE_ACCOUNT: 'Create Account',
+  LOG_IN: 'Login',
 }
 
 export const history = {

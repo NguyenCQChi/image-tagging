@@ -136,8 +136,14 @@ const History = () => {
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            '& .css-1o4mns0-MuiInputBase-root-MuiTablePagination-select': {
+              marginRight: '8px',
+              marginLeft: '0px'
+            }
+          }}
+        />
       </Paper>
     </Box>
   );

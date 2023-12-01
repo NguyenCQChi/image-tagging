@@ -5,11 +5,11 @@ import { useTheme } from "@mui/material/styles";
 import { API_AUTH_GET_USERS, API_AUTH_SERVER } from '@src/constants/strings';
 import { api } from '@src/utils/api';
 import { UserTable } from './components';
-import dynamic from 'next/dynamic';
+import { history } from '@src/constants/hardcoded_string';
 
 const Admin = () => {
   const theme = useTheme();
-  const [ userList, setUserList ] = useState([])
+  const [ userList, setUserList ] = useState([]);
 
   const outterContainer = {
     width: '100vw',
