@@ -122,10 +122,10 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 
 const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPerPage: any }) => {
   const theme = useTheme();
+  const data = createData(row);
   const [ open, setOpen ] = React.useState(false);
   const [ stat, setStat ] = useState([]) 
-
-  const data = createData(row);
+  const [ total, setTotal ] = useState(data.totalRequest)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,7 +134,7 @@ const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPer
         const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`;
         const response = await api.get(const_server);
         stat.forEach((sta) => {
-          data.totalRequest += sta.request
+          setTotal(total + sta.request)
         })
         setStat(response.data.userStats);
       } catch (error) {
@@ -165,7 +165,7 @@ const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPer
         </TableCell>
         <TableCell align="right">{data.email}</TableCell>
         <TableCell align="right">{data.refreshToken}</TableCell>
-        <TableCell align="right">{data.totalRequest}</TableCell>
+        <TableCell align="right">{total}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={5}>
