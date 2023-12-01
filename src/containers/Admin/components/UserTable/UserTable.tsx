@@ -134,6 +134,9 @@ const Row = ({ row } : { row: UserType}) => {
 
     apiResponse.then((response) => {
       setStat(response.data.userStats)
+      if(userName == 'Another') {
+        console.log(response.data)
+      }
     }, (res) => {console.log(res)})
   }, [])
 
