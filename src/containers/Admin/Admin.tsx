@@ -44,18 +44,6 @@ const Admin = () => {
     }, (res) => console.log(res))
   }, [])
 
-  useEffect(() => {
-    userList.forEach(user => {
-      const userName = user.userName
-      const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`
-      const apiResponse = api.get(const_server);
-
-      apiResponse.then((response) => {
-        user.userStat = response.data.userStats
-      }, (res) => {console.log(res)})
-    })
-  }, [userList])
-
   return (
     <Box sx={outterContainer}>
       <Navigation admin={true}/>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Paper, 
   Table, 
@@ -20,6 +20,8 @@ import { UserType } from '@src/types/users.type';
 import { StatType } from '@src/types/stats.type';
 import { useTheme } from '@mui/material/styles';
 import { string_object } from '@src/constants/hardcoded_string';
+import { API_USER_STAT, API_IMAGE_SERVER } from '@src/constants/strings';
+import { api } from '@src/utils/api';
 
 const createData = (row: any) : UserType => {
   const pattern = /^(GET|POST|PUT|DELETE|PATCH)\b(.*)$/;
@@ -125,9 +127,19 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 const Row = ({ row } : { row: UserType}) => {
   const theme = useTheme();
   const [ open, setOpen ] = React.useState(false);
+  const [ stat, setStat ] = useState([]) 
 
   const data = createData(row);
-  // console.log(data.userStat)
+
+  useEffect(() => {
+    const userName = row.userName
+    const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`
+    const apiResponse = api.get(const_server);
+
+    apiResponse.then((response) => {
+      setStat(response.data.userStats)
+    }, (res) => {console.log(res)})
+  }, [])
 
   return (
     <React.Fragment>
@@ -176,15 +188,15 @@ const Row = ({ row } : { row: UserType}) => {
                       <TableCell>{stat.num_request}</TableCell>
                     </TableRow>
                   ))}
-                  {/* {data.userStat.map((stat, index) => (
+                  {stat.map((user, index) => (
                     <TableRow key={index}>
                       <TableCell component='th' scope='row'>
-                        {stat.method}
+                        {user.method}
                       </TableCell>
-                      <TableCell>{stat.endpoint}</TableCell>
-                      <TableCell>{stat.request}</TableCell>
+                      <TableCell>{user.endpoint}</TableCell>
+                      <TableCell>{user.request}</TableCell>
                     </TableRow>
-                  ))} */}
+                  ))}
                 </TableBody>
               </Table>
             </Box>
