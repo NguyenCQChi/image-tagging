@@ -11,11 +11,13 @@ public class RegistrationUserNameFilterAttribute : ActionFilterAttribute
 {
     private readonly IUserRepository _userRepository;
     private readonly ApiResponse _response;
+    private readonly IConfiguration _configuration;
     
-    public RegistrationUserNameFilterAttribute(IUserRepository userRepository)
+    public RegistrationUserNameFilterAttribute(IUserRepository userRepository, IConfiguration configuration)
     {
         _userRepository = userRepository;
         this._response = new ApiResponse();
+        _configuration = configuration;
     }
 
     public override async Task<Task> OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -27,7 +29,7 @@ public class RegistrationUserNameFilterAttribute : ActionFilterAttribute
             {
                 _response.StatusCode = HttpStatusCode.NotAcceptable;
                 _response.IsSuccess = false;
-                _response.ErrorMessages.Add("Username already exists.");
+                _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:UserNameAlreadyExists")!);
                 context.Result = new ObjectResult(_response)
                 {
                     StatusCode = (int)HttpStatusCode.NotAcceptable
@@ -41,7 +43,7 @@ public class RegistrationUserNameFilterAttribute : ActionFilterAttribute
                 {
                     _response.StatusCode = HttpStatusCode.InternalServerError;
                     _response.IsSuccess = false;
-                    _response.ErrorMessages.Add("Error while registering.");
+                    _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:RegistrationError")!);
                     resultContext.Result = new ObjectResult(_response)
                     {
                         StatusCode = (int)HttpStatusCode.InternalServerError

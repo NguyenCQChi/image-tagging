@@ -14,12 +14,14 @@ public class LoginUserValidationFilterAttribute : ActionFilterAttribute
     private readonly ApiResponse _response;
     private readonly ApplicationDbContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IConfiguration _configuration;
     
-    public LoginUserValidationFilterAttribute(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+    public LoginUserValidationFilterAttribute(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IConfiguration configuration)
     {
         this._response = new ApiResponse();
         _db = db;
         _userManager = userManager;
+        _configuration = configuration;
     }
     
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -32,7 +34,7 @@ public class LoginUserValidationFilterAttribute : ActionFilterAttribute
             {
                 _response.StatusCode = HttpStatusCode.Unauthorized;
                 _response.IsSuccess = false;
-                _response.ErrorMessages.Add("Incorrect Username!");
+                _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:IncorrectUserName")!);
                 context.Result = new ObjectResult(_response)
                 {
                     StatusCode = (int)HttpStatusCode.Unauthorized
@@ -47,7 +49,7 @@ public class LoginUserValidationFilterAttribute : ActionFilterAttribute
                 {
                     _response.StatusCode = HttpStatusCode.Unauthorized;
                     _response.IsSuccess = false;
-                    _response.ErrorMessages.Add("Incorrect Password!");
+                    _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:IncorrectPassword")!);
                     context.Result = new ObjectResult(_response)
                     {
                         StatusCode = (int)HttpStatusCode.Unauthorized

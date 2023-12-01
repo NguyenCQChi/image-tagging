@@ -14,12 +14,14 @@ public class AccessTokenValidationFilterAttribute: ActionFilterAttribute
     private readonly ApiResponse _response;
     private readonly ApplicationDbContext _db;
     private readonly IUserRepository _userRepository;
+    private readonly IConfiguration _configuration;
     
-    public AccessTokenValidationFilterAttribute(ApplicationDbContext db, IUserRepository userRepository)
+    public AccessTokenValidationFilterAttribute(ApplicationDbContext db, IUserRepository userRepository, IConfiguration configuration)
     {
         this._response = new ApiResponse();
         _db = db;
         _userRepository = userRepository;
+        _configuration = configuration;
     }
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -33,7 +35,7 @@ public class AccessTokenValidationFilterAttribute: ActionFilterAttribute
                 await _userRepository.MarkTokenAsInvalid(existingRefreshToken);
                 _response.StatusCode = HttpStatusCode.ExpectationFailed;
                 _response.IsSuccess = false;
-                _response.ErrorMessages.Add("Unable to confirm your identity, please log in again.");
+                _response.ErrorMessages.Add(_configuration.GetValue<string>("UserResponseStrings:UnableToVerifyIdentity")!);
                 context.Result = new ObjectResult(_response)
                 {
                     StatusCode = (int)HttpStatusCode.ExpectationFailed

@@ -22,6 +22,7 @@ namespace authentication.Controllers.v1;
 public class UsersController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
+    private readonly IConfiguration _configuration;
     private readonly ApiResponse _response;
     private readonly string _emailSender;
     private readonly string _forgotPasswordSubject;
@@ -31,6 +32,7 @@ public class UsersController : ControllerBase
     public UsersController(IUserRepository userRepository, IConfiguration configuration, IWebHostEnvironment env)
     {
         _userRepository = userRepository;
+        _configuration = configuration;
         this._response = new ApiResponse();
         _emailSender = configuration.GetValue<string>("EmailSettings:ForgotPasswordSender")!;
         _forgotPasswordSubject = configuration.GetValue<string>("EmailSettings:ForgotPasswordSubject")!;
@@ -38,6 +40,7 @@ public class UsersController : ControllerBase
         _env = env;
     }
     
+    [SwaggerOperation(Summary = "Register a new user")]
     [HttpPost("register")]
     [ServiceFilter(typeof(RegistrationRoleFilterAttribute))]
     [ServiceFilter(typeof(RegistrationEmailFilterAttribute))]
@@ -67,6 +70,9 @@ public class UsersController : ControllerBase
         return StatusCode((int)HttpStatusCode.Created, _response);
     }
     
+    [SwaggerOperation(
+        Summary = "Login with an existing user.",
+        Description = "Returns AccessToken and RefreshToken")]
     [HttpPost("login")]
     [ServiceFilter(typeof(LoginUserValidationFilterAttribute))]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
@@ -108,7 +114,9 @@ public class UsersController : ControllerBase
         return Ok(_response);
     }
     
-    [SwaggerOperation(Description = "Using nodejs fetch, make a post request with header 'Authorization': " +
+    [SwaggerOperation(
+        Summary = "Validate User's Access Token",
+        Description = "Using nodejs fetch, make a post request with header 'Authorization': " +
                                     "`Bearer \n${jwtToken}`")]
     [HttpPost("validate")]
     [Authorize]
@@ -123,7 +131,7 @@ public class UsersController : ControllerBase
     {
         _response.StatusCode = HttpStatusCode.OK;
         _response.IsSuccess = true;
-        _response.Result = "Authentication Successful!";
+        _response.Result = _configuration.GetValue<string>("UserResponseStrings:AuthSuccess")!;
         try
         {
             var user = await _userRepository.FindUser(model);
@@ -136,7 +144,9 @@ public class UsersController : ControllerBase
         }
         return Ok(_response);
     }
-    
+    [SwaggerOperation(
+        Summary = "Refresh a user's AccessToken with the help of RefreshToken",
+        Description = "Returns AccessToken and RefreshToken")]
     [HttpPost("refresh")]
     [ServiceFilter(typeof(ValidateRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(AccessTokenValidationFilterAttribute))]
@@ -176,6 +186,9 @@ public class UsersController : ControllerBase
         return StatusCode((int)HttpStatusCode.Created, _response);
     }
     
+    [SwaggerOperation(
+        Summary = "Revoke user's AccessToken and RefreshToken",
+        Description = "Ignore all response codes for this request. We don't want to block the user.")]
     [HttpDelete("revoke")]
     [ServiceFilter(typeof(ValidateRefreshTokenFilterAttribute))]
     [ServiceFilter(typeof(AccessTokenValidationFilterAttribute))]
@@ -217,7 +230,7 @@ public class UsersController : ControllerBase
             return Ok(_response);
         }
         _response.IsSuccess = false;
-        _response.Result = "Invalid Input";
+        _response.Result = _configuration.GetValue<string>("UserResponseStrings:InvalidInput")!;
         Response.Cookies.Append("X-Refresh-Token", "", new CookieOptions
         {
             HttpOnly = true,
@@ -243,7 +256,10 @@ public class UsersController : ControllerBase
         }
         return BadRequest(_response);
     }
-
+    
+    [SwaggerOperation(
+        Summary = "Reset a user's password via email",
+        Description = "Check if the email exists in the DB and send them a password reset email.")]
     [HttpGet("resetPassword", Name="forgotPassword")]
     [ServiceFilter(typeof(EmailExistsFilterAttribute))]
     [ServiceFilter(typeof(UserExistsFilterAttribute))]
@@ -275,7 +291,7 @@ public class UsersController : ControllerBase
         {
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
-            _response.Result = "Email sent.";
+            _response.Result = _configuration.GetValue<string>("UserResponseStrings:EmailSent")!;
             try
             {
                 var user = await _userRepository.FindUserByEmail(email);
@@ -306,7 +322,8 @@ public class UsersController : ControllerBase
             return StatusCode((int)HttpStatusCode.InternalServerError, _response);
         }
     }
-
+    
+    [SwaggerOperation(Summary = "Reset a user's password given email and secret token")]
     [HttpPatch("resetPassword", Name="forgotPassword")]
     [ServiceFilter(typeof(EmailExistsFilterAttribute))]
     [ServiceFilter(typeof(MatchPasswordsFilterAttribute))]
@@ -324,7 +341,7 @@ public class UsersController : ControllerBase
         {
             _response.IsSuccess = true;
             _response.StatusCode = HttpStatusCode.OK;
-            _response.Result = "Password Updated Successfully";
+            _response.Result = _configuration.GetValue<string>("UserResponseStrings:PasswordUpdateSuccess")!;
             try
             {
                 var user = await _userRepository.FindUserByEmail(email);
@@ -356,7 +373,9 @@ public class UsersController : ControllerBase
         }
     }
     
-    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+    [SwaggerOperation(
+        Summary = "Get user information",
+        Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
                                     "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
     [HttpGet("userInformation")]
     [Authorize(Roles = "admin")]
@@ -397,8 +416,10 @@ public class UsersController : ControllerBase
         return Ok(_response);
     }
 
-    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
-                                    "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
+    [SwaggerOperation(
+        Summary = "Get all users information",
+        Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+                      "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
     [HttpGet("allUserInformation")]
     [Authorize(Roles = "admin")]
     [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
@@ -437,8 +458,10 @@ public class UsersController : ControllerBase
         return Ok(_response);
     }
     
-    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
-                                    "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
+    [SwaggerOperation(
+        Summary = "Get a list of total requests per endpoint",
+        Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+                      "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
     [HttpGet("totalRequestsPerEndpoint")]
     [Authorize(Roles = "admin")]
     [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
@@ -477,8 +500,10 @@ public class UsersController : ControllerBase
         return Ok(_response);
     }
     
-    [SwaggerOperation(Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
-                                    "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
+    [SwaggerOperation(
+        Summary = "Get a list of endpoints available",
+        Description = "Using nodejs fetch, make a get request with headers: 'Authorization': " +
+                      "`Bearer \n${jwtToken}` and 'X-Refresh-Token': `<refreshToken>`")]
     [HttpGet("getAllEndpoints")]
     [Authorize(Roles = "admin")]
     [ServiceFilter(typeof(UserInformationHeaderFilterAttribute))]
