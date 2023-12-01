@@ -44,16 +44,14 @@ const Admin = () => {
       console.log(response.data.result)
       setUserList(response.data.result)
     }, (res) => console.log(res))
-
-    const user_stat_server = `${API_IMAGE_SERVER}${API_USER_STAT}`
-    const statapiResponse = api.get(user_stat_server);
-
-    statapiResponse.then((response) => {
-      console.log('user list from Simar')
-      console.log(response)
-      console.log(response)
-    }, (res) => console.log(res))
   }, [])
+
+  useEffect(() => {
+    for(const user in userList) {
+      console.log(user)
+      // const username = user.userName
+    }
+  }, [userList])
 
   return (
     <Box sx={outterContainer}>
