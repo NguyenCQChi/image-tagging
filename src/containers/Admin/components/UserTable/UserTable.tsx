@@ -126,6 +126,7 @@ const Row = ({ row } : { row: UserType}) => {
   console.log(row)
 
   const data = createData(row);
+  console.log(data.userStat)
 
   return (
     <React.Fragment>
@@ -174,7 +175,7 @@ const Row = ({ row } : { row: UserType}) => {
                       <TableCell>{stat.num_request}</TableCell>
                     </TableRow>
                   ))}
-                  {data.userStat.map((stat, index) => (
+                  {/* {data.userStat.map((stat, index) => (
                     <TableRow key={index}>
                       <TableCell component='th' scope='row'>
                         {stat.method}
@@ -182,7 +183,7 @@ const Row = ({ row } : { row: UserType}) => {
                       <TableCell>{stat.endpoint}</TableCell>
                       <TableCell>{stat.request}</TableCell>
                     </TableRow>
-                  ))}
+                  ))} */}
                 </TableBody>
               </Table>
             </Box>
