@@ -140,6 +140,7 @@ const LoginPanel = () => {
                             <motion.div
                                 animate={{ x: 100 }}
                                 transition={{ delay: 1 }}
+                                sx={{padding: 0}}
                             >
                                 <Alert variant='outlined' severity='success'> {string_object.VALIDATION.PASSWORD_RESET} </Alert>
                             </motion.div>
