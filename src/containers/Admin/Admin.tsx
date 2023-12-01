@@ -29,7 +29,10 @@ const Admin = () => {
   }
 
   const tableContainer = {
-    width: '80%'
+    width: '80%',
+    [theme.breakpoints.down('md')]: {
+      width: '100%'
+    },
   }
 
   useEffect(() => {

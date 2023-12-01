@@ -62,7 +62,7 @@ const History = () => {
   const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [ entries, setEntries ] = useState([])
+  const [ entries, setEntries ] = useState([history.Entries])
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -88,7 +88,7 @@ const History = () => {
   }, [])
 
   return (
-    <Box sx={{padding: '60px 100px'}}>
+    <Box sx={{padding: '60px 100px', [theme.breakpoints.down('md')]: {padding: '0'}}}>
       <Paper sx={{ width: '100%', overflow: 'hidden'}}>
         <TableContainer sx={{ maxHeight: 800 }}>
           <Table stickyHeader aria-label="sticky table">

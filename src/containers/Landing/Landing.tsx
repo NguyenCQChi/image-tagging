@@ -47,7 +47,11 @@ const Landing = () => {
     const formContainer = {
         display: 'flex',
         flexDirection: 'row',
-        gap: '35px'
+        gap: '35px',
+        [theme.breakpoints.down('md')]: {
+            flexDirection: 'column',
+            gap: '20px'
+        },
     }
 
     const CustomButton = styled(Button)(({theme}) => ({
@@ -79,7 +83,10 @@ const Landing = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        marginBottom: '35px'
+        marginBottom: '35px',
+        [theme.breakpoints.down('md')]: {
+            padding: 0
+        },
     }
 
     const imageLoaded = () => {
@@ -103,6 +110,7 @@ const Landing = () => {
 
     useEffect(() => {
         if(totalEntries > 20) {
+            console.log('pass limit')
             setPassLimit(true)
         }
 
@@ -122,7 +130,7 @@ const Landing = () => {
                             label='Image link'
                             variant='outlined'
                             onChange={(event) => handleChange(event.target.value)}
-                            sx={{width: '80%', fontSize: '14px'}}
+                            sx={{width: '80%', fontSize: '14px', [theme.breakpoints.down('md')]: {width: '100%'}}}
                             size="small"
                         >
                             {string_object.IMAGE_LINK}
@@ -137,11 +145,11 @@ const Landing = () => {
                     </Box>
                     <Box sx={imageContainer}>
                         {!submit ? (
-                            <Skeleton  variant="rectangular" sx={{width: '50%', height: '20rem', borderRadius: '11px'}} />
+                            <Skeleton  variant="rectangular" sx={{width: '50%', height: '20rem', borderRadius: '11px', [theme.breakpoints.down('md')]: {width: '100%'}}} />
                         ) : (
                                 <div
                                     className={`${pulsing ? "pulse" : ""} loadable`}
-                                    style={{ background: "#ccc", width: '50%', height: 'auto' }}
+                                    style={{ background: "#ccc", width: '50%', height: 'auto', [theme.breakpoints.down('md')]: {width: '100%'}}}
                                 >
                                     <motion.img
                                         initial={{ height: "20rem", opacity: 0 }}

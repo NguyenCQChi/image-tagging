@@ -121,7 +121,11 @@ const hoverButton = {
   }
 
   return (
-    <Item>
+    <Item sx={{
+      [theme.breakpoints.down('md')]: {
+        width: '100%'
+      },
+    }}>
       <List sx={{width: '100%'}}>
         <ListItem sx={{...item, mb: '10px'}}>
           <div style={{fontSize: '22px'}}>Welcome</div>
