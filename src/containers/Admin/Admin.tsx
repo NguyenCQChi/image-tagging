@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigation } from "@components";
 import { Box } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
-import { API_AUTH_GET_USERS, API_AUTH_SERVER } from '@src/constants/strings';
+import { API_AUTH_GET_USERS, API_AUTH_SERVER, API_USER_STAT, API_IMAGE_SERVER } from '@src/constants/strings';
 import { api } from '@src/utils/api';
 import { UserTable } from './components';
 import { history } from '@src/constants/hardcoded_string';
@@ -40,8 +40,18 @@ const Admin = () => {
     const apiResponse = api.get(server_url);
 
     apiResponse.then((response) => {
-      console.log(response)
+      console.log('user list from Manjot')
+      console.log(response.data.result)
       setUserList(response.data.result)
+    }, (res) => console.log(res))
+
+    const user_stat_server = `${API_IMAGE_SERVER}${API_USER_STAT}`
+    const statapiResponse = api.get(user_stat_server);
+
+    statapiResponse.then((response) => {
+      console.log('user list from Simar')
+      console.log(response)
+      console.log(response)
     }, (res) => console.log(res))
   }, [])
 

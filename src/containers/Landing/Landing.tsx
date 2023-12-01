@@ -10,8 +10,7 @@ import {
     API_IMAGE_SERVER,
     API_IMAGE_GET_CAPTION,
     API_IMAGE_GET_CAPTION_URL_PARAM,
-    API_GET_ENTRIES,
-    API_USER_STAT
+    API_GET_ENTRIES
 } from '@src/constants/strings';
 import { string_object } from '@src/constants/hardcoded_string';
 import { LoginContext } from '@contexts/LoginContext'; 
@@ -68,10 +67,6 @@ const Landing = () => {
         }
     }))
 
-    const CustomAlert = styled(Alert) (({theme}) => ({
-        transform: 'none !important'
-    }))
-
     const imageContainer = {
         marginTop: '35px',
         display: 'flex',
@@ -110,7 +105,6 @@ const Landing = () => {
     }
 
     useEffect(() => {
-        console.log(totalEntries)
         if(totalEntries > 20) {
             setPassLimit(true)
         }
