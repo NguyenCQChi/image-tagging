@@ -26,6 +26,7 @@ const createData = (row: any) : UserType => {
   const userName = row.userName
   const email = row.email
   const refreshToken = row.refreshToken
+  const userStat = row.userStat
   let totalRequest = 0
   let endpointInfo = []
   for(const endpoint in row.endpointInfo) {
@@ -46,7 +47,8 @@ const createData = (row: any) : UserType => {
     email,
     refreshToken,
     totalRequest,
-    endpointInfo
+    endpointInfo,
+    userStat
   }
 }
 
@@ -170,6 +172,15 @@ const Row = ({ row } : { row: UserType}) => {
                       </TableCell>
                       <TableCell>{stat.endpoint}</TableCell>
                       <TableCell>{stat.num_request}</TableCell>
+                    </TableRow>
+                  ))}
+                  {data.userStat.map((stat, index) => (
+                    <TableRow key={index}>
+                      <TableCell component='th' scope='row'>
+                        {stat.method}
+                      </TableCell>
+                      <TableCell>{stat.endpoint}</TableCell>
+                      <TableCell>{stat.request}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
