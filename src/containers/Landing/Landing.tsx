@@ -124,13 +124,13 @@ const Landing = () => {
     }, [totalEntries])
 
     useEffect(() => {
-        const url = `${API_IMAGE_SERVER}${API_USER_STAT}`
+        const url = `${API_IMAGE_SERVER}${API_GET_ENTRIES}`
         const apiResponse = api.get(url)
 
         apiResponse.then((res) => {
         console.log('response getting back the stat: ')
         console.log(res)
-        setEntries(res.data.TotalEntries)
+        setEntries(res.data.Entries.length)
         }, (res) => {
         console.log(res)
         })

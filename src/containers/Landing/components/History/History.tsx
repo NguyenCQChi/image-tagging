@@ -83,8 +83,6 @@ const History = () => {
     }, (res) => {
       console.log(res)
     })
-
-
   }, [])
 
   return (
