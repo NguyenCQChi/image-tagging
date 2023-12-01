@@ -22,7 +22,6 @@ import { useTheme } from '@mui/material/styles';
 import { string_object } from '@src/constants/hardcoded_string';
 
 const createData = (row: any) : UserType => {
-  console.log(row)
   const pattern = /^(GET|POST|PUT|DELETE|PATCH)\b(.*)$/;
   const userName = row.userName
   const email = row.email

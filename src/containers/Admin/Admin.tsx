@@ -51,8 +51,7 @@ const Admin = () => {
       const apiResponse = api.get(const_server);
 
       apiResponse.then((response) => {
-        user.newKey = 'userStat'
-        user['userStat'] = response.data.userStats
+        user.userStat = response.data.userStats
       }, (res) => {console.log(res)})
     })
   }, [userList])
