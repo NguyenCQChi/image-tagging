@@ -22,12 +22,12 @@ import { useTheme } from '@mui/material/styles';
 import { string_object } from '@src/constants/hardcoded_string';
 
 const createData = (row: any) : UserType => {
+  console.log(row)
   const pattern = /^(GET|POST|PUT|DELETE|PATCH)\b(.*)$/;
   const userName = row.userName
   const email = row.email
   const refreshToken = row.refreshToken
   const userStat = row.userStat
-  console.log(userStat)
   let totalRequest = 0
   let endpointInfo = []
   for(const endpoint in row.endpointInfo) {
@@ -124,7 +124,6 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 const Row = ({ row } : { row: UserType}) => {
   const theme = useTheme();
   const [ open, setOpen ] = React.useState(false);
-  console.log(row)
 
   const data = createData(row);
   // console.log(data.userStat)
