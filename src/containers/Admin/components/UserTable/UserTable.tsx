@@ -121,6 +121,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 const Row = ({ row } : { row: UserType}) => {
   const theme = useTheme();
   const [ open, setOpen ] = React.useState(false);
+  console.log(row)
 
   const data = createData(row);
 
@@ -186,7 +187,6 @@ const UserTable = ({ users, props } : { users : any[], props? : TablePaginationA
   const [ page, setPage ] = useState(0);
   const [ rowsPerPage, setRowsPerPage ] = useState(5);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
-  console.log(users)
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
