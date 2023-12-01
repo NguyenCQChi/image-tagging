@@ -99,13 +99,11 @@ const Landing = () => {
     const onSubmit = () => {
         setSubmit(true);
         setLink(value);
-        setResult(<CircularProgress sx={{color: `${theme.palette.primary.light}`}} />)
-        // TO-DO: Submit the link
+        setResult(<CircularProgress sx={{color: `${theme.palette.primary.light}`, margin: '10px 10px'}} />)
         const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`;
         const apiResponse = api.get(imageGetURL);
         apiResponse.then((response) => {
             const entries = totalEntries + 1
-            console.log('getting data back and entries ' + entries);
             setEntries(entries)
             setResult(response.data.caption);
         }, (res) => setResult(res.data))
@@ -114,7 +112,6 @@ const Landing = () => {
     useEffect(() => {
         console.log(totalEntries)
         if(totalEntries > 20) {
-            console.log('pass limit')
             setPassLimit(true)
         }
 
@@ -128,8 +125,6 @@ const Landing = () => {
         const apiResponse = api.get(url)
 
         apiResponse.then((res) => {
-        console.log('response getting back the stat: ')
-        console.log(res)
         setEntries(res.data.Entries.length)
         }, (res) => {
         console.log(res)
