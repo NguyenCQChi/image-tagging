@@ -123,10 +123,9 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
 const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPerPage: any }) => {
   const theme = useTheme();
   const data = createData(row);
-  const [ open, setOpen ] = React.useState(false);
-  const [ stat, setStat ] = useState([]) 
-  const [ total, setTotal ] = useState(data.totalRequest)
-  const [ firstRender, setFirstRender ] = useState(true)
+  const [open, setOpen] = React.useState(false);
+  const [stat, setStat] = useState([]);
+  const [total, setTotal] = useState(data.totalRequest);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,12 +133,11 @@ const Row = ({ row, page, rowsPerPage } : { row: UserType, page: number, rowsPer
         const userName = row.userName;
         const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${userName}`;
         const response = await api.get(const_server);
-        if(firstRender) {
-          stat.forEach((sta) => {
-            setTotal(total + sta.request)
-          })
-          setFirstRender(false)
-        }
+
+        // Set the total by summing the values in the stat array
+        const statTotal = response.data.userStats.reduce((acc, curr) => acc + curr.request, 0);
+        setTotal(data.totalRequest + statTotal);
+
         setStat(response.data.userStats);
       } catch (error) {
         console.error(error);
