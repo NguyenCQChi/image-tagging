@@ -52,9 +52,9 @@ const Admin = () => {
       const const_server = `${API_IMAGE_SERVER}${API_USER_STAT}?userID=${user.userName}`
       console.log(const_server)
       console.log(user.userName)
-      const server_url = 'https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=Chichi1901'
+      const server_url = 'https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=chinsu19'
       // https://simarcodes.com/COMP4537/projects/image-caption/api/v1/user-stats?userID=Chichi1901
-      const apiResponse = api.get(const_server);
+      const apiResponse = api.get(server_url);
 
       apiResponse.then((response) => {
         console.log(response)
