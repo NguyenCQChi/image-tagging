@@ -10,6 +10,7 @@ import {
     API_IMAGE_SERVER,
     API_IMAGE_GET_CAPTION,
     API_IMAGE_GET_CAPTION_URL_PARAM,
+    API_GET_ENTRIES
 } from '@src/constants/strings';
 import { string_object } from '@src/constants/hardcoded_string';
 import { LoginContext } from '@contexts/LoginContext'; 
@@ -97,7 +98,7 @@ const Landing = () => {
     const onSubmit = () => {
         setSubmit(true);
         setLink(value);
-        setResult(<CircularProgress color="secondary"/>)
+        setResult(<CircularProgress sx={{color: `${theme.palette.primary.light}`}} />)
         // TO-DO: Submit the link
         const imageGetURL = `${API_IMAGE_SERVER}${API_IMAGE_GET_CAPTION}?${API_IMAGE_GET_CAPTION_URL_PARAM}=${value}`;
         const apiResponse = api.get(imageGetURL);
@@ -120,6 +121,18 @@ const Landing = () => {
             setPassLimit(false)
         }, 5000)
     }, [totalEntries])
+
+    useEffect(() => {
+        const url = `${API_IMAGE_SERVER}${API_GET_ENTRIES}`
+        const apiResponse = api.get(url)
+
+        apiResponse.then((res) => {
+        console.log(res)
+        setEntries(res.data.TotalEntries)
+        }, (res) => {
+        console.log(res)
+        })
+    }, [])
 
     return (
         <Box sx={outterContainer}>
