@@ -5,6 +5,5 @@ export type UserType = {
    email: string,
    refreshToken: string,
    totalRequest: number,
-   endpointInfo: StatType[],
-   userStat: any,
+   endpointInfo: StatType[]
 }
