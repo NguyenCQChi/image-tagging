@@ -12,14 +12,14 @@ import {
   Collapse,
   IconButton, 
   Box,
-  Typography
+  Typography,
+  useMediaQuery
 } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp, KeyboardArrowLeft, KeyboardArrowRight, FirstPage, LastPage } from '@mui/icons-material';
 import { UserType } from '@src/types/users.type';
 import { StatType } from '@src/types/stats.type';
 import { useTheme } from '@mui/material/styles';
 import { string_object } from '@src/constants/hardcoded_string';
-import dynamic from 'next/dynamic';
 
 const createData = (row: any) : UserType => {
   const pattern = /^(GET|POST|PUT|DELETE|PATCH)\b(.*)$/;
@@ -84,8 +84,9 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
         onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
+        // disabled={page === 0}
         aria-label="first page"
+        size='small'
       >
         {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
       </IconButton>
@@ -93,6 +94,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
+        size='small'
       >
         {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
@@ -100,6 +102,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
+        size='small'
       >
         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
@@ -107,6 +110,7 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
+        size='small'
       >
         {theme.direction === 'rtl' ? <FirstPage /> : <LastPage />}
       </IconButton>
@@ -181,6 +185,7 @@ const UserTable = ({ users, props } : { users : any[], props? : TablePaginationA
   const theme = useTheme();
   const [ page, setPage ] = useState(0);
   const [ rowsPerPage, setRowsPerPage ] = useState(5);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
@@ -227,6 +232,13 @@ const UserTable = ({ users, props } : { users : any[], props? : TablePaginationA
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
+                labelRowsPerPage={isSmallScreen ? 'Rows: ' : 'Rows per page:'}
+                sx={{
+                  '& .css-1o4mns0-MuiInputBase-root-MuiTablePagination-select': {
+                    marginRight: '8px',
+                    marginLeft: '0px'
+                  }
+                }}
               />
             </TableRow>
           </TableFooter>

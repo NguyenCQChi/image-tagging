@@ -8,7 +8,7 @@ const MyApp = ({ Component, ...rest } : { Component: any }) => {
     return (
         <LoginProvider>
             <ThemeProvider theme={theme}>
-                <VerifyAuthentication />
+                {/* <VerifyAuthentication /> */}
                 <Component {... rest} />
             </ThemeProvider>
         </LoginProvider>

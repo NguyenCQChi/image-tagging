@@ -137,14 +137,14 @@ const hoverButton = {
         <Divider />
         <ListItem sx={{...item, mt: '10px'}}>
           <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'end'}}>
-            <div style={{fontSize: '12px', display: 'flex', flexDirection: 'row', marginBottom: '5px'}}> { isLogin ? "Do not have account? " : "Already have an account?" } </div>
+            <div style={{fontSize: '12px', display: 'flex', flexDirection: 'row', marginBottom: '5px'}}> { isLogin ? string_object.HAVE_ACCOUNT : string_object.ALREADY_HAVE } </div>
             <motion.div
               className="box"
               whileHover={{scale:1.05}}
               transition={{type: "spring", stiffness: 400, damping: 10}}
             >
               <CustomButton onClick={handleClick}> 
-              { isLogin ? "Create Account" : "Login" } 
+              { isLogin ? string_object.CREATE_ACCOUNT : string_object.LOG_IN } 
               </CustomButton> 
             </motion.div>
           </Box>
